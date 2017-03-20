@@ -379,11 +379,11 @@ package items
       
       public static function init() : void
       {
-         var _loc108_:BitmapData = null;
          var _loc109_:BitmapData = null;
-         var _loc110_:Matrix = null;
-         var _loc111_:Bitmap = null;
-         var _loc112_:ColorTransform = null;
+         var _loc110_:BitmapData = null;
+         var _loc111_:Matrix = null;
+         var _loc112_:Bitmap = null;
+         var _loc113_:ColorTransform = null;
          addSmiley(0,"Smiley","",smiliesBMD,"");
          addSmiley(1,"Grin","",smiliesBMD,"");
          addSmiley(2,"Tongue","",smiliesBMD,"");
@@ -541,6 +541,7 @@ package items
          addSmiley(154,"Doctor","",smiliesBMD,"smileydoctor");
          addSmiley(155,"Turban","",smiliesBMD,"smileyturban");
          addSmiley(156,"Hazmat Suit","",smiliesBMD,"smileyhazmatsuit");
+         addSmiley(157,"Leprechaun","",smiliesBMD,"smileyleprechaun");
          addAuraColor(0,"White","");
          addAuraColor(1,"Red","aurared");
          addAuraColor(2,"Blue","aurablue");
@@ -1619,52 +1620,59 @@ package items
          _loc105_.addBrick(createBrick(741,ItemLayer.BACKGROUND,backgroundBricksBMD,"bricktiles","",ItemTab.BACKGROUND,false,true,235,-1,["Blue"]));
          _loc105_.addBrick(createBrick(742,ItemLayer.BACKGROUND,backgroundBricksBMD,"bricktiles","",ItemTab.BACKGROUND,false,true,236,-1,["Purple"]));
          brickPackages.push(_loc105_);
-         var _loc106_:int = 0;
-         while(_loc106_ < 1000)
+         var _loc106_:ItemBrickPackage = new ItemBrickPackage("St. Patricks 2017","St. Patricks 2017");
+         _loc106_.addBrick(createBrick(1511,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,315,0,["Shamrock","Clover","Green","Plant","Nature"]));
+         _loc106_.addBrick(createBrick(1512,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,316,0,["Pot of Gold"]));
+         _loc106_.addBrick(createBrick(1513,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,317,0,["Horseshoe","Gold"]));
+         _loc106_.addBrick(createBrick(1514,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,318,0,["Rainbow","Left"]));
+         _loc106_.addBrick(createBrick(1515,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,319,0,["Rainbow","Right"]));
+         brickPackages.push(_loc106_);
+         var _loc107_:int = 0;
+         while(_loc107_ < 1000)
          {
-            coinDoorsBMD.copyPixels(bmdBricks[ItemId.COINDOOR],bmdBricks[ItemId.COINDOOR].rect,new Point(16 * _loc106_,0));
-            coinGatesBMD.copyPixels(bmdBricks[ItemId.COINGATE],bmdBricks[ItemId.COINGATE].rect,new Point(16 * _loc106_,0));
-            blueCoinDoorsBMD.copyPixels(bmdBricks[ItemId.BLUECOINDOOR],bmdBricks[ItemId.BLUECOINDOOR].rect,new Point(16 * _loc106_,0));
-            blueCoinGatesBMD.copyPixels(bmdBricks[ItemId.BLUECOINGATE],bmdBricks[ItemId.BLUECOINGATE].rect,new Point(16 * _loc106_,0));
-            switchDoorsBMD.copyPixels(bmdBricks[ItemId.DOOR_PURPLE],bmdBricks[ItemId.DOOR_PURPLE].rect,new Point(16 * _loc106_,0));
-            switchGatesBMD.copyPixels(bmdBricks[ItemId.GATE_PURPLE],bmdBricks[ItemId.GATE_PURPLE].rect,new Point(16 * _loc106_,0));
-            switchOrangeDoorsBMD.copyPixels(bmdBricks[ItemId.DOOR_ORANGE],bmdBricks[ItemId.DOOR_ORANGE].rect,new Point(16 * _loc106_,0));
-            switchOrangeGatesBMD.copyPixels(bmdBricks[ItemId.GATE_ORANGE],bmdBricks[ItemId.GATE_ORANGE].rect,new Point(16 * _loc106_,0));
-            switchSwitchUpBMD.copyPixels(bmdBricks[ItemId.SWITCH_PURPLE],bmdBricks[ItemId.SWITCH_PURPLE].rect,new Point(16 * _loc106_,0));
-            _loc108_ = new BitmapData(16,16);
-            _loc108_.copyPixels(specialBricksBMD,new Rectangle(311 * 16,0,16,16),new Point(0,0));
-            switchSwitchDownBMD.copyPixels(_loc108_,_loc108_.rect,new Point(16 * _loc106_,0));
-            switchOrangeSwitchUpBMD.copyPixels(bmdBricks[ItemId.SWITCH_ORANGE],bmdBricks[ItemId.SWITCH_ORANGE].rect,new Point(16 * _loc106_,0));
+            coinDoorsBMD.copyPixels(bmdBricks[ItemId.COINDOOR],bmdBricks[ItemId.COINDOOR].rect,new Point(16 * _loc107_,0));
+            coinGatesBMD.copyPixels(bmdBricks[ItemId.COINGATE],bmdBricks[ItemId.COINGATE].rect,new Point(16 * _loc107_,0));
+            blueCoinDoorsBMD.copyPixels(bmdBricks[ItemId.BLUECOINDOOR],bmdBricks[ItemId.BLUECOINDOOR].rect,new Point(16 * _loc107_,0));
+            blueCoinGatesBMD.copyPixels(bmdBricks[ItemId.BLUECOINGATE],bmdBricks[ItemId.BLUECOINGATE].rect,new Point(16 * _loc107_,0));
+            switchDoorsBMD.copyPixels(bmdBricks[ItemId.DOOR_PURPLE],bmdBricks[ItemId.DOOR_PURPLE].rect,new Point(16 * _loc107_,0));
+            switchGatesBMD.copyPixels(bmdBricks[ItemId.GATE_PURPLE],bmdBricks[ItemId.GATE_PURPLE].rect,new Point(16 * _loc107_,0));
+            switchOrangeDoorsBMD.copyPixels(bmdBricks[ItemId.DOOR_ORANGE],bmdBricks[ItemId.DOOR_ORANGE].rect,new Point(16 * _loc107_,0));
+            switchOrangeGatesBMD.copyPixels(bmdBricks[ItemId.GATE_ORANGE],bmdBricks[ItemId.GATE_ORANGE].rect,new Point(16 * _loc107_,0));
+            switchSwitchUpBMD.copyPixels(bmdBricks[ItemId.SWITCH_PURPLE],bmdBricks[ItemId.SWITCH_PURPLE].rect,new Point(16 * _loc107_,0));
             _loc109_ = new BitmapData(16,16);
-            _loc109_.copyPixels(specialBricksBMD,new Rectangle(423 * 16,0,16,16),new Point(0,0));
-            switchOrangeSwitchDownBMD.copyPixels(_loc109_,_loc109_.rect,new Point(16 * _loc106_,0));
-            deathDoorBMD.copyPixels(bmdBricks[ItemId.DEATH_DOOR],bmdBricks[ItemId.DEATH_DOOR].rect,new Point(16 * _loc106_,0));
-            deathGateBMD.copyPixels(bmdBricks[ItemId.DEATH_GATE],bmdBricks[ItemId.DEATH_GATE].rect,new Point(16 * _loc106_,0));
-            if(_loc106_ >= 0)
+            _loc109_.copyPixels(specialBricksBMD,new Rectangle(311 * 16,0,16,16),new Point(0,0));
+            switchSwitchDownBMD.copyPixels(_loc109_,_loc109_.rect,new Point(16 * _loc107_,0));
+            switchOrangeSwitchUpBMD.copyPixels(bmdBricks[ItemId.SWITCH_ORANGE],bmdBricks[ItemId.SWITCH_ORANGE].rect,new Point(16 * _loc107_,0));
+            _loc110_ = new BitmapData(16,16);
+            _loc110_.copyPixels(specialBricksBMD,new Rectangle(423 * 16,0,16,16),new Point(0,0));
+            switchOrangeSwitchDownBMD.copyPixels(_loc110_,_loc110_.rect,new Point(16 * _loc107_,0));
+            deathDoorBMD.copyPixels(bmdBricks[ItemId.DEATH_DOOR],bmdBricks[ItemId.DEATH_DOOR].rect,new Point(16 * _loc107_,0));
+            deathGateBMD.copyPixels(bmdBricks[ItemId.DEATH_GATE],bmdBricks[ItemId.DEATH_GATE].rect,new Point(16 * _loc107_,0));
+            if(_loc107_ >= 0)
             {
-               _loc110_ = new Matrix();
-               _loc110_.translate(_loc106_ * 16,0);
-               _loc111_ = createBlockText(_loc106_);
-               coinGatesBMD.draw(_loc111_,_loc110_);
-               blueCoinDoorsBMD.draw(_loc111_,_loc110_);
-               blueCoinGatesBMD.draw(_loc111_,_loc110_);
-               switchDoorsBMD.draw(_loc111_,_loc110_);
-               switchGatesBMD.draw(_loc111_,_loc110_);
-               switchSwitchUpBMD.draw(_loc111_,_loc110_);
-               switchSwitchDownBMD.draw(_loc111_,_loc110_);
-               switchOrangeDoorsBMD.draw(_loc111_,_loc110_);
-               switchOrangeGatesBMD.draw(_loc111_,_loc110_);
-               switchOrangeSwitchUpBMD.draw(_loc111_,_loc110_);
-               switchOrangeSwitchDownBMD.draw(_loc111_,_loc110_);
-               deathGateBMD.draw(_loc111_,_loc110_);
-               _loc111_.filters = [];
-               _loc112_ = new ColorTransform(0,0,0);
-               _loc111_.bitmapData.draw(_loc111_,null,_loc112_);
-               _loc111_.filters = [new GlowFilter(16777215,1,1,1,2,3)];
-               coinDoorsBMD.draw(_loc111_,_loc110_);
-               deathDoorBMD.draw(_loc111_,_loc110_);
+               _loc111_ = new Matrix();
+               _loc111_.translate(_loc107_ * 16,0);
+               _loc112_ = createBlockText(_loc107_);
+               coinGatesBMD.draw(_loc112_,_loc111_);
+               blueCoinDoorsBMD.draw(_loc112_,_loc111_);
+               blueCoinGatesBMD.draw(_loc112_,_loc111_);
+               switchDoorsBMD.draw(_loc112_,_loc111_);
+               switchGatesBMD.draw(_loc112_,_loc111_);
+               switchSwitchUpBMD.draw(_loc112_,_loc111_);
+               switchSwitchDownBMD.draw(_loc112_,_loc111_);
+               switchOrangeDoorsBMD.draw(_loc112_,_loc111_);
+               switchOrangeGatesBMD.draw(_loc112_,_loc111_);
+               switchOrangeSwitchUpBMD.draw(_loc112_,_loc111_);
+               switchOrangeSwitchDownBMD.draw(_loc112_,_loc111_);
+               deathGateBMD.draw(_loc112_,_loc111_);
+               _loc112_.filters = [];
+               _loc113_ = new ColorTransform(0,0,0);
+               _loc112_.bitmapData.draw(_loc112_,null,_loc113_);
+               _loc112_.filters = [new GlowFilter(16777215,1,1,1,2,3)];
+               coinDoorsBMD.draw(_loc112_,_loc111_);
+               deathDoorBMD.draw(_loc112_,_loc111_);
             }
-            _loc106_++;
+            _loc107_++;
          }
          sprCoinDoors = new BlockSprite(coinDoorsBMD,0,0,16,16,coinDoorsBMD.width / 16,true);
          sprCoinGates = new BlockSprite(coinGatesBMD,0,0,16,16,coinGatesBMD.width / 16);
@@ -1680,14 +1688,14 @@ package items
          sprOrangeGates = new BlockSprite(switchOrangeGatesBMD,0,0,16,16,switchOrangeGatesBMD.width / 16);
          sprOrangeSwitchUP = new BlockSprite(switchOrangeSwitchUpBMD,0,0,16,16,switchOrangeSwitchUpBMD.width / 16,true);
          sprOrangeSwitchDOWN = new BlockSprite(switchOrangeSwitchDownBMD,0,0,16,16,switchOrangeSwitchDownBMD.width / 16,true);
-         var _loc107_:int = 0;
-         while(_loc107_ < bmdBricks.length)
+         var _loc108_:int = 0;
+         while(_loc108_ < bmdBricks.length)
          {
-            if(bmdBricks[_loc107_] == null)
+            if(bmdBricks[_loc108_] == null)
             {
-               bmdBricks[_loc107_] = bmdBricks[0];
+               bmdBricks[_loc108_] = bmdBricks[0];
             }
-            _loc107_++;
+            _loc108_++;
          }
       }
       

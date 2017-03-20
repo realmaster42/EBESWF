@@ -15,7 +15,7 @@ package
    public class _WebClient_Styles
    {
       
-      private static var _embed_css_Assets_swf__1248895134_mx_skins_cursor_BusyCursor_953580899:Class = _class_embed_css_Assets_swf__1248895134_mx_skins_cursor_BusyCursor_953580899;
+      private static var _embed_css_Assets_swf__1181963361_mx_skins_cursor_BusyCursor_550772235:Class = _class_embed_css_Assets_swf__1181963361_mx_skins_cursor_BusyCursor_550772235;
        
       
       public function _WebClient_Styles()
@@ -253,7 +253,7 @@ package
             style.defaultFactory = function():void
             {
                this.busyCursor = BusyCursor;
-               this.busyCursorBackground = _embed_css_Assets_swf__1248895134_mx_skins_cursor_BusyCursor_953580899;
+               this.busyCursorBackground = _embed_css_Assets_swf__1181963361_mx_skins_cursor_BusyCursor_550772235;
             };
          }
          if(mergedStyle != null && (mergedStyle.defaultFactory == null || ObjectUtil.compare(new style.defaultFactory(),new mergedStyle.defaultFactory())))

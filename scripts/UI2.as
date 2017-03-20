@@ -209,6 +209,7 @@ package
             "/clearchat":true,
             "/cleareffects":true,
             "/forcefly":true,
+            "/forgive":true,
             "/gedit":true,
             "/geffect":true,
             "/getpos":true,

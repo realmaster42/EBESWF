@@ -16,9 +16,11 @@ package ui.brickoverlays
    {
        
       
+      public var inptf:TextField;
+      
       public function MultijumpProperties()
       {
-         var inptf:TextField = null;
+         this.inptf = new TextField();
          super();
          var tf:TextField = new TextField();
          tf.embedFonts = true;
@@ -34,18 +36,17 @@ package ui.brickoverlays
          tf.text = "Number of jumps";
          tf.height = tf.textHeight;
          addChild(tf);
-         inptf = new TextField();
-         inptf.selectable = true;
-         inptf.sharpness = 100;
-         inptf.multiline = false;
-         inptf.borderColor = 16777215;
-         inptf.backgroundColor = 11184810;
-         inptf.background = true;
-         inptf.border = true;
-         inptf.restrict = "0-9";
-         inptf.maxChars = 2;
-         inptf.type = TextFieldType.INPUT;
-         inptf.addEventListener(Event.CHANGE,function(param1:Event):void
+         this.inptf.selectable = true;
+         this.inptf.sharpness = 100;
+         this.inptf.multiline = false;
+         this.inptf.borderColor = 16777215;
+         this.inptf.backgroundColor = 11184810;
+         this.inptf.background = true;
+         this.inptf.border = true;
+         this.inptf.restrict = "0-9";
+         this.inptf.maxChars = 2;
+         this.inptf.type = TextFieldType.INPUT;
+         this.inptf.addEventListener(Event.CHANGE,function(param1:Event):void
          {
             var _loc2_:int = parseInt(inptf.text);
             if(!isNaN(_loc2_) && _loc2_ >= 0 && _loc2_ <= 2)
@@ -58,19 +59,19 @@ package ui.brickoverlays
             }
          });
          var inptff:TextFormat = new TextFormat("Arial",12,0,null,null,null,null,null,TextFormatAlign.CENTER);
-         inptf.defaultTextFormat = inptff;
-         inptf.text = Bl.data.jumps;
-         inptf.height = tf.height + 3;
-         inptf.width = 30;
-         inptf.y = -38;
-         inptf.x = 130 - 35;
-         inptf.addEventListener(FocusEvent.FOCUS_IN,function(param1:Event):void
+         this.inptf.defaultTextFormat = inptff;
+         this.inptf.text = Bl.data.jumps;
+         this.inptf.height = tf.height + 3;
+         this.inptf.width = 30;
+         this.inptf.y = -38;
+         this.inptf.x = 130 - 35;
+         this.inptf.addEventListener(FocusEvent.FOCUS_IN,function(param1:Event):void
          {
             param1.preventDefault();
             param1.stopImmediatePropagation();
             param1.stopPropagation();
          });
-         inptf.addEventListener(KeyboardEvent.KEY_DOWN,function(param1:KeyboardEvent):void
+         this.inptf.addEventListener(KeyboardEvent.KEY_DOWN,function(param1:KeyboardEvent):void
          {
             param1.preventDefault();
             param1.stopImmediatePropagation();
@@ -82,11 +83,7 @@ package ui.brickoverlays
          addChild(add);
          add.addEventListener(MouseEvent.MOUSE_DOWN,function():void
          {
-            if(Bl.data.jumps < 2)
-            {
-               Bl.data.jumps++;
-            }
-            inptf.text = Bl.data.jumps;
+            incrementValue();
          });
          var sub:ui2minusbtn = new ui2minusbtn();
          sub.y = -29;
@@ -94,14 +91,28 @@ package ui.brickoverlays
          addChild(sub);
          sub.addEventListener(MouseEvent.MOUSE_DOWN,function():void
          {
-            if(Bl.data.jumps > 0)
-            {
-               Bl.data.jumps--;
-            }
-            inptf.text = Bl.data.jumps;
+            decrementValue();
          });
-         addChild(inptf);
+         addChild(this.inptf);
          setSize(325,50);
+      }
+      
+      override public function incrementValue(param1:int = 1) : void
+      {
+         if(Bl.data.jumps < 2)
+         {
+            Bl.data.jumps++;
+         }
+         this.inptf.text = Bl.data.jumps;
+      }
+      
+      override public function decrementValue(param1:int = 1) : void
+      {
+         if(Bl.data.jumps > 0)
+         {
+            Bl.data.jumps--;
+         }
+         this.inptf.text = Bl.data.jumps;
       }
    }
 }
