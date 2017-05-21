@@ -65,12 +65,12 @@ package ui.brickoverlays
             var _loc2_:int = parseInt(inptf.text);
             if(!isNaN(_loc2_) && _loc2_ >= 0 && _loc2_ <= 999)
             {
-               Bl.data.switchId = _loc2_;
+               Bl.data.switchid = _loc2_;
             }
          });
          var inptff:TextFormat = new TextFormat("Arial",12,0,null,null,null,null,null,TextFormatAlign.CENTER);
          this.inptf.defaultTextFormat = inptff;
-         this.inptf.text = Bl.data.switchId;
+         this.inptf.text = Bl.data.switchid;
          this.inptf.height = tf.height + 3;
          this.inptf.width = 30;
          this.inptf.y = -38;
@@ -109,20 +109,20 @@ package ui.brickoverlays
       
       override public function incrementValue(param1:int = 1) : void
       {
-         if(Bl.data.switchId < 999)
+         if(Bl.data.switchid < 999)
          {
-            Bl.data.switchId++;
+            Bl.data.switchid++;
          }
-         this.inptf.text = Bl.data.switchId;
+         this.inptf.text = Bl.data.switchid;
       }
       
       override public function decrementValue(param1:int = 1) : void
       {
-         if(Bl.data.switchId > 0)
+         if(Bl.data.switchid > 0)
          {
-            Bl.data.switchId--;
+            Bl.data.switchid--;
          }
-         this.inptf.text = Bl.data.switchId;
+         this.inptf.text = Bl.data.switchid;
       }
    }
 }

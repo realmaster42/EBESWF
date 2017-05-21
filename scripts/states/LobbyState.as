@@ -189,7 +189,7 @@ package states
          this.firstDailyLogin = firstDailyLogin;
          this.show_guest_layout = false;
          var t:BlText = new BlText(30,400,14179354);
-         t.text = "Everybody Edits";
+         t.text = "Every Build Exists";
          var bmt:Bitmap = new Bitmap(t.clone());
          bmt.x = 10;
          bmt.y = 5 + (!this.show_guest_layout?30:0);
@@ -572,7 +572,6 @@ package states
                PlayerWorlds.addSavedWorlds(all_rooms,Global.base.client);
                PlayerWorlds.addFavorites(all_rooms,Global.base.client);
             }
-            PlayerWorlds.getHistory(all_rooms);
             enableRefreshButton();
             var _loc1_:Array = [];
             var _loc2_:int = 0;
@@ -617,18 +616,15 @@ package states
          var loaded:int = 0;
          to_load = 1;
          all_rooms = [];
-         if(Global.player_is_beta_member)
+         to_load++;
+         Global.client.multiplayer.listRooms(Config.server_type_betaroom,{},0,0,function(param1:Array):void
          {
-            to_load++;
-            Global.client.multiplayer.listRooms(Config.server_type_betaroom,{},0,0,function(param1:Array):void
+            all_rooms = all_rooms.concat(param1);
+            if(++loaded == to_load)
             {
-               all_rooms = all_rooms.concat(param1);
-               if(++loaded == to_load)
-               {
-                  ready();
-               }
-            },this.handleLoadRoomError);
-         }
+               ready();
+            }
+         },this.handleLoadRoomError);
          Global.client.multiplayer.listRooms(Config.server_type_normalroom,{},0,0,function(param1:Array):void
          {
             all_rooms = all_rooms.concat(param1);

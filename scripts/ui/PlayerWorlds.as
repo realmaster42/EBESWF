@@ -1,6 +1,5 @@
 package ui
 {
-   import flash.globalization.DateTimeFormatter;
    import playerio.Client;
    import playerio.RoomInfo;
    
@@ -120,7 +119,7 @@ package ui
             }
          }
          roomSizes = {};
-         addWorlds(param1,"0",param2.payVault.count("world0"),"Small","25x25");
+         addWorlds(param1,"0",param2.payVault.count("world0"),"Small","30x30");
          addWorlds(param1,"1",param2.payVault.count("world1"),"Medium","50x50");
          addWorlds(param1,"2",param2.payVault.count("world2"),"Large","100x100");
          addWorlds(param1,"3",param2.payVault.count("world3"),"Massive","200x200");
@@ -128,10 +127,12 @@ package ui
          addWorlds(param1,"5",param2.payVault.count("world5"),"Great","400x200");
          addWorlds(param1,"6",param2.payVault.count("world6"),"Tall","100x400");
          addWorlds(param1,"7",param2.payVault.count("world7"),"Ultra Wide","636x50");
-         addWorlds(param1,"8",param2.payVault.count("world8"),"Low Gravity","110x110");
+         addWorlds(param1,"8",param2.payVault.count("world8"),"Sky Medium","50x50");
+         addWorlds(param1,"9",param2.payVault.count("world9"),"Tiny","25x25");
+         addWorlds(param1,"10",param2.payVault.count("world10"),"Sky Great","400x200");
          addWorlds(param1,"11",param2.payVault.count("world11"),"Huge","300x300");
          addWorlds(param1,"12",param2.payVault.count("world12"),"Vertical Great","200x400");
-         addWorlds(param1,"13",param2.payVault.count("world13"),"Big","150x150");
+         addWorlds(param1,"13",param2.payVault.count("world13"),"Sky Wide","400x50");
       }
       
       private static function findWorld(param1:Array, param2:String) : RoomInfo
@@ -188,43 +189,6 @@ package ui
             _loc7_++;
          }
          return _loc6_;
-      }
-      
-      public static function getHistory(param1:Array) : void
-      {
-         var _loc2_:DateTimeFormatter = null;
-         var _loc3_:Array = null;
-         var _loc4_:int = 0;
-         var _loc5_:Object = null;
-         var _loc6_:Object = null;
-         if(!Config.disableCookie)
-         {
-            _loc2_ = new DateTimeFormatter("en-US");
-            _loc2_.setDateTimePattern("f");
-            _loc3_ = [];
-            if(Global.cookie.data.history != null)
-            {
-               _loc3_ = Global.cookie.data.history;
-            }
-            _loc4_ = 0;
-            while(_loc4_ < _loc3_.length)
-            {
-               _loc5_ = _loc3_[_loc4_];
-               _loc6_ = {
-                  "id":_loc5_.id,
-                  "data":{
-                     "name":_loc5_.name,
-                     "owned":true,
-                     "needskey":true,
-                     "time":_loc5_.time,
-                     "size":_loc2_.format(_loc5_.time),
-                     "isHistory":true
-                  }
-               };
-               param1.push(_loc6_);
-               _loc4_++;
-            }
-         }
       }
    }
 }

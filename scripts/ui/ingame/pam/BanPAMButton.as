@@ -29,7 +29,7 @@ package ui.ingame.pam
       override protected function action(param1:MouseEvent) : void
       {
          var e:MouseEvent = param1;
-         var daysPrompt:Prompt = new Prompt("Number of days:","1",function(param1:String):void
+         var daysPrompt:Prompt = new Prompt("Number of hours:","1",function(param1:String):void
          {
             var days:String = param1;
             var reasonPrompt:* = new Prompt("Reason:","",function(param1:String):void

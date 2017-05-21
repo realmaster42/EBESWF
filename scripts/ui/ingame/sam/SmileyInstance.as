@@ -74,6 +74,10 @@ package ui.ingame.sam
             this._sp.removeChild(this.bm);
          }
          this.bm = new Bitmap(!!param1?this.item.bmdGold:this.item.bmd);
+         if(Global.isFlipped)
+         {
+            this.bm = new Bitmap(!!param1?this.item.bmdGoldFlipped:this.item.bmdFlipped);
+         }
          this._sp.addChild(this.bm);
       }
       

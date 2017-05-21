@@ -14,8 +14,6 @@ package
       
       private var secretsLookup:Object;
       
-      private var textsLookup:Object;
-      
       private var blinkLookup:Object;
       
       private var signLookup:Object;
@@ -26,7 +24,6 @@ package
          this.placerLookup = {};
          this.portalLookup = {};
          this.secretsLookup = {};
-         this.textsLookup = {};
          this.blinkLookup = {};
          this.signLookup = {};
          super();
@@ -37,7 +34,6 @@ package
          this.lookup = {};
          this.placerLookup = {};
          this.portalLookup = {};
-         this.textsLookup = {};
          this.blinkLookup = {};
          this.signLookup = {};
          this.resetSecrets();
@@ -127,16 +123,6 @@ package
       public function setTextSign(param1:int, param2:int, param3:TextSign) : void
       {
          this.signLookup[this.getLookupId(param1,param2)] = param3;
-      }
-      
-      public function setLabel(param1:int, param2:int, param3:String, param4:String, param5:int) : void
-      {
-         this.textsLookup[this.getLookupId(param1,param2)] = new LabelLookup(param3,param4,param5);
-      }
-      
-      public function getLabel(param1:int, param2:int) : LabelLookup
-      {
-         return this.textsLookup[this.getLookupId(param1,param2)] || new LabelLookup("Hai c:","#FFFFFF",200);
       }
       
       public function getPortal(param1:int, param2:int) : Portal

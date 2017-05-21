@@ -40,6 +40,10 @@ package data
       
       public var maxEnergy:int;
       
+      public var gold_join:Number;
+      
+      public var gold_expire:Number;
+      
       public function SimpleProfileObject()
       {
          super();
@@ -63,14 +67,14 @@ package data
       public function get goldexpire() : Date
       {
          var _loc1_:Date = new Date();
-         _loc1_.time = _loc1_.time + this.goldremain;
+         _loc1_.time = this.gold_expire;
          return _loc1_;
       }
       
       public function get goldjoin() : Date
       {
          var _loc1_:Date = new Date();
-         _loc1_.time = _loc1_.time + this.goldtime;
+         _loc1_.time = this.gold_join;
          return _loc1_;
       }
    }

@@ -196,16 +196,15 @@ package
          Bl.data.name = "";
          Bl.data.portal_id = 0;
          Bl.data.portal_target = 0;
+         Bl.data.portal_id = 0;
          Bl.data.world_portal_id = "";
          Bl.data.world_portal_name = "";
          Bl.data.jumps = 2;
          Bl.data.coincount = 10;
          Bl.data.fromemail = false;
-         Bl.data.switchId = 0;
-         Bl.data.wrapLength = 200;
+         Bl.data.switchid = 0;
          Bl.data.deathcount = 10;
          Bl.data.team = 0;
-         Bl.data.direction = 0;
          Bl.data.effectDuration = 10;
          Bl.data.onStatus = true;
          addEventListener(Event.ADDED_TO_STAGE,this.handleAttach);
@@ -725,62 +724,47 @@ package
       
       public function getRPCConnection(param1:Function, param2:Function = null) : void
       {
+         var callback:Function = param1;
+         var errorHandler:Function = param2;
          if(this.rpcCon != null && this.rpcCon.connected)
          {
-            param1(this.rpcCon);
+            callback(this.rpcCon);
          }
          else
          {
-            this.rpcConnectQueue.push(param1);
+            this.rpcConnectQueue.push(callback);
             if(this.rpcConnecting)
             {
                return;
             }
             this.rpcConnecting = true;
-            this.client.multiplayer.createJoinRoom(this.client.connectUserId,!!Global.player_is_guest?Config.server_type_guestserviceroom:Config.server_type_serviceroom,true,{},{},this.lobbyConnected,param2);
-         }
-      }
-      
-      public function lobbyConnected(param1:Connection) : void
-      {
-         var con:Connection = param1;
-         this.rpcCon = con;
-         con.addMessageHandler("linked",function(param1:Message):void
-         {
-            var m:Message = param1;
-            client.multiplayer.createJoinRoom("$service-room","AuthRoom",true,{},{"type":"Link"},function(param1:Connection):void
+            this.client.multiplayer.createJoinRoom(this.client.connectUserId,!!Global.player_is_guest?Config.server_type_guestserviceroom:Config.server_type_serviceroom,true,{},{},function(param1:Connection):void
             {
-               var authcon:Connection = param1;
-               authcon.addMessageHandler("auth",function(param1:Message):void
+               var con:Connection = param1;
+               rpcCon = con;
+               con.addMessageHandler("info",function(param1:Message, param2:String, param3:String, param4:Boolean = false):void
                {
-                  var _loc2_:Object = new Object();
-                  _loc2_.userId = param1.getString(0);
-                  _loc2_.auth = param1.getString(1);
-                  PlayerIO.authenticate(Global.stage,Config.playerio_game_id,"linked",_loc2_,null,simpleConnect,null);
+                  showInfo(param2,param3,-1,param4);
                });
-            },null);
-         });
-         con.addMessageHandler("info",function(param1:Message, param2:String, param3:String, param4:Boolean = false):void
-         {
-            showInfo(param2,param3,-1,param4);
-         });
-         con.addMessageHandler("upgrade",this.showUpgradeScreen);
-         con.addMessageHandler("copyPrompt",function(param1:Message, param2:String, param3:String, param4:String = ""):void
-         {
-            showCopyPrompt(new CopyPrompt(param2,param3,param4));
-         });
-         con.addDisconnectHandler(function():void
-         {
-            disconnectRPC();
-         });
-         con.addMessageHandler("connectioncomplete",function(param1:Message):void
-         {
-            rpcConnecting = false;
-            while(rpcConnectQueue.length)
-            {
-               rpcConnectQueue.shift()(rpcCon);
-            }
-         });
+               con.addMessageHandler("upgrade",showUpgradeScreen);
+               con.addMessageHandler("copyPrompt",function(param1:Message, param2:String, param3:String, param4:String = ""):void
+               {
+                  showCopyPrompt(new CopyPrompt(param2,param3,param4));
+               });
+               con.addDisconnectHandler(function():void
+               {
+                  disconnectRPC();
+               });
+               con.addMessageHandler("connectioncomplete",function(param1:Message):void
+               {
+                  rpcConnecting = false;
+                  while(rpcConnectQueue.length)
+                  {
+                     rpcConnectQueue.shift()(rpcCon);
+                  }
+               });
+            },errorHandler);
+         }
       }
       
       public function disconnectRPC() : void
@@ -1213,7 +1197,6 @@ package
          Global.cookie.data.currentCrew = "";
          Global.cookie.data.currentCrewName = "";
          Global.cookie.data.hotbarSmileys = [];
-         Global.cookie.data.history = [];
          Global.cookie.flush();
       }
       
@@ -1838,7 +1821,7 @@ package
       {
          if(param1.payvaultid == "" || this.client.payVault.has(param1.payvaultid) || param1.payvaultid == "pro" && Global.player_is_beta_member || param1.payvaultid == "goldmember" && Global.playerObject.goldmember)
          {
-            if((param1.id == 77 || param1.id == 83 || param1.id == 1520) && !Global.hasOwner)
+            if((param1.id == 77 || param1.id == 83) && !Global.hasOwner)
             {
                return false;
             }
@@ -2081,7 +2064,7 @@ package
          this.connection = connection;
          connection.addMessageHandler("banned",function(param1:Message):void
          {
-            SoundManager.playMiscSound(SoundId.BANNED);
+            SoundManager.playSound(SoundId.BANNED);
          });
          connection.addMessageHandler("upgrade",this.showUpgradeScreen);
          connection.addMessageHandler("info",function(param1:Message, param2:String, param3:String):void
@@ -2090,11 +2073,22 @@ package
          });
          connection.addMessageHandler("info2",function(param1:Message, param2:String, param3:String):void
          {
-            showInfo2(param2,param3);
-         });
-         connection.addMessageHandler("notice",function(param1:Message, param2:String, param3:String):void
-         {
-            sidechat.addLine("* " + param2,param3,16777215);
+            if(infoBox != null)
+            {
+               if(overlayContainer.contains(infoBox))
+               {
+                  if(infoBox.timer.running)
+                  {
+                     infoBox.timer.stop();
+                  }
+                  overlayContainer.removeChild(infoBox);
+               }
+               showInfo2(param2,param3);
+            }
+            else
+            {
+               showInfo2(param2,param3);
+            }
          });
          connection.addMessageHandler("copyPrompt",function(param1:Message, param2:String, param3:String, param4:String = ""):void
          {
@@ -2107,7 +2101,6 @@ package
                sidechat.setMe(param7.toString(),param15,Global.canchat,0,Global.playerObject.goldmember,param14);
                sidechat.setMetaData(param2,param3,param4,param5,param6);
             }
-            Bl.data.showPlayer = true;
             Bl.data.isLockedRoom = isLockedRoom || !param16 || param17 || Bl.data.createdOpenWorldWithKey;
             Bl.data.createdOpenWorldWithKey = false;
             Bl.data.isOpenWorld = !isLockedRoom;
@@ -2127,7 +2120,7 @@ package
                Global.bgColor = param23;
                Global.backgroundEnabled = (param23 >> 24 & 255) == 255;
             }
-            if(param31 == "everybodyeditsstaff")
+            if(param31 == "ebestaff")
             {
                Global.hasSubscribedToCrew = true;
             }
@@ -2151,7 +2144,7 @@ package
          {
             if(showDisconnectedMessage)
             {
-               showInfo("Disconnected","Lost connection with Everybody Edits :(");
+               showInfo("Disconnected","Lost connection with Every Build Exists :(");
             }
             showLobby();
             if(ui2instance && ui2instance.parent)
@@ -2278,12 +2271,12 @@ package
          var vars:URLVariables = new URLVariables();
          vars.username = Bl.data.swappitusername;
          vars.swapits = 10;
-         vars.reason = "You earned 10 swapits for finding a swapit coin in Everybody Edits!";
+         vars.reason = "You earned 10 swapits for finding a swapit coin in Every Build Exists!";
          req.data = vars;
          var loader:URLLoader = new URLLoader();
          loader.addEventListener(Event.COMPLETE,function():void
          {
-            showInfo("Congratulations","You just found an Everybody Edits swapit coin and earned 10 swapits!");
+            showInfo("Congratulations","You just found an Every Build Exists swapit coin and earned 10 swapits!");
          });
          loader.load(req);
       }
@@ -2293,17 +2286,6 @@ package
          var mouseDown:Boolean = false;
          var title:String = param1;
          var body:String = param2;
-         if(this.infoBox != null)
-         {
-            if(overlayContainer.contains(this.infoBox))
-            {
-               if(this.infoBox.timer.running)
-               {
-                  this.infoBox.timer.stop();
-               }
-               overlayContainer.removeChild(this.infoBox);
-            }
-         }
          mouseDown = false;
          this.infoBox = new InfoDisplay(title,body);
          this.infoBox.alpha = 0;
@@ -2550,7 +2532,7 @@ package
                   var e:MouseEvent = param1;
                   var paypalargs:Object = {
                      "currency":"USD",
-                     "item_name":"Everybody Edits Beta Access",
+                     "item_name":"Every Build Exists Beta Access",
                      "cpp_header_image":"http://playerio-a.akamaihd.net/everybody-edits-su9rn58o40itdbnw69plyw/Everybody%20Edits%20Website/images/ee_paypal_logo.png",
                      "on0":"UserID",
                      "os0":client.connectUserId,

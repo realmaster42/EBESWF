@@ -20,10 +20,6 @@ package blitter
       
       private static var mouseJustPressed:Boolean = false;
       
-      private static var middleMouseJustPressed:Boolean = false;
-      
-      private static var middleMouseDown:Boolean = false;
-      
       public static var stage:Stage;
       
       public static var overlayContainer:Sprite;
@@ -55,8 +51,6 @@ package blitter
          stage.addEventListener(KeyboardEvent.KEY_UP,handleKeyUp);
          stage.addEventListener(MouseEvent.MOUSE_DOWN,handleMouseDown);
          stage.addEventListener(MouseEvent.MOUSE_UP,handleMouseUp);
-         stage.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN,handleMiddleMouseDown);
-         stage.addEventListener(MouseEvent.MIDDLE_MOUSE_UP,handleMiddleMouseUp);
          last = new Date().time;
       }
       
@@ -90,16 +84,6 @@ package blitter
          return mouseJustPressed;
       }
       
-      public static function get isMiddleMouseDown() : Boolean
-      {
-         return middleMouseDown;
-      }
-      
-      public static function get isMiddleMouseJustPressed() : Boolean
-      {
-         return middleMouseJustPressed;
-      }
-      
       public static function isKeyDown(param1:int) : Boolean
       {
          return !!keys[param1]?true:false;
@@ -119,7 +103,6 @@ package blitter
       {
          justPressedKeys = {};
          mouseJustPressed = false;
-         middleMouseJustPressed = false;
       }
       
       public static function get shiftKey() : Boolean
@@ -138,17 +121,6 @@ package blitter
       {
          shiftState = param1.shiftKey;
          mouseDown = false;
-      }
-      
-      protected static function handleMiddleMouseDown(param1:MouseEvent) : void
-      {
-         middleMouseJustPressed = true;
-         middleMouseDown = true;
-      }
-      
-      protected static function handleMiddleMouseUp(param1:MouseEvent) : void
-      {
-         middleMouseDown = false;
       }
       
       protected static function handleKeyDown(param1:KeyboardEvent) : void

@@ -44,8 +44,6 @@ package
       
       public var hideUsernamesCheck:MovieClip;
       
-      public var historyLimitAmount:TextField;
-      
       public var minimapTransparency:TextField;
       
       public var otherBox:MovieClip;
@@ -60,8 +58,6 @@ package
       
       public var tf_azerty:TextField;
       
-      public var tf_blockhistory:TextField;
-      
       public var tf_blockinvites:TextField;
       
       public var tf_blockpicker:TextField;
@@ -75,8 +71,6 @@ package
       public var tf_coloredusernames:TextField;
       
       public var tf_filter:TextField;
-      
-      public var tf_hbox:MovieClip;
       
       public var tf_minimap:TextField;
       

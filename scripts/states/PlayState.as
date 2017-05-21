@@ -26,7 +26,6 @@ package states
    import playerio.Message;
    import sounds.SoundId;
    import sounds.SoundManager;
-   import ui.BrickContainer;
    import ui.ConfirmPrompt;
    import ui.DebugStats;
    import ui.Tile;
@@ -124,8 +123,6 @@ package states
       {
          var s:PlayState = null;
          var shadowDebug:Boolean = false;
-         var history:Array = null;
-         var info:Object = null;
          var c:Connection = param1;
          var m:Message = param2;
          var myid:int = param3;
@@ -141,6 +138,14 @@ package states
          var rw:int = param13;
          var rh:int = param14;
          var gravityMultiplier:Number = param15;
+         if(param15 == -1)
+         {
+            Global.isFlipped = true;
+         }
+         else
+         {
+            Global.isFlipped = false;
+         }
          var bgColor:uint = param16;
          var isCrewMember:Boolean = param17;
          var orangeSwitches:ByteArray = param18;
@@ -154,26 +159,6 @@ package states
          this.pastT = new Date().time;
          this.chatTime = new Date().time;
          super();
-         if((Global.roomid.indexOf("PW") == 0 || Global.roomid.indexOf("BW") == 0) && !Config.disableCookie)
-         {
-            history = [];
-            if(Global.cookie.data.history != null)
-            {
-               history = Global.cookie.data.history;
-            }
-            info = {
-               "id":Global.roomid,
-               "name":Global.currentLevelname,
-               "time":new Date()
-            };
-            history.insertAt(0,info);
-            if(history.length > Global.historyLimit)
-            {
-               history = history.slice(0,Global.historyLimit);
-            }
-            Global.cookie.data.history = history;
-            Global.cookie.flush();
-         }
          if(Config.forceKongregate)
          {
             Config.maxwidth = Config.kongWidth;
@@ -227,9 +212,9 @@ package states
          Global.playerInstance = this.player;
          this.world.setPlayer(this.player);
          target = this.player;
-         if(Global.roomid == "PWhhGENdqja0I")
+         if(Global.roomid == "PWa")
          {
-            this.addFakePlayer(16,0,"mrvoid",-(13.2 * 16),-(9.2 * 16),false,true,false,Config.admin_color);
+            this.addFakePlayer(16,0,"icepegasus",-13.2,-9.2,false,true,false,Config.admin_color);
          }
          this.player.hitmap = this.world;
          this.minimap = new MiniMap(this.world,rw,rh);
@@ -312,74 +297,72 @@ package states
                }
             }
          });
-         this.connection.addMessageHandler("add",function(param1:Message, param2:int, param3:String, param4:String, param5:int, param6:Number, param7:Number, param8:Boolean, param9:Boolean, param10:Boolean, param11:int, param12:int, param13:int, param14:Boolean, param15:Boolean, param16:Boolean, param17:Boolean, param18:int, param19:int, param20:int, param21:uint, param22:String, param23:Boolean, param24:ByteArray, param25:int, param26:Boolean = false):void
+         this.connection.addMessageHandler("add",function(param1:Message, param2:int, param3:String, param4:String, param5:int, param6:Number, param7:Number, param8:Boolean, param9:Boolean, param10:Boolean, param11:int, param12:int, param13:int, param14:Boolean, param15:Boolean, param16:Boolean, param17:Boolean, param18:int, param19:int, param20:int, param21:uint, param22:String, param23:Boolean, param24:ByteArray, param25:Boolean = false):void
          {
-            var _loc28_:* = false;
-            var _loc29_:Number = NaN;
-            var _loc30_:Array = null;
-            var _loc31_:int = 0;
-            var _loc27_:Player = players[param2] as Player;
-            if(!_loc27_)
+            var _loc27_:* = false;
+            var _loc28_:Number = NaN;
+            var _loc29_:Array = null;
+            var _loc30_:int = 0;
+            var _loc26_:Player = players[param2] as Player;
+            if(!_loc26_)
             {
-               _loc27_ = new Player(world,param3,false,null,s);
-               _loc27_.id = param2;
-               players[param2] = _loc27_;
-               _loc27_.isInGodMode = param8;
-               _loc27_.isInAdminMode = param9;
-               _loc27_.isInModeratorMode = param17;
-               _loc27_.SetStaffAura(param25);
-               _loc27_.worldGravityMultiplier = gravityMultiplier;
-               _loc27_.x = Math.min(param6,(rw - 2) * 16);
-               _loc27_.y = Math.min(param7,(rh - 2) * 16);
-               _loc27_.frame = param5;
-               _loc27_.aura = param19;
-               _loc27_.auraColor = param20;
-               _loc27_.coins = param11;
-               _loc27_.bcoins = param12;
-               _loc27_.deaths = param13;
-               _loc27_.isgoldmember = param15;
-               _loc27_.wearsGoldSmiley = param16;
-               _loc27_.team = param18;
-               _loc27_.render = Bl.data.showPlayer;
-               _loc28_ = param3.indexOf("-") != -1;
-               _loc29_ = 13421772;
+               _loc26_ = new Player(world,param3,false,null,s);
+               _loc26_.id = param2;
+               players[param2] = _loc26_;
+               _loc26_.isInGodMode = param8;
+               _loc26_.isInAdminMode = param9;
+               _loc26_.isInModeratorMode = param17;
+               _loc26_.worldGravityMultiplier = gravityMultiplier;
+               _loc26_.x = Math.min(param6,(rw - 2) * 16);
+               _loc26_.y = Math.min(param7,(rh - 2) * 16);
+               _loc26_.frame = param5;
+               _loc26_.aura = param19;
+               _loc26_.auraColor = param20;
+               _loc26_.coins = param11;
+               _loc26_.bcoins = param12;
+               _loc26_.deaths = param13;
+               _loc26_.isgoldmember = param15;
+               _loc26_.wearsGoldSmiley = param16;
+               _loc26_.team = param18;
+               _loc27_ = param3.indexOf("-") != -1;
+               _loc28_ = 13421772;
                if(!param10)
                {
-                  _loc29_ = 11184810;
+                  _loc28_ = 11184810;
                }
-               if(_loc28_)
+               if(_loc27_)
                {
-                  _loc29_ = 6710886;
+                  _loc28_ = 6710886;
                }
                if(param14)
                {
-                  _loc29_ = Config.friend_color;
+                  _loc28_ = Config.friend_color;
                }
-               if(Player.isAdmin(_loc27_.name))
+               if(Player.isAdmin(_loc26_.name))
                {
-                  _loc29_ = Config.admin_color;
+                  _loc28_ = Config.admin_color;
                }
-               if(Player.isModerator(_loc27_.name))
+               if(Player.isModerator(_loc26_.name))
                {
-                  _loc29_ = Config.moderator_color;
+                  _loc28_ = Config.moderator_color;
                }
                if(param21 != 0)
                {
-                  _loc29_ = param21;
+                  _loc28_ = param21;
                }
-               _loc27_.nameColor = _loc29_;
-               _loc27_.canEdit = param26;
-               _loc27_.badge = param22;
-               _loc27_.isCrewMember = param23;
-               _loc27_.switches = {};
-               _loc30_ = getIntArrayFromVarint(param24);
-               _loc31_ = 0;
-               while(_loc31_ < _loc30_.length)
+               _loc26_.nameColor = _loc28_;
+               _loc26_.canEdit = param25;
+               _loc26_.badge = param22;
+               _loc26_.isCrewMember = param23;
+               _loc26_.switches = {};
+               _loc29_ = getIntArrayFromVarint(param24);
+               _loc30_ = 0;
+               while(_loc30_ < _loc29_.length)
                {
-                  _loc27_.switches[_loc30_[_loc31_]] = true;
-                  _loc31_++;
+                  _loc26_.switches[_loc29_[_loc30_]] = true;
+                  _loc30_++;
                }
-               addBefore(_loc27_,player);
+               addBefore(_loc26_,player);
             }
          });
          this.connection.addMessageHandler("k",function(param1:Message, param2:int):void
@@ -422,25 +405,25 @@ package states
          });
          this.connection.addMessageHandler("favorited",function(param1:Message):void
          {
-            SoundManager.playMiscSound(SoundId.FAVORITE);
+            SoundManager.playSound(SoundId.FAVORITE);
             doAnim(player,"favorite");
          });
          this.connection.addMessageHandler("liked",function(param1:Message):void
          {
-            SoundManager.playMiscSound(SoundId.LIKE);
+            SoundManager.playSound(SoundId.LIKE);
             doAnim(player,"like");
          });
          this.connection.addMessageHandler("unfavorited",function(param1:Message):void
          {
-            SoundManager.playMiscSound(SoundId.UNFAVORITE);
+            SoundManager.playSound(SoundId.UNFAVORITE);
          });
          this.connection.addMessageHandler("unliked",function(param1:Message):void
          {
-            SoundManager.playMiscSound(SoundId.UNLIKE);
+            SoundManager.playSound(SoundId.UNLIKE);
          });
          this.connection.addMessageHandler("magic",function(param1:Message):void
          {
-            SoundManager.playMiscSound(SoundId.MAGIC);
+            SoundManager.playSound(SoundId.MAGIC);
          });
          this.connection.addMessageHandler("b",function(param1:Message, param2:int, param3:int, param4:int, param5:int, param6:int = -1):void
          {
@@ -587,36 +570,32 @@ package states
                _loc4_.canToggleGodMode = false;
             }
          });
-         this.connection.addMessageHandler("admin",function(param1:Message, param2:int, param3:Boolean, param4:int):void
+         this.connection.addMessageHandler("admin",function(param1:Message, param2:int, param3:Boolean):void
          {
             if(param2 == myid)
             {
-               player.SetStaffAura(param4);
                player.isInAdminMode = param3;
                player.resetDeath();
             }
-            var _loc5_:Player = players[param2];
-            if(_loc5_ != null)
+            var _loc4_:Player = players[param2];
+            if(_loc4_ != null)
             {
-               _loc5_.SetStaffAura(param4);
-               _loc5_.isInAdminMode = param3;
-               _loc5_.resetDeath();
+               _loc4_.isInAdminMode = param3;
+               _loc4_.resetDeath();
             }
          });
-         this.connection.addMessageHandler("mod",function(param1:Message, param2:int, param3:Boolean, param4:int):void
+         this.connection.addMessageHandler("mod",function(param1:Message, param2:int, param3:Boolean):void
          {
             if(param2 == myid)
             {
-               player.SetStaffAura(param4);
                player.isInModeratorMode = param3;
                player.resetDeath();
             }
-            var _loc5_:Player = players[param2];
-            if(_loc5_ != null)
+            var _loc4_:Player = players[param2];
+            if(_loc4_ != null)
             {
-               _loc5_.SetStaffAura(param4);
-               _loc5_.isInModeratorMode = param3;
-               _loc5_.resetDeath();
+               _loc4_.isInModeratorMode = param3;
+               _loc4_.resetDeath();
             }
          });
          this.connection.addMessageHandler("say",function(param1:Message, param2:int, param3:String):void
@@ -787,7 +766,6 @@ package states
             player.coins = 0;
             player.bcoins = 0;
             player.deaths = 0;
-            player.flipGravity = 0;
             player.respawn();
             totalCoins = world.getTypeCount(100);
             bonusCoins = world.getTypeCount(101);
@@ -1303,7 +1281,7 @@ package states
             _loc6_++;
          }
          var _loc7_:int = this.world.getTile(param1,param2,param3);
-         if(_loc7_ == param4 && _loc7_ != ItemId.COINDOOR && _loc7_ != ItemId.COINGATE && _loc7_ != ItemId.BLUECOINDOOR && _loc7_ != ItemId.BLUECOINGATE && _loc7_ != ItemId.PORTAL && _loc7_ != 77 && _loc7_ != 83 && _loc7_ != 1520 && _loc7_ != 1000 && _loc7_ != ItemId.SPIKE && _loc7_ != ItemId.WORLD_PORTAL && _loc7_ != ItemId.PORTAL_INVISIBLE && _loc7_ != ItemId.SWITCH_PURPLE && _loc7_ != ItemId.DOOR_PURPLE && _loc7_ != ItemId.GATE_PURPLE && _loc7_ != ItemId.DEATH_DOOR && _loc7_ != ItemId.DEATH_GATE && _loc7_ != ItemId.EFFECT_TEAM && _loc7_ != ItemId.TEAM_DOOR && _loc7_ != ItemId.TEAM_GATE && _loc7_ != ItemId.EFFECT_CURSE && _loc7_ != ItemId.EFFECT_FLY && _loc7_ != ItemId.TEXT_SIGN && _loc7_ != ItemId.EFFECT_JUMP && _loc7_ != ItemId.EFFECT_PROTECTION && _loc7_ != ItemId.EFFECT_RUN && _loc7_ != ItemId.EFFECT_ZOMBIE && _loc7_ != ItemId.EFFECT_LOW_GRAVITY && _loc7_ != ItemId.EFFECT_MULTIJUMP && _loc7_ != ItemId.EFFECT_GRAVITY && _loc7_ != ItemId.SWITCH_ORANGE && _loc7_ != ItemId.DOOR_ORANGE && _loc7_ != ItemId.GATE_ORANGE && !ItemId.isBlockRotateable(_loc7_) && !ItemId.isBackgroundRotateable(_loc7_))
+         if(_loc7_ == param4 && _loc7_ != ItemId.COINDOOR && _loc7_ != ItemId.COINGATE && _loc7_ != ItemId.BLUECOINDOOR && _loc7_ != ItemId.BLUECOINGATE && _loc7_ != ItemId.PORTAL && _loc7_ != 77 && _loc7_ != 83 && _loc7_ != 1000 && _loc7_ != ItemId.SPIKE && _loc7_ != ItemId.WORLD_PORTAL && _loc7_ != ItemId.PORTAL_INVISIBLE && _loc7_ != ItemId.SWITCH_PURPLE && _loc7_ != ItemId.DOOR_PURPLE && _loc7_ != ItemId.GATE_PURPLE && _loc7_ != ItemId.DEATH_DOOR && _loc7_ != ItemId.DEATH_GATE && _loc7_ != ItemId.EFFECT_TEAM && _loc7_ != ItemId.TEAM_DOOR && _loc7_ != ItemId.TEAM_GATE && _loc7_ != ItemId.EFFECT_CURSE && _loc7_ != ItemId.EFFECT_FLY && _loc7_ != ItemId.TEXT_SIGN && _loc7_ != ItemId.EFFECT_JUMP && _loc7_ != ItemId.EFFECT_PROTECTION && _loc7_ != ItemId.EFFECT_RUN && _loc7_ != ItemId.EFFECT_ZOMBIE && _loc7_ != ItemId.EFFECT_LOW_GRAVITY && _loc7_ != ItemId.EFFECT_MULTIJUMP && _loc7_ != ItemId.SWITCH_ORANGE && _loc7_ != ItemId.DOOR_ORANGE && _loc7_ != ItemId.GATE_ORANGE && !ItemId.isBlockRotateable(_loc7_) && !ItemId.isBackgroundRotateable(_loc7_))
          {
             return;
          }
@@ -1378,6 +1356,8 @@ package states
             this.tilequeue.push(new Tile(param1,param2,param3,param4,param5));
          }
          this.updateMinimap(param2,param3);
+         Global.totalCoins = this.totalCoins;
+         Global.totalBCoins = this.bonusCoins;
       }
       
       override public function enterFrame() : void
@@ -1394,10 +1374,10 @@ package states
          {
             this.spectatingText.text = "Spectating " + _loc1_.name.toUpperCase();
          }
-         if(this.player.deaths > 9000 && !this.saidOver9000 && Global.soundVolume > 0)
+         if(this.player.deaths > 9000 && !this.saidOver9000 && Global.play_sounds)
          {
             this.saidOver9000 = true;
-            SoundManager.playMiscSound(SoundId.OVER9000);
+            SoundManager.playSound(SoundId.OVER9000);
          }
          var _loc2_:int = this.queue.length;
          while(_loc2_--)
@@ -1427,9 +1407,6 @@ package states
       {
          var confirm:ConfirmPrompt = null;
          var screenshotConfirm:ConfirmPrompt = null;
-         var favBricks:BrickContainer = null;
-         var id:int = 0;
-         var pos:int = 0;
          var layer:int = 0;
          var determinedLayer:int = 0;
          var clicked:Boolean = false;
@@ -1438,6 +1415,8 @@ package states
          var lap:Boolean = this.world.overlaps(this.player) != 0;
          var old:Number = this.world.showCoinGate;
          this.world.showCoinGate = this.player.coins;
+         Global.totalCoins = this.totalCoins;
+         Global.totalBCoins = this.bonusCoins;
          if(this.world.overlaps(this.player))
          {
             this.world.showCoinGate = old;
@@ -1550,44 +1529,43 @@ package states
                Global.base.showConfirmPrompt(screenshotConfirm);
             }
          }
-         else if(Bl.isKeyJustPressed(71) && Bl.data.canToggleGodMode)
+         else
          {
-            this.connection.send("god",!this.player.isInGodMode);
-            if(this.player.isInAdminMode)
+            if(Bl.isKeyJustPressed(71) && Bl.data.canToggleGodMode)
             {
-               this.connection.send("admin");
+               this.connection.send("god",!this.player.isInGodMode);
+               if(this.player.isInAdminMode)
+               {
+                  this.connection.send("admin");
+               }
+               if(this.player.isInModeratorMode)
+               {
+                  this.connection.send("mod");
+               }
             }
-            if(this.player.isInModeratorMode)
+            if(Bl.isKeyJustPressed(80))
             {
-               this.connection.send("mod");
+               if(Bl.data.isAdmin)
+               {
+                  this.connection.send("admin");
+                  if(this.player.isInGodMode)
+                  {
+                     this.connection.send("god",false);
+                  }
+               }
+               else if(Bl.data.isModerator)
+               {
+                  this.connection.send("mod");
+                  if(this.player.isInGodMode)
+                  {
+                     this.connection.send("god",false);
+                  }
+               }
             }
          }
          var xo:int = (Bl.mouseX - this.x) / 16 >> 0;
          var yo:int = (Bl.mouseY - this.y) / 16 >> 0;
-         if(Bl.isMiddleMouseJustPressed)
-         {
-            favBricks = Global.base.ui2instance.favoriteBricks;
-            id = this.world.getTile(0,xo,yo);
-            if(id == 0)
-            {
-               id = this.world.getTile(1,xo,yo);
-               if(id == 0)
-               {
-                  favBricks.select(0);
-                  return;
-               }
-            }
-            if(favBricks.getPosFromID(id) != -1)
-            {
-               this.readBlock(this.getLayerFromId(id),xo,yo,favBricks.getPosFromID(id));
-            }
-            else
-            {
-               pos = favBricks.selectedBlock;
-               this.readBlock(this.getLayerFromId(id),xo,yo,pos);
-            }
-         }
-         if(Bl.isMouseJustPressed || Bl.data.isLockedRoom && Bl.isMouseDown)
+         if(Bl.isMouseJustPressed || Bl.isMouseDown)
          {
             if(Global.base.ui2instance.playerActionsVisible)
             {
@@ -1595,7 +1573,7 @@ package states
             }
             if(!(Bl.mouseX > 640 || Bl.mouseX < 0 || Bl.mouseY > 470 || Bl.mouseY < 0))
             {
-               layer = this.getLayerFromId(Bl.data.brick);
+               layer = Bl.data.brick >= 500 && Bl.data.brick < 1000?1:0;
                determinedLayer = layer;
                if(Bl.isMouseJustPressed)
                {
@@ -1678,7 +1656,7 @@ package states
                               case ItemId.SWITCH_ORANGE:
                               case ItemId.DOOR_ORANGE:
                               case ItemId.GATE_ORANGE:
-                                 this.connection.send("b",layer,xo,yo,Bl.data.brick,Bl.data.switchId);
+                                 this.connection.send("b",layer,xo,yo,Bl.data.brick,Bl.data.switchid);
                                  break;
                               case ItemId.DEATH_DOOR:
                               case ItemId.DEATH_GATE:
@@ -1698,7 +1676,7 @@ package states
                                  this.connection.send("b",layer,xo,yo,Bl.data.brick,Global.text_sign_text,this.world.lookup.getTextSign(xo,yo).type + 1);
                                  break;
                               case 1000:
-                                 this.connection.send("b",layer,xo,yo,Bl.data.brick,Global.default_label_text,Global.default_label_hex,Bl.data.wrapLength);
+                                 this.connection.send("b",layer,xo,yo,Bl.data.brick,Global.default_label_text,Global.default_label_hex);
                                  break;
                               case 83:
                                  this.connection.send("b",layer,xo,yo,Bl.data.brick,Global.drumOffset);
@@ -1710,9 +1688,6 @@ package states
                               case ItemId.TEAM_DOOR:
                               case ItemId.TEAM_GATE:
                                  this.connection.send("b",layer,xo,yo,Bl.data.brick,Bl.data.team);
-                                 break;
-                              case ItemId.EFFECT_GRAVITY:
-                                 this.connection.send("b",layer,xo,yo,Bl.data.brick,Bl.data.direction);
                                  break;
                               case ItemId.EFFECT_CURSE:
                               case ItemId.EFFECT_ZOMBIE:
@@ -1727,9 +1702,6 @@ package states
                                  break;
                               case ItemId.EFFECT_MULTIJUMP:
                                  this.connection.send("b",layer,xo,yo,Bl.data.brick,Bl.data.jumps);
-                                 break;
-                              case 1520:
-                                 this.connection.send("b",layer,xo,yo,Bl.data.brick,SoundManager.guitarMap[Global.guitarOffset]);
                                  break;
                               default:
                                  this.connection.send("b",layer,xo,yo,Bl.data.brick);
@@ -1753,11 +1725,6 @@ package states
          super.tick();
       }
       
-      private function getLayerFromId(param1:int) : int
-      {
-         return param1 >= 500 && param1 < 1000?1:0;
-      }
-      
       private function numberKeyDown() : int
       {
          var _loc1_:int = 0;
@@ -1776,7 +1743,6 @@ package states
       
       private function readBlock(param1:int, param2:int, param3:int, param4:int) : void
       {
-         var _loc6_:LabelLookup = null;
          var _loc5_:int = this.world.getTile(param1,param2,param3);
          if(!Global.base.canUseBlock(ItemManager.getBrickById(_loc5_)))
          {
@@ -1797,7 +1763,7 @@ package states
             case ItemId.SWITCH_ORANGE:
             case ItemId.DOOR_ORANGE:
             case ItemId.GATE_ORANGE:
-               Bl.data.switchId = this.world.lookup.getInt(param2,param3);
+               Bl.data.switchid = this.world.lookup.getInt(param2,param3);
                break;
             case ItemId.DEATH_DOOR:
             case ItemId.DEATH_GATE:
@@ -1839,18 +1805,6 @@ package states
                break;
             case ItemId.EFFECT_MULTIJUMP:
                Bl.data.jumps = this.world.lookup.getInt(param2,param3);
-               break;
-            case ItemId.EFFECT_GRAVITY:
-               Bl.data.direction = this.world.lookup.getInt(param2,param3);
-               break;
-            case 1520:
-               Global.guitarOffset = this.world.lookup.getInt(param2,param3);
-               break;
-            case 1000:
-               _loc6_ = this.world.lookup.getLabel(param2,param3);
-               Bl.data.wrapLength = _loc6_.WrapLength;
-               Global.default_label_text = _loc6_.Text;
-               Global.default_label_hex = _loc6_.Color;
          }
          if(param4 == 0)
          {
@@ -1931,7 +1885,7 @@ package states
                case ItemId.SWITCH_ORANGE:
                case ItemId.DOOR_ORANGE:
                case ItemId.GATE_ORANGE:
-                  if(this.world.lookup.getInt(param2,param3) != Bl.data.switchId)
+                  if(this.world.lookup.getInt(param2,param3) != Bl.data.switchid)
                   {
                      return false;
                   }
@@ -1969,12 +1923,6 @@ package states
                      return false;
                   }
                   break;
-               case ItemId.EFFECT_GRAVITY:
-                  if(this.world.lookup.getInt(param2,param3) != Bl.data.direction)
-                  {
-                     return false;
-                  }
-                  break;
                case ItemId.EFFECT_CURSE:
                case ItemId.EFFECT_ZOMBIE:
                   if(this.world.lookup.getInt(param2,param3) != Bl.data.effectDuration)
@@ -2000,12 +1948,6 @@ package states
                   break;
                case 1000:
                   return false;
-               case 1520:
-                  if(this.world.lookup.getInt(param2,param3) != Global.guitarOffset)
-                  {
-                     return false;
-                  }
-                  break;
             }
             return true;
          }
@@ -2227,8 +2169,8 @@ package states
             _loc11_.isInAdminMode = param7;
             _loc11_.isInModeratorMode = param8;
             _loc11_.worldGravityMultiplier = this.gravityMultiplier;
-            _loc11_.x = Math.min(param4,(this.rw - 2) * 16);
-            _loc11_.y = Math.min(param5,(this.rh - 2) * 16);
+            _loc11_.x = param4 * 16;
+            _loc11_.y = param5 * 16;
             _loc11_.frame = param1;
             _loc11_.aura = param2;
             _loc11_.coins = 0;

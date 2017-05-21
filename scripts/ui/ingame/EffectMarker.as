@@ -3,8 +3,6 @@ package ui.ingame
    import flash.display.Bitmap;
    import flash.display.BitmapData;
    import flash.display.Sprite;
-   import flash.geom.Point;
-   import items.ItemManager;
    
    public class EffectMarker extends Sprite
    {
@@ -34,19 +32,12 @@ package ui.ingame
       
       public function EffectMarker(param1:BitmapData, param2:int, param3:Number = 0, param4:Number = 0)
       {
-         var _loc6_:BitmapData = null;
          super();
          this._id = param2;
          this.duration = param4;
          this.startDate = new Date();
          this.startDate.time = this.startDate.time - (param4 - param3) * 1000;
          var _loc5_:Bitmap = new Bitmap(param1.clone());
-         if(param2 == 1517)
-         {
-            _loc6_ = new BitmapData(16,16);
-            ItemManager.sprGravityEffect.drawPoint(_loc6_,new Point(0,0),param3);
-            _loc5_ = new Bitmap(_loc6_.clone());
-         }
          _loc5_.x = _loc5_.y = (HEIGHT - _loc5_.width) / 2 >> 0;
          addChild(_loc5_);
          this.WIDTH = param4 == 0?int(WIDTH_WITHOUT_TIMER):int(WIDTH_WITH_TIMER);

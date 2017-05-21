@@ -44,7 +44,7 @@ package ui
             {
                Global.base.client.errorLog.writeError("Badge image load failed.","BadgeId: \'" + item.id + "\', UserId: \'" + Global.base.client.connectUserId + "\'",param1.toString(),null);
             });
-            url = PlayerIO.gameFS(Config.playerio_game_id).getUrl("/Archivements/" + (item.id == "adv"?"avd":item.id) + ".png");
+            url = PlayerIO.gameFS(Config.playerio_game_id).getUrl("/Archivements/" + item.id + ".png");
             loader.load(new URLRequest(url),context);
          }
          else

@@ -2,11 +2,11 @@ package
 {
    import mx.core.BitmapAsset;
    
-   public class Player_StaffAura extends BitmapAsset
+   public class Player_AdminAura extends BitmapAsset
    {
        
       
-      public function Player_StaffAura()
+      public function Player_AdminAura()
       {
          super();
       }

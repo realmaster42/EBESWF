@@ -51,6 +51,8 @@ package ui.roomlist
       
       private var description:String;
       
+      private var ownerLabel:Label;
+      
       public function MinimapPreview(param1:String, param2:String, param3:String)
       {
          var lastChar:int = 0;
@@ -87,7 +89,7 @@ package ui.roomlist
          this.loadingLabel.y = this.loadingLabel.y + 30;
          this.content.addChild(this.loadingLabel);
          this.worldLabel = new Label("",12,"center",16777215,false,"Arial");
-         this.worldLabel.text = wname + "\n " + this.description;
+         this.worldLabel.text = wname + "\n\n " + this.description;
          this.worldLabel.setTextFormat(new TextFormat("system",13,16777215,null,null,null,null,null,"center"),0,wname.length);
          this.worldLabel.multiline = true;
          this.worldLabel.wordWrap = true;
@@ -98,6 +100,10 @@ package ui.roomlist
             lastChar = this.worldLabel.text.substring(0,lastChar + 1).search(/\S\s*$/);
             this.worldLabel.text = this.worldLabel.text.substring(0,lastChar + 1);
          }
+         this.ownerLabel = new Label("",12,"center",16777215,false,"Arial");
+         this.ownerLabel.multiline = true;
+         this.ownerLabel.wordWrap = true;
+         this.ownerLabel.autoSize = TextFieldAutoSize.CENTER;
          this.minimapBox.addChild(this.world);
          this.loadLevel(Global.base.client);
          this.button.addEventListener(MouseEvent.MOUSE_DOWN,this.handleCloseMinimapPreview,false,0,true);
@@ -127,7 +133,7 @@ package ui.roomlist
       private function renderWorld(param1:DatabaseObject) : void
       {
          var o:DatabaseObject = param1;
-         if(o == null || o.worlddata == null)
+         if(o == null || o.blocks == null)
          {
             return;
          }
@@ -152,6 +158,17 @@ package ui.roomlist
          this.wHeight = o.height;
          this.content.removeChild(this.loadingLabel);
          this.content.addChild(this.worldLabel);
+         if(o.crew == "")
+         {
+            this.ownerLabel.text = "\nBy: " + o.ownerusername;
+            this.ownerLabel.setTextFormat(new TextFormat("system",11,16777215,null,null,null,null,null,"center"),0,o.ownerusername.length + "\nBy: ".length);
+         }
+         else
+         {
+            this.ownerLabel.text = "\nBy the crew: " + o.crew;
+            this.ownerLabel.setTextFormat(new TextFormat("system",11,16777215,null,null,null,null,null,"center"),0,o.crew.length + "\nBy the crew: ".length);
+         }
+         this.content.addChild(this.ownerLabel);
          this.worldLabel.width = this.wWidth;
          this.base.width = this.worldLabel.width;
          this.content.add(new Box().margin(this.worldLabel.textHeight + 5,0,0,0).add(new Box().fill(0,1,10).add(this.minimapBox)));

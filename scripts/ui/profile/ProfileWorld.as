@@ -16,7 +16,7 @@ package ui.profile
          super(param1,param2,param3,param4);
          border(1,3355443,1);
          fill(1118481,1,5);
-         this.label = new Label(Badwords.Filter(param1.name) + "\nplayed " + ((param1.plays || 0) < 2?2:param1.plays) + " times",12,"left",16777215,false,"visitor");
+         this.label = new Label(Badwords.Filter(param1.title) + "\nplayed " + ((param1.plays || 0) < 2?2:param1.plays) + " times",12,"left",16777215,false,"visitor");
          addChild(this.label);
          this.width = width + 6;
          this.height = bitmap.height + 7 + this.label.height;

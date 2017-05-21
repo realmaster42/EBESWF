@@ -56,7 +56,7 @@ package ui.brickoverlays
          inptf = new TextField();
          inptf.type = TextFieldType.INPUT;
          inptf.restrict = "0-9";
-         inptf.maxChars = 5;
+         inptf.maxChars = 3;
          inptf.selectable = true;
          inptf.sharpness = 100;
          inptf.multiline = false;
@@ -67,7 +67,7 @@ package ui.brickoverlays
          inptf.addEventListener(Event.CHANGE,function(param1:Event):void
          {
             var _loc2_:int = parseInt(inptf.text);
-            if(!isNaN(_loc2_) && _loc2_ >= 0 && _loc2_ <= 99999)
+            if(!isNaN(_loc2_) && _loc2_ >= 0 && _loc2_ <= 999)
             {
                Bl.data[id] = _loc2_;
             }
@@ -76,9 +76,9 @@ package ui.brickoverlays
          inptf.defaultTextFormat = inptff;
          inptf.text = Bl.data[id];
          inptf.height = tf.height + 3;
-         inptf.width = 50;
-         inptf.x = 75;
+         inptf.width = 30;
          inptf.y = 0;
+         inptf.x = 130 - 35;
          inptf.addEventListener(FocusEvent.FOCUS_IN,function(param1:Event):void
          {
             param1.preventDefault();
@@ -93,11 +93,11 @@ package ui.brickoverlays
          });
          var add:ui2plusbtn = new ui2plusbtn();
          add.y = 9;
-         add.x = inptf.x + inptf.width + add.width + 5;
+         add.x = 130 + 10;
          container.addChild(add);
          add.addEventListener(MouseEvent.MOUSE_DOWN,function():void
          {
-            if(Bl.data[id] < 99999)
+            if(Bl.data[id] < 999)
             {
                Bl.data[id]++;
             }
@@ -105,7 +105,7 @@ package ui.brickoverlays
          });
          var sub:ui2minusbtn = new ui2minusbtn();
          sub.y = 9;
-         sub.x = inptf.x - sub.width - 5;
+         sub.x = 130 - 34 - 16;
          container.addChild(sub);
          sub.addEventListener(MouseEvent.MOUSE_DOWN,function():void
          {

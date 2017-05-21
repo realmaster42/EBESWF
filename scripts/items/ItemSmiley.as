@@ -20,7 +20,11 @@ package items
       
       public var bmdGold:BitmapData;
       
-      public function ItemSmiley(param1:int, param2:String, param3:String, param4:BitmapData, param5:String, param6:uint, param7:BitmapData)
+      public var bmdFlipped:BitmapData;
+      
+      public var bmdGoldFlipped:BitmapData;
+      
+      public function ItemSmiley(param1:int, param2:String, param3:String, param4:BitmapData, param5:String, param6:uint, param7:BitmapData, param8:BitmapData, param9:BitmapData)
       {
          super();
          this.id = param1;
@@ -30,6 +34,8 @@ package items
          this.payvaultid = param5;
          this.minimapcolor = param6;
          this.bmdGold = param7;
+         this.bmdFlipped = param8;
+         this.bmdGoldFlipped = param9;
       }
    }
 }

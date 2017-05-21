@@ -5,21 +5,26 @@ package ui.ingame.settings
    import flash.display.Sprite;
    import flash.display.StageDisplayState;
    import flash.events.MouseEvent;
+   import flash.geom.Point;
+   import flash.geom.Rectangle;
    import ui.LevelOptions;
    import ui.SettingsPage;
-   import ui.ingame.sam.SoundSlider;
    
    public class SettingsMenu extends SettingsButton
    {
+      
+      private static var Sound:Class = SettingsMenu_Sound;
+      
+      private static var soundBMD:BitmapData = new Sound().bitmapData;
       
       private static var FullScreen:Class = SettingsMenu_FullScreen;
       
       private static var fullScreenBMD:BitmapData = new FullScreen().bitmapData;
        
       
-      private var fullScreenButton:SettingsButton;
+      private var soundButton:SettingsButton;
       
-      private var soundButton:SoundSlider;
+      private var fullScreenButton:SettingsButton;
       
       private var buttonsContainer:Sprite;
       
@@ -51,10 +56,11 @@ package ui.ingame.settings
             this.addButton(new SettingsButton("World\nOptions",null,this.handleWorldOptions));
             this.addButton(new SettingsButton("Save\nWorld",null,this.handleSaveWorld));
          }
-         this.soundButton = new SoundSlider();
+         this.soundButton = new SettingsButton("",soundBMD,this.handleSoundClick);
          this.soundButton.x = 49;
          this.addButton(this.soundButton);
          this.lastButtons.push(this.soundButton);
+         this.toggleSound(Global.play_sounds);
          this.fullScreenButton = new SettingsButton("",fullScreenBMD,this.handleFullScreenClick);
          this.fullScreenButton.x = 49;
          this.fullScreenButton.y = -29;
@@ -62,16 +68,29 @@ package ui.ingame.settings
          this.lastButtons.push(this.fullScreenButton);
       }
       
-      public function addButton(param1:Sprite) : void
+      public function addButton(param1:SettingsButton) : void
       {
          this.buttonsContainer.addChild(param1);
          this.redraw();
       }
       
-      public function removeButton(param1:Sprite) : void
+      public function removeButton(param1:SettingsButton) : void
       {
          this.buttonsContainer.removeChild(param1);
          this.redraw();
+      }
+      
+      protected function handleSoundClick(param1:MouseEvent) : void
+      {
+         this.toggleSound(!Global.play_sounds);
+      }
+      
+      private function toggleSound(param1:Boolean) : void
+      {
+         Global.play_sounds = param1;
+         var _loc2_:BitmapData = new BitmapData(soundBMD.width / 2,soundBMD.height,true,0);
+         _loc2_.copyPixels(soundBMD,new Rectangle(!!Global.play_sounds?Number(0):Number(soundBMD.width / 2),0,_loc2_.width,_loc2_.height),new Point());
+         this.soundButton.updateImage(_loc2_);
       }
       
       protected function handleFullScreenClick(param1:MouseEvent) : void
@@ -133,7 +152,7 @@ package ui.ingame.settings
       
       public function redraw() : void
       {
-         var _loc3_:Sprite = null;
+         var _loc3_:SettingsButton = null;
          if(this.ui2.settingsMenu)
          {
             this.buttonsContainer.x = this.ui2.settingsMenu.x;
@@ -143,7 +162,7 @@ package ui.ingame.settings
          var _loc2_:int = 0;
          while(_loc2_ < this.buttonsContainer.numChildren)
          {
-            _loc3_ = this.buttonsContainer.getChildAt(_loc2_) as Sprite;
+            _loc3_ = this.buttonsContainer.getChildAt(_loc2_) as SettingsButton;
             if(_loc3_.x == 0)
             {
                _loc3_.y = _loc1_ * -29;

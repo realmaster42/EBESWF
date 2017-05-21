@@ -28,7 +28,7 @@ package ui.login
          PlayerIO.quickConnect.simpleConnect(Global.base.stage,Config.playerio_game_id,"guest","guest",function(param1:Client):void
          {
             var c:Client = param1;
-            c.bigDB.loadSingle("news","current",[],function(param1:DatabaseObject):void
+            c.bigDB.load("Config","data",function(param1:DatabaseObject):void
             {
                var ldr:Loader = null;
                var dbo:DatabaseObject = param1;
@@ -40,9 +40,9 @@ package ui.login
                   news.loader.visible = false;
                   return;
                }
-               news.title.text = dbo["header"];
-               news.subtitle.text = dbo["date"];
-               news.body.text = dbo["body"];
+               news.title.text = dbo["NEWS_TITLE"];
+               news.subtitle.text = dbo["NEWS_DATE"];
+               news.body.text = dbo["NEWS_TEXT"];
                ldr = new Loader();
                ldr.contentLoaderInfo.addEventListener(Event.COMPLETE,function(param1:Event):void
                {
@@ -58,7 +58,7 @@ package ui.login
                   });
                   news.addChild(ldr);
                });
-               ldr.load(new URLRequest(dbo["image"]));
+               ldr.load(new URLRequest(dbo["NEWS_IMAGEURL"]));
             },function():void
             {
             });

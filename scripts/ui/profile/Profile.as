@@ -212,6 +212,8 @@ package ui.profile
             this.profileObject.goldmember = param1.getBoolean(_loc2_++);
             this.profileObject.goldremain = param1.getNumber(_loc2_++);
             this.profileObject.goldtime = param1.getNumber(_loc2_++);
+            this.profileObject.gold_join = param1.getNumber(_loc2_++);
+            this.profileObject.gold_expire = param1.getNumber(_loc2_++);
             this.profileObject.room0 = param1.getString(_loc2_) != ""?param1.getString(_loc2_):null;
             _loc2_++;
             this.profileObject.betaonlyroom = param1.getString(_loc2_) != ""?param1.getString(_loc2_):null;
@@ -275,7 +277,7 @@ package ui.profile
             {
                _loc13_ = !!Player.isDev(this.profileObject.name)?"Developer":!!this.profileObject.isModerator?"Moderator":!!this.profileObject.isAdministrator?"Administrator":"";
                _loc14_ = !!Player.isDev(this.profileObject.name)?uint(Config.dev_color):!!this.profileObject.isModerator?uint(Config.moderator_color):!!this.profileObject.isAdministrator?uint(Config.admin_color):uint(0);
-               this.content.add(new Box().margin(35,0,0,0).add(new Label("Everybody Edits " + _loc13_ + "!",12,"center",_loc14_,false,"system")));
+               this.content.add(new Box().margin(35,0,0,0).add(new Label("Every Build Exists " + _loc13_ + "!",12,"center",_loc14_,false,"system")));
             }
             if(this.profileObject.oldname != "")
             {
@@ -335,7 +337,7 @@ package ui.profile
                   this.content.add(this.closebutton);
                }
             }
-            PlayerIO.authenticate(Global.stage,Config.playerio_game_id,"Public",{"userId":this.profileObject.key},null,this.handleLoadComplete,this.handleError);
+            PlayerIO.authenticate(Global.stage,Config.playerio_game_id,"watch",{"userId":this.profileObject.key},null,this.handleLoadComplete,this.handleError);
             this.rooms = this.rooms.concat(this.profileObject.roomids);
             if(this.profileObject.room0)
             {
@@ -457,19 +459,11 @@ package ui.profile
       private function renderWorld(param1:DatabaseObject) : void
       {
          var o:DatabaseObject = param1;
-         if(o == null || o.worlddata == null)
+         if(o == null || o.blocks == null)
          {
             return;
          }
-         if(o.hasOwnProperty("visible") && !o["visible"])
-         {
-            return;
-         }
-         if(o.hasOwnProperty("hidelobby") && o["hidelobby"] && !o.hasOwnProperty("HideLobby"))
-         {
-            return;
-         }
-         if(o.hasOwnProperty("HideLobby") && o["HideLobby"])
+         if(o.hasOwnProperty("hidden") && o["hidden"])
          {
             return;
          }

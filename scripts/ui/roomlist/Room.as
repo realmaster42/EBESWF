@@ -22,7 +22,7 @@ package ui.roomlist
       
       private var hoverTimer:uint;
       
-      public function Room(param1:String, param2:String, param3:String, param4:String, param5:int, param6:int, param7:int, param8:int, param9:Boolean, param10:Boolean, param11:Boolean, param12:Boolean, param13:Boolean, param14:Boolean, param15:Boolean, param16:Object, param17:Function, param18:Function)
+      public function Room(param1:String, param2:String, param3:String, param4:String, param5:int, param6:int, param7:int, param8:int, param9:Boolean, param10:Boolean, param11:Boolean, param12:Boolean, param13:Boolean, param14:Boolean, param15:Object, param16:Function, param17:Function)
       {
          var key:String = param1;
          var title:String = param2;
@@ -38,10 +38,9 @@ package ui.roomlist
          var saved:Boolean = param12;
          var needskey:Boolean = param13;
          var lobbyPreviewEnabled:Boolean = param14;
-         var isHistory:Boolean = param15;
-         var me:Object = param16;
-         var callback:Function = param17;
-         var unfavoriteCallback:Function = param18;
+         var me:Object = param15;
+         var callback:Function = param16;
+         var unfavoriteCallback:Function = param17;
          super();
          this._key = key;
          var canEnter:Boolean = true;
@@ -130,7 +129,7 @@ package ui.roomlist
          {
             campaignTag.visible = false;
          }
-         if(myworld && online < 1 || isHistory)
+         if(myworld && online < 1)
          {
             lonline.visible = true;
             lonline.text = size;

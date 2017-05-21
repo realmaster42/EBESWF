@@ -21,6 +21,17 @@ package ui.brickoverlays
          arrow.y = -10;
       }
       
+      public function setOffsetX(param1:Number) : void
+      {
+         var _loc2_:int = 0;
+         while(_loc2_ < numChildren)
+         {
+            getChildAt(_loc2_).x = getChildAt(_loc2_).x + param1;
+            _loc2_++;
+         }
+         arrow.x = -arrow.width / 2;
+      }
+      
       public function incrementValue(param1:int = 1) : void
       {
       }

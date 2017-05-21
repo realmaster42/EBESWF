@@ -34,8 +34,6 @@ package blitter
       
       private var currentImage:BitmapData;
       
-      public var RotateDeg:int = 0;
-      
       public function BlSprite(param1:BitmapData, param2:int, param3:int, param4:int, param5:int, param6:int, param7:Boolean = false)
       {
          super();
@@ -139,15 +137,13 @@ package blitter
          dp.x = param2 + x;
          dp.y = param3 + y;
          this.currentImage = !!this.shadow?this.sprImageShadow:this.sprImage;
-         var _loc4_:BitmapData = Player.rotateBitmapData(this.currentImage,this.RotateDeg);
-         param1.copyPixels(_loc4_,_loc4_.rect,dp);
+         param1.copyPixels(this.currentImage,this.currentImage.rect,dp);
       }
       
       public function drawPoint(param1:BitmapData, param2:Point, param3:int = 0) : void
       {
          this.currentImage = !!this.shadow?this.sprImageShadow:this.sprImage;
-         var _loc4_:BitmapData = Player.rotateBitmapData(this.currentImage,this.RotateDeg);
-         param1.copyPixels(_loc4_,_loc4_.rect,param2);
+         param1.copyPixels(this.currentImage,this.currentImage.rect,param2);
       }
    }
 }

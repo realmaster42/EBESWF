@@ -723,19 +723,11 @@ package ui.crews
       private function renderWorld(param1:DatabaseObject) : void
       {
          var o:DatabaseObject = param1;
-         if(o == null || o.worlddata == null)
+         if(o == null || o.blocks == null)
          {
             return;
          }
-         if(o.hasOwnProperty("visible") && !o["visible"])
-         {
-            return;
-         }
-         if(o.hasOwnProperty("hidelobby") && o["hidelobby"] && !o.hasOwnProperty("HideLobby"))
-         {
-            return;
-         }
-         if(o.hasOwnProperty("HideLobby") && o["HideLobby"])
+         if(o.hasOwnProperty("hidden") && o["hidden"])
          {
             return;
          }

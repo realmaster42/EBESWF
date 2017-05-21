@@ -84,9 +84,10 @@ package ui.profile
       
       private function redraw() : void
       {
+         var _loc1_:Number = NaN;
          this.crewName.x = 3 + (width - this.crewName.width) / 2;
          this.crewName.y = this.spacing;
-         var _loc1_:Number = Math.max(this.crewName.width,this.logoId != ""?Number(this.icon.width):Number(this.noLogoSprite.width)) + 5;
+         _loc1_ = Math.max(this.crewName.width,this.logoId != ""?Number(this.icon.width):Number(this.noLogoSprite.width)) + 5;
          if(this.logoId != "")
          {
             this.icon.x = (_loc1_ - this.icon.width) / 2;

@@ -94,11 +94,6 @@ package ui
          return this.selected;
       }
       
-      public function get selectedBlock() : int
-      {
-         return this.selectedIndex;
-      }
-      
       public function setDefault(param1:int, param2:ItemBrick) : void
       {
          this.defaults[param1] = param2;
@@ -128,20 +123,6 @@ package ui
          {
             this.uix.setSelected(this.selected);
          }
-      }
-      
-      public function getPosFromID(param1:int) : int
-      {
-         var _loc2_:int = 0;
-         while(_loc2_ < this.defaults.length)
-         {
-            if(this.defaults[_loc2_].id == param1)
-            {
-               return _loc2_;
-            }
-            _loc2_++;
-         }
-         return -1;
       }
       
       public function getPosWithID(param1:int) : Point

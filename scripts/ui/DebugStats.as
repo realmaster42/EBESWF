@@ -63,7 +63,7 @@ package ui
       
       private function updateText(param1:Number) : void
       {
-         htmlText = "Debug version v" + Config.client_type_version + " (" + param1 + " fps)<br>" + "isFlying: " + this.state.player.isFlying + "<br>" + "X: " + Math.floor(this.state.player.x / 16) + "<br>" + "Y: " + Math.floor(this.state.player.y / 16) + "<br>" + "JumpCount: " + this.state.player.jumpCount + "<br>" + "speedX: " + this.state.player.speedX + "<br>" + "speedY: " + this.state.player.speedY + "<br>" + "moX: " + this.state.player.mox + "<br>" + "moY: " + this.state.player.moy + "<br>" + "flipGravity: " + this.state.player.flipGravity + "<br>" + "current_below: " + this.state.player.current_below + "<br>";
+         htmlText = "Debug version v" + Config.client_type_version + " (" + param1 + " fps)<br>" + "isFlying: " + this.state.player.isFlying + "<br>" + "X: " + Math.floor(this.state.player.x / 16) + "<br>" + "Y: " + Math.floor(this.state.player.y / 16) + "";
       }
    }
 }
