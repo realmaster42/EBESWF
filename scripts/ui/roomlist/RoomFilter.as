@@ -27,6 +27,8 @@ package ui.roomlist
       
       private var favoriteOnly:Boolean = false;
       
+      private var historyOnly:Boolean = false;
+      
       private var sort_buttons:Vector.<MovieClip>;
       
       private var sortby:int;
@@ -51,9 +53,15 @@ package ui.roomlist
          this.callback = callback;
          this.showlocked = true;
          this.currentTab = tabbar.tab_rooms;
+         tabbar.tab_history.gotoAndStop(1);
          tabbar.tab_rooms.gotoAndStop(2);
          tabbar.tab_favorites.gotoAndStop(1);
          tabbar.sortselector.gotoAndStop(1);
+         tabbar.tab_history.buttonMode = true;
+         tabbar.tab_history.useHandCursor = true;
+         tabbar.tab_history.addEventListener(MouseEvent.CLICK,this.handleTabClick);
+         tabbar.tab_history.addEventListener(MouseEvent.MOUSE_OVER,this.handleTabOver);
+         tabbar.tab_history.addEventListener(MouseEvent.MOUSE_OUT,this.handleTabOut);
          tabbar.tab_rooms.buttonMode = true;
          tabbar.tab_rooms.useHandCursor = true;
          tabbar.tab_rooms.addEventListener(MouseEvent.CLICK,this.handleTabClick);
@@ -118,11 +126,12 @@ package ui.roomlist
       
       protected function handleTabClick(param1:MouseEvent) : void
       {
+         this.favoriteOnly = false;
+         this.historyOnly = false;
          switch(param1.target)
          {
             case tabbar.tab_rooms:
                tabbar.sortselector.gotoAndStop(1);
-               this.favoriteOnly = false;
                break;
             case tabbar.tab_favorites:
                tabbar.sortselector.gotoAndStop(2);
@@ -131,17 +140,20 @@ package ui.roomlist
                   this.sortby = RoomList.SORT_BY_ONLINE;
                }
                this.favoriteOnly = true;
+               break;
+            case tabbar.tab_history:
+               tabbar.sortselector.gotoAndStop(3);
+               if(this.sortby == RoomList.SORT_BY_MYWORLDS || this.sortby == RoomList.SORT_BY_OPEN)
+               {
+                  this.sortby = RoomList.SORT_BY_ONLINE;
+               }
+               this.historyOnly = true;
          }
          this.currentTab = param1.target as MovieClip;
          this.currentSort = this.getSortByIndex(this.sortby);
-         if(this.currentTab == tabbar.tab_favorites)
-         {
-            tabbar.tab_rooms.gotoAndStop(1);
-         }
-         else if(this.currentTab == tabbar.tab_rooms)
-         {
-            tabbar.tab_favorites.gotoAndStop(1);
-         }
+         tabbar.tab_rooms.gotoAndStop(1);
+         tabbar.tab_favorites.gotoAndStop(1);
+         tabbar.tab_history.gotoAndStop(1);
          this.currentTab.gotoAndStop(2);
          this.initSortButtons();
       }
@@ -259,6 +271,7 @@ package ui.roomlist
          this.betaonly = false;
          this.favoriteOnly = false;
          this.showmyworlds = false;
+         this.historyOnly = false;
       }
       
       override public function set height(param1:Number) : void
@@ -279,7 +292,7 @@ package ui.roomlist
                (_loc2_.getChildByName("underline") as MovieClip).visible = this.currentSort == _loc2_;
                _loc1_++;
             }
-            this.callback(tf_search.text,this.sortby,this.betaonly,this.favoriteOnly);
+            this.callback(tf_search.text,this.sortby,this.betaonly,this.favoriteOnly,this.historyOnly);
          }
       }
       

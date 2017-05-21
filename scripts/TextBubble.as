@@ -85,11 +85,12 @@ package
       {
          var _loc6_:String = null;
          var _loc5_:Player = (Global.base.state as PlayState).player;
-         param1 = param1.replace(/%username%/g,_loc5_.name);
          param1 = param1.replace(/%coins%/g,_loc5_.coins);
          param1 = param1.replace(/%bcoins%/g,_loc5_.bcoins);
          param1 = param1.replace(/%deaths%/g,_loc5_.deaths);
          param1 = param1.replace(/%levelname%/g,Global.currentLevelname);
+         param1 = param1.replace(/%username%/g,_loc5_.name);
+         param1 = param1.replace(/%USERNAME%/g,_loc5_.name.toUpperCase());
          param1 = param1.replace(/\\n/g,"\n");
          if(this.latest != param1 || this.latest2 != param2)
          {

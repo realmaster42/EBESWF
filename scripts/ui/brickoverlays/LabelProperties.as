@@ -1,5 +1,6 @@
 package ui.brickoverlays
 {
+   import blitter.Bl;
    import flash.display.Sprite;
    import flash.events.Event;
    import flash.events.FocusEvent;
@@ -27,6 +28,7 @@ package ui.brickoverlays
          var container:Sprite = null;
          var inptf:TextField = null;
          var inptf2:TextField = null;
+         var inptfWrap:TextField = null;
          var name:String = param1;
          container = new Sprite();
          var tf:TextField = new TextField();
@@ -122,6 +124,43 @@ package ui.brickoverlays
             param1.stopPropagation();
          });
          container.addChild(inptf2);
+         inptfWrap = new TextField();
+         inptfWrap.type = TextFieldType.INPUT;
+         inptfWrap.text = Bl.data.wrapLength;
+         inptfWrap.restrict = "0-9";
+         inptfWrap.maxChars = 5;
+         inptfWrap.selectable = true;
+         inptfWrap.sharpness = 100;
+         inptfWrap.multiline = false;
+         inptfWrap.borderColor = 16777215;
+         inptfWrap.backgroundColor = 11184810;
+         inptfWrap.background = true;
+         inptfWrap.border = true;
+         inptfWrap.x = inptf2.x;
+         inptfWrap.y = 2.5;
+         inptfWrap.height = tf.height + 3;
+         inptfWrap.width = 58;
+         inptfWrap.addEventListener(Event.CHANGE,function(param1:Event):void
+         {
+            var _loc2_:int = parseInt(inptfWrap.text);
+            if(!isNaN(_loc2_))
+            {
+               Bl.data.wrapLength = _loc2_;
+            }
+         });
+         inptfWrap.addEventListener(FocusEvent.FOCUS_IN,function(param1:Event):void
+         {
+            param1.preventDefault();
+            param1.stopImmediatePropagation();
+            param1.stopPropagation();
+         });
+         inptfWrap.addEventListener(KeyboardEvent.KEY_DOWN,function(param1:KeyboardEvent):void
+         {
+            param1.preventDefault();
+            param1.stopImmediatePropagation();
+            param1.stopPropagation();
+         });
+         container.addChild(inptfWrap);
          return container;
       }
    }

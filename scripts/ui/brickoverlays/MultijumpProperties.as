@@ -44,12 +44,12 @@ package ui.brickoverlays
          this.inptf.background = true;
          this.inptf.border = true;
          this.inptf.restrict = "0-9";
-         this.inptf.maxChars = 2;
+         this.inptf.maxChars = 3;
          this.inptf.type = TextFieldType.INPUT;
          this.inptf.addEventListener(Event.CHANGE,function(param1:Event):void
          {
             var _loc2_:int = parseInt(inptf.text);
-            if(!isNaN(_loc2_) && _loc2_ >= 0 && _loc2_ <= 2)
+            if(!isNaN(_loc2_) && _loc2_ >= -1 && _loc2_ <= 999)
             {
                if(_loc2_ == 0)
                {
@@ -99,7 +99,7 @@ package ui.brickoverlays
       
       override public function incrementValue(param1:int = 1) : void
       {
-         if(Bl.data.jumps < 2)
+         if(Bl.data.jumps < 999)
          {
             Bl.data.jumps++;
          }
@@ -108,7 +108,7 @@ package ui.brickoverlays
       
       override public function decrementValue(param1:int = 1) : void
       {
-         if(Bl.data.jumps > 0)
+         if(Bl.data.jumps > -1)
          {
             Bl.data.jumps--;
          }

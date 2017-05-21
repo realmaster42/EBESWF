@@ -17,7 +17,7 @@ package
       
       public static var player_is_beta_member:Boolean = false;
       
-      public static var play_sounds:Boolean = true;
+      public static var soundVolume:Number = 100;
       
       public static var playing_on_armorgames:Boolean = false;
       
@@ -37,7 +37,7 @@ package
       
       public static var default_label_size:int = 12;
       
-      public static var default_label_text:String = "";
+      public static var default_label_text:String = "Hai c:";
       
       public static var default_label_hex:String = "#FFFFFF";
       
@@ -64,6 +64,8 @@ package
       public static var pianoOffset:int = 0;
       
       public static var drumOffset:int = 0;
+      
+      public static var guitarOffset:int = 0;
       
       public static var hasOwner:Boolean = false;
       
@@ -217,6 +219,17 @@ package
       public static function get minimapAlphaValue() : Number
       {
          return Global.cookie.data.minimapAlphaValue != null?Number(Global.cookie.data.minimapAlphaValue):Number(1);
+      }
+      
+      public static function get historyLimit() : int
+      {
+         return Global.cookie.data.historyLimit != null?int(Global.cookie.data.historyLimit):25;
+      }
+      
+      public static function set historyLimit(param1:int) : void
+      {
+         Global.cookie.data.historyLimit = param1;
+         Global.cookie.flush();
       }
    }
 }

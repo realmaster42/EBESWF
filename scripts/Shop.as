@@ -362,6 +362,10 @@ package
                      _loc2_ = ImageUtils.createImageForSmileyAndBlocks(param1.id,105);
                      _loc3_ = _loc2_.width;
                      break;
+                  case "brickguitar":
+                     _loc2_ = ImageUtils.createImageForSmileyAndBlocks(param1.id,161);
+                     _loc3_ = _loc2_.width;
+                     break;
                   default:
                      _loc2_ = ImageUtils.createBricksImageFromPayVaultId(param1.id);
                      if(_loc2_)

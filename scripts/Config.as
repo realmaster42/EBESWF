@@ -7,9 +7,9 @@ package
       
       public static const playerio_game_id:String = "everybody-edits-su9rn58o40itdbnw69plyw";
       
-      public static const client_type_version:String = "220";
+      public static const client_type_version:String = "221";
       
-      public static const server_type_version:int = 220;
+      public static const server_type_version:int = 221;
       
       public static const server_type_normalroom:String = "Everybodyedits" + server_type_version;
       
@@ -156,6 +156,8 @@ package
       public static const effectFire:int = 8;
       
       public static const effectMultijump:int = 9;
+      
+      public static const effectGravity:int = 10;
       
       public static const max_Particles:int = 45;
       

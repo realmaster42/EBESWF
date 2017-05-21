@@ -13,6 +13,8 @@ package ui.ingame
       
       public var effects:Vector.<EffectMarker>;
       
+      public var multiJumpCounter:MultiJumpCounter;
+      
       private var zombieCounter:ZombieCounter;
       
       private var curseCounter:CurseCounter;
@@ -25,6 +27,8 @@ package ui.ingame
          addChild(this.zombieCounter);
          this.curseCounter = new CurseCounter(param1);
          addChild(this.curseCounter);
+         this.multiJumpCounter = new MultiJumpCounter();
+         addChild(this.multiJumpCounter);
          addEventListener(Event.ADDED_TO_STAGE,this.handleAddedToStage,false,0,true);
       }
       
@@ -113,6 +117,7 @@ package ui.ingame
       
       public function update() : void
       {
+         this.multiJumpCounter.update();
          this.zombieCounter.update();
          this.curseCounter.update();
          this.refresh();
@@ -126,6 +131,9 @@ package ui.ingame
       
       public function refresh() : void
       {
+         this.multiJumpCounter.y = 0;
+         this.zombieCounter.y = 0;
+         this.curseCounter.y = 0;
          if(this.zombieCounter.visible)
          {
             this.curseCounter.y = this.zombieCounter.y + this.zombieCounter.height + 2 >> 0;
@@ -133,6 +141,22 @@ package ui.ingame
          else
          {
             this.curseCounter.y = 0;
+         }
+         if(this.zombieCounter.visible && this.curseCounter.visible)
+         {
+            this.multiJumpCounter.y = this.curseCounter.y + this.curseCounter.height + 2 >> 0;
+         }
+         else if(this.zombieCounter.visible)
+         {
+            this.multiJumpCounter.y = this.zombieCounter.y + this.zombieCounter.height + 2 >> 0;
+         }
+         else if(this.curseCounter.visible)
+         {
+            this.multiJumpCounter.y = this.curseCounter.y + this.curseCounter.height + 2 >> 0;
+         }
+         else
+         {
+            this.multiJumpCounter.y = 0;
          }
          var _loc1_:int = 0;
          while(_loc1_ < this.effects.length)
@@ -154,6 +178,10 @@ package ui.ingame
       private function moveToPosition(param1:EffectMarker, param2:int, param3:int) : void
       {
          var _loc4_:int = param2 * (EffectMarker.HEIGHT + 2);
+         if(this.multiJumpCounter.visible)
+         {
+            _loc4_ = _loc4_ + (this.multiJumpCounter.height + 2);
+         }
          if(this.zombieCounter.visible)
          {
             _loc4_ = _loc4_ + (this.zombieCounter.height + 2);

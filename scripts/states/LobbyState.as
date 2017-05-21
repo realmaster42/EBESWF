@@ -572,6 +572,7 @@ package states
                PlayerWorlds.addSavedWorlds(all_rooms,Global.base.client);
                PlayerWorlds.addFavorites(all_rooms,Global.base.client);
             }
+            PlayerWorlds.getHistory(all_rooms);
             enableRefreshButton();
             var _loc1_:Array = [];
             var _loc2_:int = 0;

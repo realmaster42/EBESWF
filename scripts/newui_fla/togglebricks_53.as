@@ -1,14 +1,12 @@
-package assets_new_xfl_fla
+package newui_fla
 {
    import flash.display.MovieClip;
    
-   public dynamic class btn_openEnergyShop_15 extends MovieClip
+   public dynamic class togglebricks_53 extends MovieClip
    {
        
       
-      public var highlight:MovieClip;
-      
-      public function btn_openEnergyShop_15()
+      public function togglebricks_53()
       {
          super();
          addFrameScript(0,this.frame1);

@@ -1,5 +1,6 @@
 package ui
 {
+   import flash.globalization.DateTimeFormatter;
    import playerio.Client;
    import playerio.RoomInfo;
    
@@ -130,6 +131,7 @@ package ui
          addWorlds(param1,"8",param2.payVault.count("world8"),"Low Gravity","110x110");
          addWorlds(param1,"11",param2.payVault.count("world11"),"Huge","300x300");
          addWorlds(param1,"12",param2.payVault.count("world12"),"Vertical Great","200x400");
+         addWorlds(param1,"13",param2.payVault.count("world13"),"Big","150x150");
       }
       
       private static function findWorld(param1:Array, param2:String) : RoomInfo
@@ -186,6 +188,43 @@ package ui
             _loc7_++;
          }
          return _loc6_;
+      }
+      
+      public static function getHistory(param1:Array) : void
+      {
+         var _loc2_:DateTimeFormatter = null;
+         var _loc3_:Array = null;
+         var _loc4_:int = 0;
+         var _loc5_:Object = null;
+         var _loc6_:Object = null;
+         if(!Config.disableCookie)
+         {
+            _loc2_ = new DateTimeFormatter("en-US");
+            _loc2_.setDateTimePattern("f");
+            _loc3_ = [];
+            if(Global.cookie.data.history != null)
+            {
+               _loc3_ = Global.cookie.data.history;
+            }
+            _loc4_ = 0;
+            while(_loc4_ < _loc3_.length)
+            {
+               _loc5_ = _loc3_[_loc4_];
+               _loc6_ = {
+                  "id":_loc5_.id,
+                  "data":{
+                     "name":_loc5_.name,
+                     "owned":true,
+                     "needskey":true,
+                     "time":_loc5_.time,
+                     "size":_loc2_.format(_loc5_.time),
+                     "isHistory":true
+                  }
+               };
+               param1.push(_loc6_);
+               _loc4_++;
+            }
+         }
       }
    }
 }

@@ -11,7 +11,7 @@ package
    import flash.events.KeyboardEvent;
    import flash.events.MouseEvent;
    import flash.geom.Point;
-   import flash.geom.Rectangle;
+   import flash.system.System;
    import flash.text.TextField;
    import flash.ui.Keyboard;
    import flash.utils.setTimeout;
@@ -36,6 +36,8 @@ package
    import ui.brickoverlays.CoinProperties;
    import ui.brickoverlays.DeathProperties;
    import ui.brickoverlays.DrumProperties;
+   import ui.brickoverlays.GravityProperties;
+   import ui.brickoverlays.GuitarProperties;
    import ui.brickoverlays.LabelProperties;
    import ui.brickoverlays.MultijumpProperties;
    import ui.brickoverlays.OnOffProperties;
@@ -173,6 +175,10 @@ package
       
       private var lastMessageTime:Number;
       
+      private var chatHistory:int = 10;
+      
+      private var _keyDown:Object;
+      
       public function UI2(param1:EverybodyEdits, param2:Connection, param3:Message, param4:int, param5:Boolean, param6:String, param7:SideChat, param8:Boolean, param9:Boolean, param10:Boolean, param11:String, param12:int, param13:int, param14:Boolean, param15:Boolean)
       {
          var moveInputCursorToEnd:Function = null;
@@ -218,6 +224,7 @@ package
             "/giveeffect":true,
             "/givegod":true,
             "/help":true,
+            "/hide":true,
             "/hidelobby":true,
             "/inspect":true,
             "/kick":true,
@@ -238,10 +245,12 @@ package
             "/reset":true,
             "/resetall":true,
             "/resetswitches":true,
+            "/respawn":true,
             "/respawnall":true,
             "/roomid":true,
             "/save":true,
             "/setteam":true,
+            "/show":true,
             "/spectate":true,
             "/teleport":true,
             "/unmute":true,
@@ -250,6 +259,7 @@ package
          this.timerArray = [5000,5000,5000,5000,5000];
          this.textArray = ["","","","","","","","","",""];
          this.lastMessageTime = new Date().time;
+         this._keyDown = {};
          super();
          moveInputCursorToEnd = function(param1:Event):void
          {
@@ -323,6 +333,10 @@ package
          this.chatinput.x = 65;
          this.chatinput.visible = false;
          this.chatinput.text = new TabTextField();
+         if(Bl.data.isAdmin)
+         {
+            this.chatinput.text.field.maxChars = int.MAX_VALUE;
+         }
          this.chatinput.addChild(this.chatinput.text);
          this.chatinput.text.x = 37;
          this.chatinput.text.y = 6;
@@ -404,13 +418,17 @@ package
             }
             else if(param1.keyCode == Keyboard.UP)
             {
+               chatHistory--;
                previousChatInput();
                stage.addEventListener(Event.RENDER,moveInputCursorToEnd,false,0,true);
                stage.invalidate();
             }
             else if(param1.keyCode == Keyboard.DOWN)
             {
-               chatinput.text.field.text = "";
+               chatHistory++;
+               previousChatInput();
+               stage.addEventListener(Event.RENDER,moveInputCursorToEnd,false,0,true);
+               stage.invalidate();
             }
          });
          this.chatinput.text.field.addEventListener(KeyboardEvent.KEY_UP,function(param1:KeyboardEvent):void
@@ -477,21 +495,34 @@ package
          });
          connection.addMessageHandler("effect",function(param1:Message, param2:int, param3:int, param4:Boolean, param5:int = 0, param6:int = 0):void
          {
-            var _loc7_:ItemBrick = null;
-            var _loc8_:BitmapData = null;
+            var _loc8_:ItemBrick = null;
+            var _loc9_:BitmapData = null;
+            var _loc10_:Player = null;
+            var _loc7_:PlayState = base.state as PlayState;
             if(param2 == myid)
             {
-               _loc7_ = ItemManager.getEffectBrickById(param3);
-               _loc8_ = _loc7_.bmd;
+               _loc8_ = ItemManager.getEffectBrickById(param3);
+               _loc9_ = _loc8_.bmd;
                if(param3 == Config.effectMultijump)
                {
-                  _loc8_ = new BitmapData(16,16);
-                  _loc8_.copyPixels(ItemManager.sprEffect.bmd,new Rectangle((15 + param5) * 16,0,16,16),new Point(0,0));
+                  return;
                }
-               effectDisplay.removeEffect(_loc7_.id);
+               if(param3 == Config.effectGravity)
+               {
+                  Global.playerInstance.flipGravity = param5;
+               }
+               effectDisplay.removeEffect(_loc8_.id);
                if(param4)
                {
-                  effectDisplay.addEffect(_loc8_,_loc7_.id,param5,param6);
+                  effectDisplay.addEffect(_loc9_,_loc8_.id,param5,param6);
+               }
+            }
+            if(param3 == Config.effectGravity)
+            {
+               _loc10_ = _loc7_.getPlayerFromId(param2);
+               if(_loc10_ != null)
+               {
+                  _loc10_.flipGravity = param5;
                }
             }
             effectDisplay.update();
@@ -597,8 +628,15 @@ package
          }
          this.share.addEventListener(MouseEvent.MOUSE_DOWN,function():void
          {
+            var copyText:String = null;
             var shr:Share = null;
-            if(Global.playing_on_faceboook)
+            if(_keyDown[16] || _keyDown[17])
+            {
+               copyText = (!!_keyDown[16]?"":"http://everybodyedits.com/games/") + roomid.split(" ").join("-");
+               base.showInfo2("Share Level","Copied \'" + copyText + "\' to your clipboard!");
+               System.setClipboard(copyText);
+            }
+            else if(Global.playing_on_faceboook)
             {
                FB.ui({
                   "method":"stream.publish",
@@ -1006,7 +1044,7 @@ package
                }
                if(_loc11_.payvaultid == "" || this.base.client.payVault.has(_loc11_.payvaultid) || _loc11_.payvaultid == "pro" && Global.player_is_beta_member || _loc11_.payvaultid == "goldmember" && Global.playerObject.goldmember)
                {
-                  if(!((_loc11_.id == 77 || _loc11_.id == 83) && !Global.hasOwner))
+                  if(!((_loc11_.id == 77 || _loc11_.id == 83 || _loc11_.id == 1520) && !Global.hasOwner))
                   {
                      if(!_loc11_.requiresAdmin || Bl.data.isAdmin || Bl.data.isModerator)
                      {
@@ -1150,9 +1188,11 @@ package
                case ItemId.EFFECT_ZOMBIE:
                case ItemId.EFFECT_LOW_GRAVITY:
                case ItemId.EFFECT_MULTIJUMP:
+               case ItemId.EFFECT_GRAVITY:
                case ItemId.SWITCH_ORANGE:
                case ItemId.DOOR_ORANGE:
                case ItemId.GATE_ORANGE:
+               case 1520:
                case 1000:
                   this.showSpecialProperties(param1,!this.bselector.visible || !this.bselector.currentPageHasBlock(param1));
             }
@@ -1279,6 +1319,12 @@ package
                break;
             case ItemId.EFFECT_MULTIJUMP:
                this.specialproperties = new MultijumpProperties();
+               break;
+            case ItemId.EFFECT_GRAVITY:
+               this.specialproperties = new GravityProperties();
+               break;
+            case 1520:
+               this.specialproperties = new GuitarProperties();
          }
          if(_loc3_ == null || this.specialproperties == null)
          {
@@ -1291,11 +1337,13 @@ package
          this.specialproperties.y = _loc3_.y + _loc5_;
          if(this.specialproperties.x - this.specialproperties.width / 2 < 0)
          {
-            this.specialproperties.setOffsetX(-(this.specialproperties.x - this.specialproperties.width / 2));
+            this.specialproperties.arrow.x = this.specialproperties.arrow.x + (this.specialproperties.x - this.specialproperties.width / 2);
+            this.specialproperties.x = this.specialproperties.width / 2;
          }
          else if(this.specialproperties.x + this.specialproperties.width / 2 > 640)
          {
-            this.specialproperties.setOffsetX(640 - (this.specialproperties.x + this.specialproperties.width / 2));
+            this.specialproperties.arrow.x = this.specialproperties.arrow.x - (640 - (this.specialproperties.x + this.specialproperties.width / 2));
+            this.specialproperties.x = 640 - this.specialproperties.width / 2;
          }
       }
       
@@ -1395,6 +1443,7 @@ package
       public function toggleChat(param1:Boolean, param2:String = "") : void
       {
          var _loc3_:int = 0;
+         this.chatHistory = 10;
          if(param1)
          {
             this.hideAll();
@@ -1487,16 +1536,16 @@ package
             }
             this.add(this.smileyAuraButton);
             this.add(this.chatbtn);
-            if(Bl.data.isCampaignRoom)
-            {
-               this.add(this.campaignInfo);
-            }
-            else
+            if(!Bl.data.isCampaignRoom)
             {
                this.add(this.enterkey);
             }
          }
          this.add(this.settingsMenu);
+         if(Bl.data.isCampaignRoom)
+         {
+            this.add(this.campaignInfo);
+         }
          this.settingsMenu.redraw();
          if(this.minimapEnabled)
          {
@@ -1541,16 +1590,29 @@ package
       
       private function previousChatInput() : void
       {
-         var _loc1_:String = this.textArray[9];
+         if(this.chatHistory > 9)
+         {
+            this.chatHistory = 9;
+         }
+         else if(this.chatHistory < 0)
+         {
+            this.chatHistory = 0;
+         }
+         var _loc1_:String = this.textArray[this.chatHistory];
+         if(_loc1_ == null)
+         {
+            _loc1_ = "";
+         }
          this.chatinput.text.field.text = _loc1_;
       }
       
       private function sendChat() : void
       {
          var next:String = null;
+         var ps:PlayState = null;
          var cmd:Array = null;
          var cmdName:String = null;
-         var ps:PlayState = null;
+         var show:Boolean = false;
          var players:Object = null;
          var i:String = null;
          var p:Player = null;
@@ -1598,6 +1660,7 @@ package
          this.hideAll();
          if(iscommand)
          {
+            ps = this.base.state as PlayState;
             cmd = StringUtil.trim(text).split(" ");
             cmdName = cmd[0].toString().toLowerCase();
             if(text == "/killroom" && (Bl.data.isAdmin == true || Bl.data.isModerator == true))
@@ -1613,6 +1676,37 @@ package
                Global.getPlacer = !Global.getPlacer;
                this.base.SystemSay("Inspect tool active: " + Global.getPlacer.toString().toUpperCase(),"* System");
             }
+            else if(cmdName == "/hide" || cmdName == "/show")
+            {
+               if(cmd.length < 2)
+               {
+                  return;
+               }
+               show = cmdName.toString().toLowerCase() == "/show";
+               if(cmd[1].toString().toLowerCase() == "secrets")
+               {
+                  if(Bl.data.canEdit)
+                  {
+                     ps.world.setShowAllSecrets(show);
+                     if(!ps.world.showAllSecrets)
+                     {
+                        ps.world.lookup.resetSecrets();
+                     }
+                  }
+                  this.base.SystemSay("Secrets are now " + (!!show?"visible":"hidden") + "!");
+               }
+               else if(cmd[1].toString().toLowerCase() == "players")
+               {
+                  Bl.data.showPlayer = show;
+                  players = ps.getPlayers();
+                  for(i in players)
+                  {
+                     p = players[i] as Player;
+                     p.render = show;
+                  }
+                  this.base.SystemSay("Players are now " + (!!show?"visible":"hidden") + "!");
+               }
+            }
             else if(cmdName == "/clearchat")
             {
                this.base.sidechat.clearChat();
@@ -1624,7 +1718,6 @@ package
             }
             else if(cmdName == "/spec" || cmdName == "/spectate")
             {
-               ps = this.base.state as PlayState;
                if(this.allowSpectating && cmd.length >= 2 && cmd[1].toString().toLowerCase() != ps.player.name.toLowerCase())
                {
                   players = ps.getPlayers();
@@ -1668,7 +1761,7 @@ package
                });
                Global.base.overlayContainer.addChild(reportPrompt);
             }
-            else if(cmdName == "/teleport" || cmdName == "/tp" && (Bl.data.owner || Bl.data.isAdmin || Bl.data.isModerator))
+            else if(cmdName == "/teleport" || cmdName == "/tp" && (Bl.data.owner || Bl.data.canChangeWorldOptions || Bl.data.isAdmin || Bl.data.isModerator))
             {
                this.teleport(cmd);
             }
@@ -1781,7 +1874,7 @@ package
          }
          if(param1.length == 2 || StringUtil.trim(param1[2].toString()) == "")
          {
-            this.connection.send("say","/teleport " + _loc5_.name + " " + Math.round(_loc2_.player.x / 16) + " " + Math.round(_loc2_.player.y / 16));
+            this.connection.send("say","/teleport " + _loc5_.name + " " + _loc2_.player.x / 16 + " " + _loc2_.player.y / 16);
          }
          else if(param1.length == 3 || StringUtil.trim(param1[3].toString()) == "")
          {
@@ -1801,12 +1894,12 @@ package
                Global.base.SystemSay("Target not found.","* System");
                return;
             }
-            this.connection.send("say","/teleport " + _loc5_.name + " " + Math.round(_loc9_.x / 16) + " " + Math.round(_loc9_.y / 16));
+            this.connection.send("say","/teleport " + _loc5_.name + " " + _loc9_.x / 16 + " " + _loc9_.y / 16);
          }
          else
          {
-            _loc12_ = parseInt(param1[2]);
-            _loc13_ = parseInt(param1[3]);
+            _loc12_ = parseFloat(param1[2]);
+            _loc13_ = parseFloat(param1[3]);
             if(isNaN(_loc12_) || isNaN(_loc13_))
             {
                Global.base.SystemSay("Invalid target.","* System");
@@ -1823,6 +1916,10 @@ package
       
       private function handleKeyDown(param1:KeyboardEvent) : void
       {
+         var _loc2_:Player = null;
+         var _loc3_:int = 0;
+         var _loc4_:int = 0;
+         this._keyDown[param1.keyCode] = true;
          if(param1.keyCode == 16)
          {
             Global.chatIsVisible = true;
@@ -1861,21 +1958,7 @@ package
             param1.preventDefault();
             param1.stopImmediatePropagation();
             param1.stopPropagation();
-            if(param1.keyCode == 8)
-            {
-               if(this.latestPM != "")
-               {
-                  this.toggleChat(true,"/pm " + this.latestPM + "  ");
-               }
-               else
-               {
-                  this.toggleChat(true,"/pm  ");
-               }
-            }
-            else
-            {
-               this.toggleChat(true);
-            }
+            this.toggleChat(true,param1.keyCode == 8?"/pm " + (this.latestPM == ""?"":this.latestPM + " ") + " ":"");
          }
          if(param1.keyCode == 77 && this.minimapEnabled)
          {
@@ -1907,10 +1990,44 @@ package
                this.toggleChat(false);
             }
          }
+         else if(this._keyDown[80] && (Bl.data.isAdmin || Bl.data.isModerator))
+         {
+            this._keyDown[80] = false;
+            _loc2_ = (this.base.state as PlayState).player;
+            _loc3_ = -1;
+            _loc4_ = 48;
+            while(_loc4_ < 58)
+            {
+               if(this._keyDown[_loc4_])
+               {
+                  _loc3_ = 2 * (_loc4_ - 48) + 2;
+                  break;
+               }
+               _loc4_++;
+            }
+            if(_loc3_ == -1)
+            {
+               _loc3_ = !!Bl.data.isAdmin?0:1;
+            }
+            else if(Bl.data.isModerator)
+            {
+               _loc3_++;
+            }
+            if(Bl.data.isAdmin && this._keyDown[16])
+            {
+               _loc3_++;
+            }
+            this.connection.send(!!Bl.data.isAdmin?"admin":"mod",_loc3_);
+            if(_loc2_.isInGodMode)
+            {
+               this.connection.send("god",false);
+            }
+         }
       }
       
       private function handleKeyUp(param1:KeyboardEvent) : void
       {
+         this._keyDown[param1.keyCode] = false;
          if(stage.focus is TextField)
          {
             return;
