@@ -1,12 +1,14 @@
-package assets_new_xfl_fla
+package assets_new_fla
 {
    import flash.display.MovieClip;
    
-   public dynamic class tabbg_310 extends MovieClip
+   public dynamic class btn_openEnergyShop_15 extends MovieClip
    {
        
       
-      public function tabbg_310()
+      public var highlight:MovieClip;
+      
+      public function btn_openEnergyShop_15()
       {
          super();
          addFrameScript(0,this.frame1);

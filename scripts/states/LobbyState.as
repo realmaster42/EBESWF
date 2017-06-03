@@ -572,6 +572,7 @@ package states
                PlayerWorlds.addSavedWorlds(all_rooms,Global.base.client);
                PlayerWorlds.addFavorites(all_rooms,Global.base.client);
             }
+            PlayerWorlds.getHistory(all_rooms);
             enableRefreshButton();
             var _loc1_:Array = [];
             var _loc2_:int = 0;
@@ -616,15 +617,18 @@ package states
          var loaded:int = 0;
          to_load = 1;
          all_rooms = [];
-         to_load++;
-         Global.client.multiplayer.listRooms(Config.server_type_betaroom,{},0,0,function(param1:Array):void
+         if(Global.player_is_beta_member)
          {
-            all_rooms = all_rooms.concat(param1);
-            if(++loaded == to_load)
+            to_load++;
+            Global.client.multiplayer.listRooms(Config.server_type_betaroom,{},0,0,function(param1:Array):void
             {
-               ready();
-            }
-         },this.handleLoadRoomError);
+               all_rooms = all_rooms.concat(param1);
+               if(++loaded == to_load)
+               {
+                  ready();
+               }
+            },this.handleLoadRoomError);
+         }
          Global.client.multiplayer.listRooms(Config.server_type_normalroom,{},0,0,function(param1:Array):void
          {
             all_rooms = all_rooms.concat(param1);

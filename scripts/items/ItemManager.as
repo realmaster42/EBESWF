@@ -75,7 +75,7 @@ package items
       
       private static var effectBricksBM:Class = ItemManager_effectBricksBM;
       
-      private static var effectBricksBMD:BitmapData = new effectBricksBM().bitmapData;
+      public static var effectBricksBMD:BitmapData = new effectBricksBM().bitmapData;
       
       private static var teamEffectBricksBM:Class = ItemManager_teamEffectBricksBM;
       
@@ -90,6 +90,8 @@ package items
       private static var coinDoorsBMD:BitmapData = new BitmapData(18000,18,true,0);
       
       private static var coinGatesBMD:BitmapData = new BitmapData(18000,18,true,0);
+      
+      private static var effectMultiJumpsBMD:BitmapData = new BitmapData(20000,18,true,0);
       
       private static var blueCoinDoorsBMD:BitmapData = new BitmapData(18000,18,true,0);
       
@@ -209,11 +211,15 @@ package items
       
       public static var sprBadge:BlockSprite;
       
+      public static var sprMultiJumps:BlockSprite;
+      
       public static var sprFireHazard:BlockSprite = new BlockSprite(specialBricksBMD,184,0,16,16,12);
       
       public static var sprHologram:BlockSprite = new BlockSprite(specialBricksBMD,279,0,16,16,5,true);
       
       public static var sprLava:BlockSprite = new BlockSprite(specialBricksBMD,218,0,16,16,16);
+      
+      public static var sprGravityEffect:BlockSprite = new BlockSprite(effectBricksBMD,17,0,16,16,5,true);
       
       public static var sprTeamEffect:BlockSprite = new BlockSprite(teamEffectBricksBMD,0,0,16,16,teamEffectBricksBMD.width / 16,true);
       
@@ -303,6 +309,26 @@ package items
       
       public static var sprHalfBlockDomesticWhite:BlockSprite = new BlockSprite(specialBricksBMD,456,0,16,16,4,true);
       
+      public static var sprHalfBlockWhite:BlockSprite = new BlockSprite(specialBricksBMD,666,0,16,16,4,true);
+      
+      public static var sprHalfBlockGray:BlockSprite = new BlockSprite(specialBricksBMD,670,0,16,16,4,true);
+      
+      public static var sprHalfBlockBlack:BlockSprite = new BlockSprite(specialBricksBMD,674,0,16,16,4,true);
+      
+      public static var sprHalfBlockRed:BlockSprite = new BlockSprite(specialBricksBMD,678,0,16,16,4,true);
+      
+      public static var sprHalfBlockOrange:BlockSprite = new BlockSprite(specialBricksBMD,682,0,16,16,4,true);
+      
+      public static var sprHalfBlockYellow:BlockSprite = new BlockSprite(specialBricksBMD,686,0,16,16,4,true);
+      
+      public static var sprHalfBlockGreen:BlockSprite = new BlockSprite(specialBricksBMD,690,0,16,16,4,true);
+      
+      public static var sprHalfBlockCyan:BlockSprite = new BlockSprite(specialBricksBMD,694,0,16,16,4,true);
+      
+      public static var sprHalfBlockBlue:BlockSprite = new BlockSprite(specialBricksBMD,698,0,16,16,4,true);
+      
+      public static var sprHalfBlockPurple:BlockSprite = new BlockSprite(specialBricksBMD,702,0,16,16,4,true);
+      
       public static var sprHalloween2015WindowRect:BlockSprite = new BlockSprite(specialBricksBMD,460,0,16,16,2);
       
       public static var sprHalloween2015WindowCircle:BlockSprite = new BlockSprite(specialBricksBMD,462,0,16,16,2);
@@ -361,6 +387,10 @@ package items
       
       public static var sprChristmas2016Candle:BlockSprite = new BlockSprite(specialBricksBMD,639,0,16,16,12,false);
       
+      public static var sprGuitarBlink:BlockSprite = new BlockSprite(specialBricksBMD,660,0,16,16,6);
+      
+      public static var sprInvGravityDownBlink:BlockSprite = new BlockSprite(specialBricksBMD,651,0,16,16,5);
+      
       private static var totalBricks:int = 0;
       
       private static var totalSmilies:int = 0;
@@ -370,10 +400,6 @@ package items
       private static var auraImagesId:int = 0;
       
       private static var totalAuraShapes:int = 0;
-      
-      public static var sprInvDownArrow:BlockSprite = new BlockSprite(specialBricksBMD,651,0,16,16,5);
-      
-      public static var sprCacile:BlockSprite = new BlockSprite(specialBricksBMD,656,0,16,16,8);
        
       
       public function ItemManager()
@@ -383,11 +409,11 @@ package items
       
       public static function init() : void
       {
-         var _loc108_:BitmapData = null;
-         var _loc109_:BitmapData = null;
-         var _loc110_:Matrix = null;
-         var _loc111_:Bitmap = null;
-         var _loc112_:ColorTransform = null;
+         var _loc111_:BitmapData = null;
+         var _loc112_:BitmapData = null;
+         var _loc113_:Matrix = null;
+         var _loc114_:Bitmap = null;
+         var _loc115_:ColorTransform = null;
          addSmiley(0,"Smiley","",smiliesBMD,"");
          addSmiley(1,"Grin","",smiliesBMD,"");
          addSmiley(2,"Tongue","",smiliesBMD,"");
@@ -404,7 +430,7 @@ package items
          addSmiley(13,"Santa","",smiliesBMD,"smileysanta");
          addSmiley(14,"Worker","",smiliesBMD,"");
          addSmiley(15,"Big Spender","",smiliesBMD,"smileybigspender");
-         addSmiley(16,"Superman","",smiliesBMD,"smileysuper",4293787648);
+         addSmiley(16,"Superman","",smiliesBMD,"smileysuper");
          addSmiley(17,"Surprise","",smiliesBMD,"smileysupprice");
          addSmiley(18,"Indifferent","",smiliesBMD,"");
          addSmiley(19,"Girl","",smiliesBMD,"");
@@ -546,7 +572,10 @@ package items
          addSmiley(155,"Turban","",smiliesBMD,"smileyturban");
          addSmiley(156,"Hazmat Suit","",smiliesBMD,"smileyhazmatsuit");
          addSmiley(157,"Leprechaun","",smiliesBMD,"smileyleprechaun");
-         addSmiley(158,"Patient","",smiliesBMD,"smileypatient");
+         addSmiley(158,"Angry","",smiliesBMD,"smileyangry");
+         addSmiley(159,"Smirk","",smiliesBMD,"smileysmirk");
+         addSmiley(160,"Sweat","",smiliesBMD,"smileysweat");
+         addSmiley(161,"Country Singer","",smiliesBMD,"brickguitar");
          addAuraColor(0,"White","");
          addAuraColor(1,"Red","aurared");
          addAuraColor(2,"Blue","aurablue");
@@ -560,7 +589,6 @@ package items
          addAuraColor(10,"Indigo","auraindigo");
          addAuraColor(11,"Lime","auralime");
          addAuraColor(12,"Black","aurablack");
-         addAuraColor(13,"Silver","aurasilver");
          addAuraShape(0,"Default",aurasBMD,"");
          addAuraShape(1,"Pinwheel",aurasBMD,"aurashapepinwheel",1,0.2,true);
          addAuraShape(2,"Torus",aurasBMD,"aurashapetorus");
@@ -663,14 +691,14 @@ package items
          _loc12_.addBrick(createBrick(0,ItemLayer.BACKGROUND,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,0,4278190080,["Clear","Empty","Delete","Nothing","Erase"]));
          _loc12_.addBrick(createBrick(1,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,1,0,["Left","Arrow"]));
          _loc12_.addBrick(createBrick(2,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,2,0,["Up","Arrow"]));
+         _loc12_.addBrick(createBrick(1518,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,285,0,["Dot"]));
          _loc12_.addBrick(createBrick(3,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,3,0,["Right","Arrow"]));
-         _loc12_.addBrick(createBrick(1511,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,285,0,["Down","Arrow"]));
          _loc12_.addBrick(createBrick(4,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,4,0,["Dot"]));
          _loc12_.addBrick(createBrick(ItemId.SLOW_DOT,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,233,0,["Slow","Dot","Climbable","Physics"]));
          _loc12_.addBrick(createBrick(411,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,312,0,["Invisible","Left","Arrow"]));
          _loc12_.addBrick(createBrick(412,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,317,0,["Invisible","Up","Arrow"]));
+         _loc12_.addBrick(createBrick(1519,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,651,0,["Invisible","Down","Arrow"]));
          _loc12_.addBrick(createBrick(413,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,322,0,["Invisible","Right","Arrow"]));
-         _loc12_.addBrick(createBrick(1512,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,651,0,["Invisible","Down","Arrow"]));
          _loc12_.addBrick(createBrick(414,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,327,0,["Invisible","Dot"]));
          _loc12_.addBrick(createBrick(ItemId.SLOW_DOT_INVISIBLE,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,466,0,["Slow","Dot","Climbable","Physics","Invisible"]));
          brickPackages.push(_loc12_);
@@ -713,6 +741,7 @@ package items
          _loc17_.addBrick(createBrick(ItemId.CHECKPOINT,ItemLayer.DECORATION,specialBricksBMD,"","players respawn here when they die",ItemTab.ACTION,false,false,154,0,["Checkpoint","Respawn","Safe","Enter","Save"]));
          _loc17_.addBrick(createBrick(ItemId.BRICK_COMPLETE,ItemLayer.ABOVE,completeBMD,"","gives the player a silver crown, displays a win message",ItemTab.ACTION,false,false,0,0,["Trophy","Win","Complete","Finish","End","Reward"]));
          _loc17_.addBrick(createBrick(ItemId.RESET_POINT,ItemLayer.ABOVE,decorationsBMD,"","resets the player\'s progress",ItemTab.ACTION,false,false,288,0,["Reset","Restart","Retry"]));
+         _loc17_.addBrick(createBrick(ItemId.GOD_BLOCK,ItemLayer.ABOVE,decorationsBMD,"brickgodblock","gives the player god mode privileges",ItemTab.ACTION,true,false,320,0,["God"]));
          brickPackages.push(_loc17_);
          var _loc18_:ItemBrickPackage = new ItemBrickPackage("crown","Crown");
          _loc18_.addBrick(createBrick(5,ItemLayer.DECORATION,forgroundBricksBMD,"","awards the player a golden crown",ItemTab.ACTION,false,true,5,4282595615,["Crown","King","Gold","Action","Prize","Reward"]));
@@ -760,8 +789,9 @@ package items
          _loc25_.addBrick(createBrick(ItemId.TIMEDOOR,ItemLayer.DECORATION,specialBricksBMD,"bricktimeddoor","",ItemTab.ACTION,false,true,332,-1,["On"]));
          brickPackages.push(_loc25_);
          var _loc26_:ItemBrickPackage = new ItemBrickPackage("music","Music Blocks",["Sound","Entertainment","Note","Melody","Instrument"]);
-         _loc26_.addBrick(createBrick(77,ItemLayer.DECORATION,forgroundBricksBMD,"bricknode","plays a sound when touched",ItemTab.ACTION,false,false,77,0,["Piano","Note","Maestro"]));
+         _loc26_.addBrick(createBrick(77,ItemLayer.DECORATION,forgroundBricksBMD,"bricknode","plays a sound when touched",ItemTab.ACTION,false,false,77,0,["Piano","Maestro"]));
          _loc26_.addBrick(createBrick(83,ItemLayer.DECORATION,forgroundBricksBMD,"brickdrums","plays a sound when touched",ItemTab.ACTION,false,false,83,0,["Drums"]));
+         _loc26_.addBrick(createBrick(1520,ItemLayer.DECORATION,forgroundBricksBMD,"brickguitar","plays a sound when touched",ItemTab.ACTION,false,false,286,0,["Guitar"]));
          brickPackages.push(_loc26_);
          var _loc27_:ItemBrickPackage = new ItemBrickPackage("hazards","Hazard Blocks",["Kill","Die","Respawn","Death","Trap","Fatal","Deadly"]);
          _loc27_.addBrick(createBrick(ItemId.SPIKE,ItemLayer.DECORATION,specialBricksBMD,"brickspike","kills the player",ItemTab.ACTION,false,false,157,0,["Spikes","Morphable"]));
@@ -812,13 +842,13 @@ package items
          _loc35_.addBrick(createBrick(240,ItemLayer.ABOVE,decorationsBMD,"brickspring2011","",ItemTab.DECORATIVE,false,false,240 - 128,0,["Bush","Plant","Shrub","Flora"]));
          brickPackages.push(_loc35_);
          var _loc36_:ItemBrickPackage = new ItemBrickPackage("Prizes","Your Prizes",["Prize"]);
-         _loc36_.addBrick(createBrick(223,ItemLayer.ABOVE,decorationsBMD,"brickhwtrophy","trophy for the Halloween 2017 contest winners",ItemTab.DECORATIVE,false,false,95,0,["Cup","Trophy","Halloween","Gold","Thanel"],false,true));
-         _loc36_.addBrick(createBrick(478,ItemLayer.ABOVE,decorationsBMD,"brickspringtrophybronze","prize for winning third place in the Spring 2017 contest",ItemTab.DECORATIVE,false,false,298,0,["Trophy","Bronze","Spring","Flower"],false,true));
-         _loc36_.addBrick(createBrick(479,ItemLayer.ABOVE,decorationsBMD,"brickspringtrophysilver","prize for winning second place in the Spring 2017 contest ",ItemTab.DECORATIVE,false,false,297,0,["Trophy","Silver","Spring","Flower"],false,true));
-         _loc36_.addBrick(createBrick(480,ItemLayer.ABOVE,decorationsBMD,"brickspringtrophygold","prize for winning first place in the Spring 2017 contest",ItemTab.DECORATIVE,false,false,296,0,["Trophy","Gold","Spring","Flower"],false,true));
-         _loc36_.addBrick(createBrick(484,ItemLayer.ABOVE,decorationsBMD,"bricksummertrophybronze","prize for winning third place in the Summer 2017 contest",ItemTab.DECORATIVE,false,false,301,0,["Trophy","Bronze","Summer","Sun"],false,true));
-         _loc36_.addBrick(createBrick(485,ItemLayer.ABOVE,decorationsBMD,"bricksummertrophysilver","prize for winning second place in the Summer 2017 contest ",ItemTab.DECORATIVE,false,false,300,0,["Trophy","Silver","Summer","Sun"],false,true));
-         _loc36_.addBrick(createBrick(486,ItemLayer.ABOVE,decorationsBMD,"bricksummertrophygold","prize for winning first place in the Summer 2017 contest",ItemTab.DECORATIVE,false,false,299,0,["Trophy","Gold","Summer","Sun"],false,true));
+         _loc36_.addBrick(createBrick(223,ItemLayer.ABOVE,decorationsBMD,"brickhwtrophy","trophy for the Halloween 2011 contest winners",ItemTab.DECORATIVE,false,false,95,0,["Cup","Trophy","Halloween","Gold","Thanel"],false,true));
+         _loc36_.addBrick(createBrick(478,ItemLayer.ABOVE,decorationsBMD,"brickspringtrophybronze","prize for winning third place in the Spring 2016 contest",ItemTab.DECORATIVE,false,false,298,0,["Trophy","Bronze","Spring","Flower"],false,true));
+         _loc36_.addBrick(createBrick(479,ItemLayer.ABOVE,decorationsBMD,"brickspringtrophysilver","prize for winning second place in the Spring 2016 contest ",ItemTab.DECORATIVE,false,false,297,0,["Trophy","Silver","Spring","Flower"],false,true));
+         _loc36_.addBrick(createBrick(480,ItemLayer.ABOVE,decorationsBMD,"brickspringtrophygold","prize for winning first place in the Spring 2016 contest",ItemTab.DECORATIVE,false,false,296,0,["Trophy","Gold","Spring","Flower"],false,true));
+         _loc36_.addBrick(createBrick(484,ItemLayer.ABOVE,decorationsBMD,"bricksummertrophybronze","prize for winning third place in the Summer 2016 contest",ItemTab.DECORATIVE,false,false,301,0,["Trophy","Bronze","Summer","Sun"],false,true));
+         _loc36_.addBrick(createBrick(485,ItemLayer.ABOVE,decorationsBMD,"bricksummertrophysilver","prize for winning second place in the Summer 2016 contest ",ItemTab.DECORATIVE,false,false,300,0,["Trophy","Silver","Summer","Sun"],false,true));
+         _loc36_.addBrick(createBrick(486,ItemLayer.ABOVE,decorationsBMD,"bricksummertrophygold","prize for winning first place in the Summer 2016 contest",ItemTab.DECORATIVE,false,false,299,0,["Trophy","Gold","Summer","Sun"],false,true));
          brickPackages.push(_loc36_);
          var _loc37_:ItemBrickPackage = new ItemBrickPackage("easter 2012","Easter  decorations 2012",["Holiday","Decor","Egg"]);
          _loc37_.addBrick(createBrick(256,ItemLayer.ABOVE,decorationsBMD,"brickeaster2012","",ItemTab.DECORATIVE,false,false,256 - 128,0,["Cyan","Teal","Wavy"]));
@@ -887,9 +917,7 @@ package items
          _loc42_.addBrick(createBrick(611,ItemLayer.BACKGROUND,backgroundBricksBMD,"","",ItemTab.BACKGROUND,false,true,111,-1,["Blue"]));
          _loc42_.addBrick(createBrick(612,ItemLayer.BACKGROUND,backgroundBricksBMD,"","",ItemTab.BACKGROUND,false,true,112,-1,["Purple","Magenta","Pink","Violet"]));
          brickPackages.push(_loc42_);
-         var _loc43_:ItemBrickPackage = new ItemBrickPackage("pastel","Pretty Pastel Backgrounds",["Solid"]);
-         _loc43_.addBrick(createBrick(743,ItemLayer.BACKGROUND,backgroundBricksBMD,"","",ItemTab.BACKGROUND,false,false,237,-1,["White","Light","Bright"]));
-         _loc43_.addBrick(createBrick(744,ItemLayer.BACKGROUND,backgroundBricksBMD,"","",ItemTab.BACKGROUND,false,false,238,-1,["Dark","Black"]));
+         var _loc43_:ItemBrickPackage = new ItemBrickPackage("pastel","Pretty Pastel Backgrounds",["Solid","Bright"]);
          _loc43_.addBrick(createBrick(532,ItemLayer.BACKGROUND,backgroundBricksBMD,"","",ItemTab.BACKGROUND,false,false,32,-1,["Pink","Red","Magenta"]));
          _loc43_.addBrick(createBrick(676,ItemLayer.BACKGROUND,backgroundBricksBMD,"","",ItemTab.BACKGROUND,false,false,170,-1,["Orange"]));
          _loc43_.addBrick(createBrick(527,ItemLayer.BACKGROUND,backgroundBricksBMD,"","",ItemTab.BACKGROUND,false,false,27,-1,["Yellow"]));
@@ -1408,7 +1436,8 @@ package items
          _loc86_.addBrick(createBrick(ItemId.EFFECT_LOW_GRAVITY,ItemLayer.DECORATION,effectBricksBMD,"brickeffectlowgravity","low gravity effect: player gravity is reduced",ItemTab.ACTION,false,false,13,0,["Gravity","Moon","Low gravity","Space","Slow fall","Float"]));
          _loc86_.addBrick(createBrick(ItemId.EFFECT_PROTECTION,ItemLayer.DECORATION,effectBricksBMD,"brickeffectprotection","protection effect: players are safe from hazards and cured from curses/zombies",ItemTab.ACTION,false,false,3,0,["Invincible","Health","Plus","Immortal","Protection"]));
          _loc86_.addBrick(createBrick(ItemId.EFFECT_CURSE,ItemLayer.DECORATION,effectBricksBMD,"brickeffectcurse","players die after X seconds, spreads on contact, maximum of 3 curses at a time",ItemTab.ACTION,false,false,4,0,["Curse","Skull","Skeleton","Timed","Death","Die","Kill"]));
-         _loc86_.addBrick(createBrick(ItemId.EFFECT_MULTIJUMP,ItemLayer.DECORATION,effectBricksBMD,"brickeffectmultijump","multijump effect: players can jump X times",ItemTab.ACTION,false,false,16,0,["Double","Jump","Twice","Powers","Action","Physics"]));
+         _loc86_.addBrick(createBrick(ItemId.EFFECT_MULTIJUMP,ItemLayer.DECORATION,effectBricksBMD,"brickeffectmultijump","multijump effect: players can jump X times",ItemTab.ACTION,false,false,15,0,["Double","Jump","Twice","Powers","Action","Physics"]));
+         _loc86_.addBrick(createBrick(ItemId.EFFECT_GRAVITY,ItemLayer.DECORATION,specialBricksBMD,"brickeffectgravity","gravity effect: player gravity is rotated",ItemTab.ACTION,false,false,656,0,["Gravity","Reverse","Action","Physics"]));
          brickPackages.push(_loc86_);
          var _loc87_:ItemBrickPackage = new ItemBrickPackage("gold","Gold Membership Blocks",["Shiny","Yellow"]);
          _loc87_.addBrick(createBrick(1065,ItemLayer.FORGROUND,forgroundBricksBMD,"goldmember","",ItemTab.BLOCK,true,true,242,-1,[]));
@@ -1630,71 +1659,73 @@ package items
          _loc105_.addBrick(createBrick(741,ItemLayer.BACKGROUND,backgroundBricksBMD,"bricktiles","",ItemTab.BACKGROUND,false,true,235,-1,["Blue"]));
          _loc105_.addBrick(createBrick(742,ItemLayer.BACKGROUND,backgroundBricksBMD,"bricktiles","",ItemTab.BACKGROUND,false,true,236,-1,["Purple"]));
          brickPackages.push(_loc105_);
-         _loc105_ = new ItemBrickPackage("St. Patricks 2017","St. Patricks 2017");
-         _loc105_.addBrick(createBrick(1513,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,315,0,["Shamrock","Clover","Green","Plant","Nature"]));
-         _loc105_.addBrick(createBrick(1514,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,316,0,["Pot of Gold"]));
-         _loc105_.addBrick(createBrick(1515,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,317,0,["Horseshoe","Gold"]));
-         _loc105_.addBrick(createBrick(1516,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,318,0,["Rainbow","Left"]));
-         _loc105_.addBrick(createBrick(1517,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,319,0,["Rainbow","Right"]));
-         brickPackages.push(_loc105_);
-         _loc105_ = new ItemBrickPackage("Hospital","Hospital");
-         _loc105_.addBrick(createBrick(1116,ItemLayer.FORGROUND,forgroundBricksBMD,"brickhospital","",ItemTab.BLOCK,false,true,286,-1,["Blue","Light","Wall","Floor","Tile"]));
-         _loc105_.addBrick(createBrick(1117,ItemLayer.DECORATION,forgroundBricksBMD,"brickhospital","",ItemTab.BLOCK,false,true,287,-1,["Cyan","Blue","Bed"]));
-         _loc105_.addBrick(createBrick(1118,ItemLayer.DECORATION,forgroundBricksBMD,"brickhospital","",ItemTab.BLOCK,false,true,288,-1,["Red","Pink","Bed"]));
-         _loc105_.addBrick(createBrick(1119,ItemLayer.DECORATION,forgroundBricksBMD,"brickhospital","",ItemTab.BLOCK,false,true,289,-1,["Purple","Bed"]));
-         _loc105_.addBrick(createBrick(1120,ItemLayer.DECORATION,forgroundBricksBMD,"brickhospital","",ItemTab.BLOCK,false,true,290,-1,["Black","Gray","Grey","Pillar","Floor","Neutral"]));
-         _loc105_.addBrick(createBrick(1121,ItemLayer.DECORATION,forgroundBricksBMD,"brickhospital","",ItemTab.BLOCK,false,true,291,-1,["Black","Gray","Grey","Pillar","Floor","Neutral"]));
-         _loc105_.addBrick(createBrick(1518,ItemLayer.DECORATION,decorationsBMD,"brickhospital","",ItemTab.DECORATIVE,false,true,320,0,["Computer","Screen"]));
-         _loc105_.addBrick(createBrick(1519,ItemLayer.DECORATION,decorationsBMD,"brickhospital","",ItemTab.DECORATIVE,false,true,321,0,["Cacile","Red","Light","Animated"]));
-         _loc105_.addBrick(createBrick(1520,ItemLayer.ABOVE,decorationsBMD,"brickhospital","",ItemTab.DECORATIVE,false,true,322,0,["Cross","Red","Medic"]));
-         _loc105_.addBrick(createBrick(745,ItemLayer.BACKGROUND,backgroundBricksBMD,"brickhospital","",ItemTab.BACKGROUND,false,true,239,-1,["Blue","Floor","Wall","Tile"]));
-         brickPackages.push(_loc105_);
-         var _loc106_:int = 0;
-         while(_loc106_ < 1000)
+         var _loc106_:ItemBrickPackage = new ItemBrickPackage("St. Patricks 2017","St. Patricks 2017");
+         _loc106_.addBrick(createBrick(1511,ItemLayer.ABOVE,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,315,0,["Shamrock","Clover","Green","Plant","Nature"]));
+         _loc106_.addBrick(createBrick(1512,ItemLayer.ABOVE,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,316,0,["Pot of Gold"]));
+         _loc106_.addBrick(createBrick(1513,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,317,0,["Horseshoe","Gold"]));
+         _loc106_.addBrick(createBrick(1514,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,318,0,["Rainbow","Left"]));
+         _loc106_.addBrick(createBrick(1515,ItemLayer.DECORATION,decorationsBMD,"brickstpatricks2017","",ItemTab.DECORATIVE,false,true,319,0,["Rainbow","Right"]));
+         brickPackages.push(_loc106_);
+         var _loc107_:ItemBrickPackage = new ItemBrickPackage("Half Blocks","Half Blocks");
+         _loc107_.addBrick(createBrick(1116,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,667,-1,["White"]));
+         _loc107_.addBrick(createBrick(1117,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,671,-1,["Gray","Grey"]));
+         _loc107_.addBrick(createBrick(1118,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,675,-1,["Black","Gray","Grey"]));
+         _loc107_.addBrick(createBrick(1119,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,679,-1,["Red"]));
+         _loc107_.addBrick(createBrick(1120,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,683,-1,["Orange"]));
+         _loc107_.addBrick(createBrick(1121,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,687,-1,["Yellow"]));
+         _loc107_.addBrick(createBrick(1122,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,691,-1,["Green"]));
+         _loc107_.addBrick(createBrick(1123,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,695,-1,["Cyan"]));
+         _loc107_.addBrick(createBrick(1124,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,699,-1,["Blue"]));
+         _loc107_.addBrick(createBrick(1125,ItemLayer.DECORATION,specialBricksBMD,"brickhalfblocks","",ItemTab.BLOCK,false,true,703,-1,["Purple"]));
+         brickPackages.push(_loc107_);
+         var _loc108_:int = 0;
+         while(_loc108_ < 1000)
          {
-            coinDoorsBMD.copyPixels(bmdBricks[ItemId.COINDOOR],bmdBricks[ItemId.COINDOOR].rect,new Point(16 * _loc106_,0));
-            coinGatesBMD.copyPixels(bmdBricks[ItemId.COINGATE],bmdBricks[ItemId.COINGATE].rect,new Point(16 * _loc106_,0));
-            blueCoinDoorsBMD.copyPixels(bmdBricks[ItemId.BLUECOINDOOR],bmdBricks[ItemId.BLUECOINDOOR].rect,new Point(16 * _loc106_,0));
-            blueCoinGatesBMD.copyPixels(bmdBricks[ItemId.BLUECOINGATE],bmdBricks[ItemId.BLUECOINGATE].rect,new Point(16 * _loc106_,0));
-            switchDoorsBMD.copyPixels(bmdBricks[ItemId.DOOR_PURPLE],bmdBricks[ItemId.DOOR_PURPLE].rect,new Point(16 * _loc106_,0));
-            switchGatesBMD.copyPixels(bmdBricks[ItemId.GATE_PURPLE],bmdBricks[ItemId.GATE_PURPLE].rect,new Point(16 * _loc106_,0));
-            switchOrangeDoorsBMD.copyPixels(bmdBricks[ItemId.DOOR_ORANGE],bmdBricks[ItemId.DOOR_ORANGE].rect,new Point(16 * _loc106_,0));
-            switchOrangeGatesBMD.copyPixels(bmdBricks[ItemId.GATE_ORANGE],bmdBricks[ItemId.GATE_ORANGE].rect,new Point(16 * _loc106_,0));
-            switchSwitchUpBMD.copyPixels(bmdBricks[ItemId.SWITCH_PURPLE],bmdBricks[ItemId.SWITCH_PURPLE].rect,new Point(16 * _loc106_,0));
-            _loc108_ = new BitmapData(16,16);
-            _loc108_.copyPixels(specialBricksBMD,new Rectangle(311 * 16,0,16,16),new Point(0,0));
-            switchSwitchDownBMD.copyPixels(_loc108_,_loc108_.rect,new Point(16 * _loc106_,0));
-            switchOrangeSwitchUpBMD.copyPixels(bmdBricks[ItemId.SWITCH_ORANGE],bmdBricks[ItemId.SWITCH_ORANGE].rect,new Point(16 * _loc106_,0));
-            _loc109_ = new BitmapData(16,16);
-            _loc109_.copyPixels(specialBricksBMD,new Rectangle(423 * 16,0,16,16),new Point(0,0));
-            switchOrangeSwitchDownBMD.copyPixels(_loc109_,_loc109_.rect,new Point(16 * _loc106_,0));
-            deathDoorBMD.copyPixels(bmdBricks[ItemId.DEATH_DOOR],bmdBricks[ItemId.DEATH_DOOR].rect,new Point(16 * _loc106_,0));
-            deathGateBMD.copyPixels(bmdBricks[ItemId.DEATH_GATE],bmdBricks[ItemId.DEATH_GATE].rect,new Point(16 * _loc106_,0));
-            if(_loc106_ >= 0)
+            coinDoorsBMD.copyPixels(bmdBricks[ItemId.COINDOOR],bmdBricks[ItemId.COINDOOR].rect,new Point(16 * _loc108_,0));
+            coinGatesBMD.copyPixels(bmdBricks[ItemId.COINGATE],bmdBricks[ItemId.COINGATE].rect,new Point(16 * _loc108_,0));
+            blueCoinDoorsBMD.copyPixels(bmdBricks[ItemId.BLUECOINDOOR],bmdBricks[ItemId.BLUECOINDOOR].rect,new Point(16 * _loc108_,0));
+            blueCoinGatesBMD.copyPixels(bmdBricks[ItemId.BLUECOINGATE],bmdBricks[ItemId.BLUECOINGATE].rect,new Point(16 * _loc108_,0));
+            switchDoorsBMD.copyPixels(bmdBricks[ItemId.DOOR_PURPLE],bmdBricks[ItemId.DOOR_PURPLE].rect,new Point(16 * _loc108_,0));
+            switchGatesBMD.copyPixels(bmdBricks[ItemId.GATE_PURPLE],bmdBricks[ItemId.GATE_PURPLE].rect,new Point(16 * _loc108_,0));
+            switchOrangeDoorsBMD.copyPixels(bmdBricks[ItemId.DOOR_ORANGE],bmdBricks[ItemId.DOOR_ORANGE].rect,new Point(16 * _loc108_,0));
+            switchOrangeGatesBMD.copyPixels(bmdBricks[ItemId.GATE_ORANGE],bmdBricks[ItemId.GATE_ORANGE].rect,new Point(16 * _loc108_,0));
+            switchSwitchUpBMD.copyPixels(bmdBricks[ItemId.SWITCH_PURPLE],bmdBricks[ItemId.SWITCH_PURPLE].rect,new Point(16 * _loc108_,0));
+            _loc111_ = new BitmapData(16,16);
+            _loc111_.copyPixels(specialBricksBMD,new Rectangle(311 * 16,0,16,16),new Point(0,0));
+            switchSwitchDownBMD.copyPixels(_loc111_,_loc111_.rect,new Point(16 * _loc108_,0));
+            switchOrangeSwitchUpBMD.copyPixels(bmdBricks[ItemId.SWITCH_ORANGE],bmdBricks[ItemId.SWITCH_ORANGE].rect,new Point(16 * _loc108_,0));
+            _loc112_ = new BitmapData(16,16);
+            _loc112_.copyPixels(specialBricksBMD,new Rectangle(423 * 16,0,16,16),new Point(0,0));
+            switchOrangeSwitchDownBMD.copyPixels(_loc112_,_loc112_.rect,new Point(16 * _loc108_,0));
+            deathDoorBMD.copyPixels(bmdBricks[ItemId.DEATH_DOOR],bmdBricks[ItemId.DEATH_DOOR].rect,new Point(16 * _loc108_,0));
+            deathGateBMD.copyPixels(bmdBricks[ItemId.DEATH_GATE],bmdBricks[ItemId.DEATH_GATE].rect,new Point(16 * _loc108_,0));
+            effectMultiJumpsBMD.copyPixels(bmdBricks[ItemId.EFFECT_MULTIJUMP],bmdBricks[ItemId.EFFECT_MULTIJUMP].rect,new Point(16 * _loc108_,0));
+            if(_loc108_ >= 0)
             {
-               _loc110_ = new Matrix();
-               _loc110_.translate(_loc106_ * 16,0);
-               _loc111_ = createBlockText(_loc106_);
-               coinGatesBMD.draw(_loc111_,_loc110_);
-               blueCoinDoorsBMD.draw(_loc111_,_loc110_);
-               blueCoinGatesBMD.draw(_loc111_,_loc110_);
-               switchDoorsBMD.draw(_loc111_,_loc110_);
-               switchGatesBMD.draw(_loc111_,_loc110_);
-               switchSwitchUpBMD.draw(_loc111_,_loc110_);
-               switchSwitchDownBMD.draw(_loc111_,_loc110_);
-               switchOrangeDoorsBMD.draw(_loc111_,_loc110_);
-               switchOrangeGatesBMD.draw(_loc111_,_loc110_);
-               switchOrangeSwitchUpBMD.draw(_loc111_,_loc110_);
-               switchOrangeSwitchDownBMD.draw(_loc111_,_loc110_);
-               deathGateBMD.draw(_loc111_,_loc110_);
-               _loc111_.filters = [];
-               _loc112_ = new ColorTransform(0,0,0);
-               _loc111_.bitmapData.draw(_loc111_,null,_loc112_);
-               _loc111_.filters = [new GlowFilter(16777215,1,1,1,2,3)];
-               coinDoorsBMD.draw(_loc111_,_loc110_);
-               deathDoorBMD.draw(_loc111_,_loc110_);
+               _loc113_ = new Matrix();
+               _loc113_.translate(_loc108_ * 16,0);
+               _loc114_ = createBlockText(_loc108_);
+               coinGatesBMD.draw(_loc114_,_loc113_);
+               blueCoinDoorsBMD.draw(_loc114_,_loc113_);
+               blueCoinGatesBMD.draw(_loc114_,_loc113_);
+               switchDoorsBMD.draw(_loc114_,_loc113_);
+               switchGatesBMD.draw(_loc114_,_loc113_);
+               switchSwitchUpBMD.draw(_loc114_,_loc113_);
+               switchSwitchDownBMD.draw(_loc114_,_loc113_);
+               switchOrangeDoorsBMD.draw(_loc114_,_loc113_);
+               switchOrangeGatesBMD.draw(_loc114_,_loc113_);
+               switchOrangeSwitchUpBMD.draw(_loc114_,_loc113_);
+               switchOrangeSwitchDownBMD.draw(_loc114_,_loc113_);
+               deathGateBMD.draw(_loc114_,_loc113_);
+               effectMultiJumpsBMD.draw(_loc114_,_loc113_);
+               _loc114_.filters = [];
+               _loc115_ = new ColorTransform(0,0,0);
+               _loc114_.bitmapData.draw(_loc114_,null,_loc115_);
+               _loc114_.filters = [new GlowFilter(16777215,1,1,1,2,3)];
+               coinDoorsBMD.draw(_loc114_,_loc113_);
+               deathDoorBMD.draw(_loc114_,_loc113_);
             }
-            _loc106_++;
+            _loc108_++;
          }
          sprCoinDoors = new BlockSprite(coinDoorsBMD,0,0,16,16,coinDoorsBMD.width / 16,true);
          sprCoinGates = new BlockSprite(coinGatesBMD,0,0,16,16,coinGatesBMD.width / 16);
@@ -1710,14 +1741,19 @@ package items
          sprOrangeGates = new BlockSprite(switchOrangeGatesBMD,0,0,16,16,switchOrangeGatesBMD.width / 16);
          sprOrangeSwitchUP = new BlockSprite(switchOrangeSwitchUpBMD,0,0,16,16,switchOrangeSwitchUpBMD.width / 16,true);
          sprOrangeSwitchDOWN = new BlockSprite(switchOrangeSwitchDownBMD,0,0,16,16,switchOrangeSwitchDownBMD.width / 16,true);
-         var _loc107_:int = 0;
-         while(_loc107_ < bmdBricks.length)
+         effectMultiJumpsBMD.copyPixels(bmdBricks[ItemId.EFFECT_MULTIJUMP],bmdBricks[ItemId.EFFECT_MULTIJUMP].rect,new Point(16 * 1000,0));
+         var _loc109_:Matrix = new Matrix();
+         _loc109_.translate(1000 * 16,0);
+         effectMultiJumpsBMD.draw(createBlockText(1000),_loc109_);
+         sprMultiJumps = new BlockSprite(effectMultiJumpsBMD,0,0,16,16,effectMultiJumpsBMD.width / 16,true);
+         var _loc110_:int = 0;
+         while(_loc110_ < bmdBricks.length)
          {
-            if(bmdBricks[_loc107_] == null)
+            if(bmdBricks[_loc110_] == null)
             {
-               bmdBricks[_loc107_] = bmdBricks[0];
+               bmdBricks[_loc110_] = bmdBricks[0];
             }
-            _loc107_++;
+            _loc110_++;
          }
       }
       
@@ -1727,17 +1763,24 @@ package items
          var _loc6_:int = 0;
          var _loc2_:BitmapData = new BitmapData(16,16,true,0);
          var _loc3_:int = 1;
-         do
+         if(param1 == 1000)
          {
-            _loc5_ = param1 % 10;
-            _loc6_ = _loc5_ == 1?2:4;
-            _loc3_ = _loc3_ + _loc6_;
-            _loc2_.copyPixels(blockTextBMD,new Rectangle(_loc5_ * 4,0,_loc6_,5),new Point(16 - _loc3_,10));
-            _loc3_ = _loc3_ + 1;
-            param1 = param1 / 10;
+            _loc2_.copyPixels(blockTextBMD,new Rectangle(10 * 4,0,4,5),new Point(11,10));
          }
-         while(param1 > 0);
-         
+         else
+         {
+            do
+            {
+               _loc5_ = param1 % 10;
+               _loc6_ = _loc5_ == 1?2:4;
+               _loc3_ = _loc3_ + _loc6_;
+               _loc2_.copyPixels(blockTextBMD,new Rectangle(_loc5_ * 4,0,_loc6_,5),new Point(16 - _loc3_,10));
+               _loc3_ = _loc3_ + 1;
+               param1 = param1 / 10;
+            }
+            while(param1 > 0);
+            
+         }
          var _loc4_:Bitmap = new Bitmap(_loc2_);
          _loc4_.filters = [new GlowFilter(0,1,2,2,2,3)];
          return _loc4_;
@@ -1853,6 +1896,7 @@ package items
          _loc1_.push(getBrickById(ItemId.EFFECT_JUMP));
          _loc1_.push(getBrickById(ItemId.EFFECT_LOW_GRAVITY));
          _loc1_.push(getBrickById(ItemId.EFFECT_MULTIJUMP));
+         _loc1_.push(getBrickById(ItemId.EFFECT_GRAVITY));
          _loc1_.push(getBrickById(ItemId.EFFECT_PROTECTION));
          _loc1_.push(getBrickById(ItemId.EFFECT_RUN));
          _loc1_.push(getBrickById(ItemId.EFFECT_ZOMBIE));
@@ -1883,11 +1927,11 @@ package items
          _loc1_.push(getBrickById(ItemId.GATE_ORANGE),getBrickById(ItemId.GATE_PURPLE));
          _loc1_.push(getBrickById(ItemId.DOOR_ORANGE),getBrickById(ItemId.DOOR_PURPLE));
          _loc1_.push(getBrickById(1000));
-         _loc1_.push(getBrickById(1512));
          _loc1_.push(getBrickById(ItemId.FIRE),getBrickById(ItemId.SPIKE),getBrickById(ItemId.LAVA));
          _loc1_.push(getBrickById(ItemId.DEATH_DOOR),getBrickById(ItemId.DEATH_GATE));
          _loc1_.push(getBrickById(136),getBrickById(50),getBrickById(243));
          _loc1_.push(getBrickById(ItemId.CAKE));
+         _loc1_.push(getBrickById(ItemId.GOD_BLOCK));
          return _loc1_;
       }
       
@@ -1957,6 +2001,8 @@ package items
                return getBrickById(ItemId.LAVA);
             case Config.effectMultijump:
                return getBrickById(ItemId.EFFECT_MULTIJUMP);
+            case Config.effectGravity:
+               return getBrickById(ItemId.EFFECT_GRAVITY);
             default:
                return null;
          }
@@ -2000,11 +2046,7 @@ package items
          _loc7_.copyPixels(param4,new Rectangle(26 * param1,0,26,26),new Point(0,0));
          var _loc8_:BitmapData = new BitmapData(26,26,true,0);
          _loc8_.copyPixels(param4,new Rectangle(26 * param1,26,26,26),new Point(0,0));
-         var _loc13_:BitmapData = new BitmapData(26,26,true,0);
-         _loc13_.copyPixels(param4,new Rectangle(26 * param1,52,26,26),new Point(0,0));
-         var _loc14_:BitmapData = new BitmapData(26,26,true,0);
-         _loc14_.copyPixels(param4,new Rectangle(26 * param1,78,26,26),new Point(0,0));
-         smilies.push(new ItemSmiley(param1,param2,param3,_loc7_,param5,param6,_loc8_,_loc13_,_loc14_));
+         smilies.push(new ItemSmiley(param1,param2,param3,_loc7_,param5,param6,_loc8_));
       }
       
       private static function addAuraColor(param1:int, param2:String, param3:String) : void
@@ -2213,6 +2255,26 @@ package items
                return sprChristmas2016LightsDown;
             case ItemId.CHRISTMAS_2016_LIGHTS_UP:
                return sprChristmas2016LightsUp;
+            case ItemId.HALFBLOCK_WHITE:
+               return sprHalfBlockWhite;
+            case ItemId.HALFBLOCK_GRAY:
+               return sprHalfBlockGray;
+            case ItemId.HALFBLOCK_BLACK:
+               return sprHalfBlockBlack;
+            case ItemId.HALFBLOCK_RED:
+               return sprHalfBlockRed;
+            case ItemId.HALFBLOCK_ORANGE:
+               return sprHalfBlockOrange;
+            case ItemId.HALFBLOCK_YELLOW:
+               return sprHalfBlockYellow;
+            case ItemId.HALFBLOCK_GREEN:
+               return sprHalfBlockGreen;
+            case ItemId.HALFBLOCK_CYAN:
+               return sprHalfBlockCyan;
+            case ItemId.HALFBLOCK_BLUE:
+               return sprHalfBlockBlue;
+            case ItemId.HALFBLOCK_PURPLE:
+               return sprHalfBlockPurple;
             default:
                return null;
          }

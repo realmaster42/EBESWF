@@ -337,7 +337,7 @@ package ui.crews
             this.membersArray.push(_loc12_);
             _loc2_ = _loc2_ + 5;
          }
-         if(this.crewId != "everybodyeditsstaff")
+         if(this.crewId != "ebestaff")
          {
             Global.base.requestRemoteMethod("isSubscribedToCrew",this.handleSubscribeCheck,this.crewId);
          }
@@ -728,6 +728,10 @@ package ui.crews
             return;
          }
          if(o.hasOwnProperty("hidden") && o["hidden"])
+         {
+            return;
+         }
+         if(o.hasOwnProperty("lobbypreview") && !o["lobbypreview"] && !o.hasOwnProperty("propertythatneverexists"))
          {
             return;
          }

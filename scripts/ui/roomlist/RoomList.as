@@ -50,6 +50,8 @@ package ui.roomlist
       
       public var favoriteOnly:Boolean = false;
       
+      public var historyOnly:Boolean = false;
+      
       private var sortby:int = 0;
       
       private var overlay:Sprite;
@@ -81,11 +83,12 @@ package ui.roomlist
          this.sortRoomsBy(this.sortby);
       }
       
-      public function render(param1:String = "", param2:int = 7, param3:Boolean = false, param4:Boolean = false) : void
+      public function render(param1:String = "", param2:int = 7, param3:Boolean = false, param4:Boolean = false, param5:Boolean = false) : void
       {
          this.history = param1;
          this.betaonly = param3;
          this.favoriteOnly = param4;
+         this.historyOnly = param5;
          this.showmyworlds = param2 == SORT_BY_MYWORLDS;
          this.sortRoomsBy(param2);
          this.doRender();
@@ -206,10 +209,7 @@ package ui.roomlist
          var r:Room = null;
          var showload:Boolean = param1;
          var debug:Date = new Date();
-         while(this.container.numChildren)
-         {
-            this.container.removeChild(this.container.getChildAt(0));
-         }
+         this.container.removeAllChildren();
          var used:int = 0;
          if(this.sortby == SORT_BY_FEATURED)
          {
@@ -217,6 +217,19 @@ package ui.roomlist
             {
                var _loc3_:int = int(parseInt(param1.data.Favorites)) || 0;
                var _loc4_:int = int(parseInt(param2.data.Favorites)) || 0;
+               if(_loc3_ != _loc4_)
+               {
+                  return _loc3_ > _loc4_?-1:1;
+               }
+               return -1;
+            });
+         }
+         if(this.historyOnly)
+         {
+            this.rooms.sort(function(param1:Object, param2:Object):int
+            {
+               var _loc3_:int = int(Date.parse(param1.data.time)) || 0;
+               var _loc4_:int = int(Date.parse(param2.data.time)) || 0;
                if(_loc3_ != _loc4_)
                {
                   return _loc3_ > _loc4_?-1:1;
@@ -248,9 +261,15 @@ package ui.roomlist
                                  {
                                     if(!(this.sortby == SORT_BY_BETA && !Global.player_is_beta_member))
                                     {
-                                       r = new Room(to.id,this.makePrettyName(na),to.data.description,to.data.size || "200x200",int(to.onlineUsers) || 0,int(parseInt(to.data.plays)) || 1,int(parseInt(to.data.Favorites)) || 0,int(parseInt(to.data.Likes)) || 0,to.data.inFavorites,to.data.IsCampaign == "True",!!to.data.myworld?true:false,to.data.owned,to.data.needskey || false,to.data.LobbyPreviewEnabled != "False",to,this.callback,this.unfavorite);
-                                       used++;
-                                       this.container.addChild(r);
+                                       if(!(this.historyOnly && !to.data.isHistory))
+                                       {
+                                          if(!(to.data.isHistory && !this.historyOnly))
+                                          {
+                                             r = new Room(to.id,this.makePrettyName(na),to.data.description || "",to.data.size || "200x200",int(to.onlineUsers) || 0,int(parseInt(to.data.plays)) || 1,int(parseInt(to.data.Favorites)) || 0,int(parseInt(to.data.Likes)) || 0,to.data.inFavorites,to.data.IsCampaign == "True",!!to.data.myworld?true:false,to.data.owned,to.data.needskey || false,to.data.LobbyPreviewEnabled != "False",to.data.isHistory || false,to,this.callback,this.unfavorite);
+                                             used++;
+                                             this.container.addChild(r);
+                                          }
+                                       }
                                     }
                                  }
                               }

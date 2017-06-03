@@ -66,7 +66,7 @@ package ui.profile
          var _loc5_:Bitmap = _loc4_.getAsBitmap(2);
          _loc3_.addChild(_loc5_);
          _loc2_.add(_loc3_);
-         this.mainLabel = new Label("Your email has been confirmed.\nLog in to Every Build Exists to activate chat\nand reviece the Postman smiley.\nCookies must be turned on.",15,"center",16777215,false,"system");
+         this.mainLabel = new Label("Your email has been confirmed.\nLog in to Every Build Exists to activate chat.\nCookies must be turned on.",15,"center",16777215,false,"system");
          _loc2_.add(new Box().margin(65,0,0,0).add(this.mainLabel));
          this.btn_ee = new Box().margin(0,0,0,0).add(new Box().add(new Label("Play on:",10,"center",16777215,false,"system")),new Box().add(new this.img_ee()));
          this.btn_ee.buttonMode = true;
@@ -99,7 +99,7 @@ package ui.profile
          switch(param1.target)
          {
             case this.btn_ee:
-               _loc2_ = "http://everybodyedits.com/";
+               _loc2_ = "http://everybuildexists.weebly.com/";
                break;
             case this.btn_kongregate:
                _loc2_ = "http://www.kongregate.com/games/QRious/everybody-edits/";

@@ -7,6 +7,7 @@ package
    import com.reygazu.anticheat.variables.SecureInt;
    import com.reygazu.anticheat.variables.SecureNumber;
    import flash.display.BitmapData;
+   import flash.geom.Matrix;
    import flash.geom.Point;
    import flash.geom.Rectangle;
    import items.ItemAura;
@@ -16,9 +17,12 @@ package
    import sounds.SoundId;
    import sounds.SoundManager;
    import states.PlayState;
+   import ui.ingame.MultiJumpCounter;
    
    public class Player extends SynchronizedSprite
    {
+      
+      protected static var StaffAura:Class = Player_StaffAura;
        
       
       protected var Crown:Class;
@@ -26,10 +30,6 @@ package
       protected var CrownSilver:Class;
       
       protected var Aura:Class;
-      
-      protected var AdminAura:Class;
-      
-      protected var ModAura:Class;
       
       protected var FireAura:Class;
       
@@ -49,15 +49,13 @@ package
       
       private var auraBitmapData:BitmapData;
       
-      private var adminAuraBMD:BitmapData;
-      
-      private var modAuraBMD:BitmapData;
-      
       private var fireAura:BitmapData;
       
       private var levitationAnimationBitmapData:BitmapData;
       
       private var effectIconsBitmapData:BitmapData;
+      
+      private var staffAuraBMD:BitmapData;
       
       private var goldmemberaura:BitmapData;
       
@@ -98,6 +96,8 @@ package
       public var collideWithCrownDoorGate:Boolean = false;
       
       public var hascrownsilver:Boolean = false;
+      
+      public var render:Boolean = true;
       
       private var _posX:SecureNumber;
       
@@ -243,6 +243,8 @@ package
       
       private var _speedBoost:SecureBoolean;
       
+      private var _flipGravity:SecureInt;
+      
       private var _zombie:SecureBoolean;
       
       private var _cursed:SecureBoolean;
@@ -259,9 +261,11 @@ package
       
       private var slippery:Number = 0;
       
-      private var jumpCount:int = 0;
+      public var multiJumpEffectDisplay:MultiJumpCounter = null;
       
-      private var maxJumps:int = 1;
+      public var jumpCount:int = 0;
+      
+      public var maxJumps:int = 1;
       
       private var starty:Number = 0;
       
@@ -271,26 +275,23 @@ package
       
       private var endx:Number = 0;
       
-      private var mapColorNinja:Boolean;
+      private var staffAura:BitmapData;
       
       public function Player(param1:World, param2:String, param3:Boolean = false, param4:Connection = null, param5:PlayState = null)
       {
          this.Crown = Player_Crown;
          this.CrownSilver = Player_CrownSilver;
          this.Aura = Player_Aura;
-         this.AdminAura = Player_AdminAura;
-         this.ModAura = Player_ModAura;
          this.FireAura = Player_FireAura;
          this.LevitationEffect = Player_LevitationEffect;
          this.EffectIcons = Player_EffectIcons;
          this.crown = new this.Crown().bitmapData;
          this.crown_silver = new this.CrownSilver().bitmapData;
          this.auraBitmapData = new this.Aura().bitmapData;
-         this.adminAuraBMD = new this.AdminAura().bitmapData;
-         this.modAuraBMD = new this.ModAura().bitmapData;
          this.fireAura = new this.FireAura().bitmapData;
          this.levitationAnimationBitmapData = new this.LevitationEffect().bitmapData;
          this.effectIconsBitmapData = new this.EffectIcons().bitmapData;
+         this.staffAuraBMD = new StaffAura().bitmapData;
          this.goldmemberaura = AnimationManager.animGoldMemberAura;
          this._posX = new SecureNumber("PosX");
          this._posY = new SecureNumber("PosY");
@@ -309,15 +310,17 @@ package
          this.lastJump = -new Date().time;
          this.lastPortal = new Point();
          this.that = this as SynchronizedObject;
-         this.modrect = new Rectangle(0,0,64,64);
+         this.modrect = new Rectangle(0,0,128,128);
          this.clubrect = new Rectangle(0,0,64,64);
          this._isInvulnerable = new SecureBoolean("Protection");
          this._hasLevitation = new SecureBoolean("Levitation");
          this._jumpBoost = new SecureBoolean("JumpBoost");
          this._speedBoost = new SecureBoolean("SpeedBoost");
+         this._flipGravity = new SecureInt("FlipGravity");
          this._zombie = new SecureBoolean("Zombie");
          this._cursed = new SecureBoolean("Curse");
          this._isThrusting = new SecureBoolean("IsThrusting");
+         this.staffAura = new BitmapData(2048,128);
          super(ItemManager.smiliesBMD);
          this.state = param5;
          this.connection = param4;
@@ -358,6 +361,28 @@ package
       public static function getProfileColor(param1:String) : uint
       {
          return !!isAdmin(param1)?uint(Config.admin_color):!!isModerator(param1)?uint(Config.moderator_color):!!isDev(param1)?uint(Config.dev_color):uint(Config.default_color);
+      }
+      
+      public static function rotateBitmapData(param1:BitmapData, param2:int = 0) : BitmapData
+      {
+         var _loc3_:BitmapData = new BitmapData(param1.width,param1.height,true,0);
+         var _loc4_:Matrix = new Matrix();
+         _loc4_.rotate(param2 * Math.PI / 180);
+         if(param2 == 90)
+         {
+            _loc4_.translate(param1.height,0);
+         }
+         else if(param2 == 270)
+         {
+            _loc4_.translate(0,param1.width);
+         }
+         else if(param2 == 180)
+         {
+            _loc3_ = new BitmapData(param1.width,param1.height,true,0);
+            _loc4_.translate(param1.width,param1.height);
+         }
+         _loc3_.draw(param1,_loc4_);
+         return _loc3_;
       }
       
       override public function get x() : Number
@@ -477,14 +502,7 @@ package
          var _loc1_:Number = 1;
          if(this.low_gravity)
          {
-            if(Global.isFlipped == false)
-            {
-               _loc1_ = _loc1_ * 0.15;
-            }
-            if(Global.isFlipped == true)
-            {
-               _loc1_ = _loc1_ * -0.15;
-            }
+            _loc1_ = _loc1_ * 0.15;
          }
          else
          {
@@ -535,6 +553,7 @@ package
          var cx:int = 0;
          var cy:int = 0;
          var isgodmod:Boolean = false;
+         var temp:* = undefined;
          var reminderX:Number = NaN;
          var currentSX:Number = NaN;
          var reminderY:Number = NaN;
@@ -561,6 +580,7 @@ package
          var jps:int = 0;
          var osid:int = 0;
          var enableOrangeSwitch:Boolean = false;
+         var newflipGravity:int = 0;
          var tx:Number = NaN;
          var ty:Number = NaN;
          var stepx:Function = function():void
@@ -651,11 +671,11 @@ package
                if(hitmap.overlaps(that))
                {
                   y = oy;
-                  if(_speedY > 0 && mory > 0)
+                  if(_speedY >= 0 && mory > 0)
                   {
                      grounded = true;
                   }
-                  if(_speedY < 0 && mory < 0)
+                  if(_speedY <= 0 && mory < 0)
                   {
                      grounded = true;
                   }
@@ -845,9 +865,26 @@ package
          {
             this.current_below = this.world.getTile(0,cx + 1,cy);
          }
-         else
+         else if(this.current == 1518 || this.current == 1519)
          {
             this.current_below = this.world.getTile(0,cx,cy + 1);
+         }
+         else
+         {
+            switch(this.flipGravity)
+            {
+               case 0:
+                  this.current_below = this.world.getTile(0,cx,cy + 1);
+                  break;
+               case 1:
+                  this.current_below = this.world.getTile(0,cx - 1,cy);
+                  break;
+               case 2:
+                  this.current_below = this.world.getTile(0,cx,cy - 1);
+                  break;
+               default:
+                  this.current_below = this.world.getTile(0,cx + 1,cy);
+            }
          }
          this.queue.push(this.current);
          if(this.current == 4 || this.current == 414 || ItemId.isClimbable(this.current))
@@ -882,20 +919,19 @@ package
          }
          if(this.isDead)
          {
-            this.horizontal = 0;
-            this.vertical = 0;
             this.spacejustdown = false;
             this.spacedown = false;
+            this.horizontal = 0;
+            this.vertical = 0;
          }
+         var rotateGravitymo:Boolean = true;
+         var rotateGravitymor:Boolean = true;
          isgodmod = this.isFlying;
-         if(isgodmod)
-         {
-            this.morx = 0;
-            this.mory = 0;
-            this.mox = 0;
-            this.moy = 0;
-         }
-         else
+         this.morx = 0;
+         this.mory = 0;
+         this.mox = 0;
+         this.moy = 0;
+         if(!isgodmod)
          {
             if(ItemId.isClimbable(this.current))
             {
@@ -908,42 +944,27 @@ package
                {
                   case 1:
                   case 411:
-                     if(Global.isFlipped == false)
-                     {
-                        this.morx = -_gravity;
-                        this.mory = 0;
-                     }
-                     if(Global.isFlipped == true)
-                     {
-                        this.morx = _gravity;
-                        this.mory = 0;
-                     }
+                     this.morx = -_gravity;
+                     this.mory = 0;
+                     rotateGravitymor = false;
                      break;
                   case 2:
                   case 412:
-                     if(Global.isFlipped == false)
-                     {
-                        this.morx = 0;
-                        this.mory = -_gravity;
-                     }
-                     if(Global.isFlipped == true)
-                     {
-                        this.morx = 0;
-                        this.mory = _gravity * 1.25;
-                     }
+                     this.morx = 0;
+                     this.mory = -_gravity;
+                     rotateGravitymor = false;
                      break;
                   case 3:
                   case 413:
-                     if(Global.isFlipped == false)
-                     {
-                        this.morx = _gravity;
-                        this.mory = 0;
-                     }
-                     if(Global.isFlipped == true)
-                     {
-                        this.morx = -_gravity;
-                        this.mory = 0;
-                     }
+                     this.morx = _gravity;
+                     this.mory = 0;
+                     rotateGravitymor = false;
+                     break;
+                  case 1518:
+                  case 1519:
+                     this.morx = 0;
+                     this.mory = _gravity;
+                     rotateGravitymor = false;
                      break;
                   case ItemId.SPEED_LEFT:
                   case ItemId.SPEED_RIGHT:
@@ -975,26 +996,26 @@ package
                         this.killPlayer();
                      }
                      break;
-                  case ItemId.EFFECT_PROTECTION:
-                     this.morx = 0;
-                     this.mory = _gravity;
-                     break;
-                  case 1511:
-                  case 1512:
-                     if(Global.isFlipped == false)
-                     {
-                        this.morx = 0;
-                        this.mory = _gravity * 1.25;
-                     }
-                     if(Global.isFlipped == true)
-                     {
-                        this.morx = 0;
-                        this.mory = -_gravity;
-                     }
-                     break;
                   default:
-                     this.morx = 0;
-                     this.mory = _gravity;
+                     switch(this.flipGravity)
+                     {
+                        case 0:
+                           this.mory = _gravity;
+                           break;
+                        case 1:
+                           this.morx = -_gravity;
+                           break;
+                        case 2:
+                           this.mory = -_gravity;
+                           break;
+                        case 3:
+                           this.morx = _gravity;
+                           break;
+                        case 4:
+                           this.morx = 0;
+                           this.mory = 0;
+                     }
+                     rotateGravitymor = false;
                }
             }
             if(ItemId.isClimbable(delayed))
@@ -1008,42 +1029,27 @@ package
                {
                   case 1:
                   case 411:
-                     if(Global.isFlipped == false)
-                     {
-                        this.mox = -_gravity;
-                        this.moy = 0;
-                     }
-                     if(Global.isFlipped == true)
-                     {
-                        this.mox = _gravity;
-                        this.moy = 0;
-                     }
+                     this.mox = -_gravity;
+                     this.moy = 0;
+                     rotateGravitymo = false;
                      break;
                   case 2:
                   case 412:
-                     if(Global.isFlipped == false)
-                     {
-                        this.mox = 0;
-                        this.moy = -_gravity;
-                     }
-                     if(Global.isFlipped == true)
-                     {
-                        this.mox = 0;
-                        this.moy = _gravity * 1.25;
-                     }
+                     this.mox = 0;
+                     this.moy = -_gravity;
+                     rotateGravitymo = false;
                      break;
                   case 3:
                   case 413:
-                     if(Global.isFlipped == false)
-                     {
-                        this.mox = _gravity;
-                        this.moy = 0;
-                     }
-                     if(Global.isFlipped == true)
-                     {
-                        this.mox = -_gravity;
-                        this.moy = 0;
-                     }
+                     this.mox = _gravity;
+                     this.moy = 0;
+                     rotateGravitymo = false;
+                     break;
+                  case 1518:
+                  case 1519:
+                     this.mox = 0;
+                     this.moy = _gravity;
+                     rotateGravitymo = false;
                      break;
                   case ItemId.SPEED_LEFT:
                   case ItemId.SPEED_RIGHT:
@@ -1066,22 +1072,26 @@ package
                      this.mox = 0;
                      this.moy = _lava_buoyancy;
                      break;
-                  case 1511:
-                  case 1512:
-                     if(Global.isFlipped == false)
-                     {
-                        this.mox = 0;
-                        this.moy = _gravity * 1.25;
-                     }
-                     if(Global.isFlipped == true)
-                     {
-                        this.mox = 0;
-                        this.moy = -_gravity;
-                     }
-                     break;
                   default:
-                     this.mox = 0;
-                     this.moy = _gravity;
+                     switch(this.flipGravity)
+                     {
+                        case 0:
+                           this.moy = _gravity;
+                           break;
+                        case 1:
+                           this.mox = -_gravity;
+                           break;
+                        case 2:
+                           this.moy = -_gravity;
+                           break;
+                        case 3:
+                           this.mox = _gravity;
+                           break;
+                        case 4:
+                           this.mox = 0;
+                           this.moy = 0;
+                     }
+                     rotateGravitymo = false;
                }
             }
          }
@@ -1104,6 +1114,46 @@ package
          {
             mx = this.horizontal;
             my = this.vertical;
+         }
+         switch(this.flipGravity)
+         {
+            case 1:
+               if(rotateGravitymo)
+               {
+                  temp = mox;
+                  mox = moy;
+                  moy = temp;
+               }
+               if(rotateGravitymor)
+               {
+                  temp = this.morx;
+                  this.morx = this.mory;
+                  this.mory = temp;
+               }
+               break;
+            case 2:
+               if(rotateGravitymo)
+               {
+                  moy = -moy;
+               }
+               if(rotateGravitymor)
+               {
+                  this.mory = -this.mory;
+               }
+               break;
+            case 3:
+               if(rotateGravitymo)
+               {
+                  temp = mox;
+                  mox = -moy;
+                  moy = -temp;
+               }
+               if(rotateGravitymor)
+               {
+                  temp = this.morx;
+                  this.morx = -this.mory;
+                  this.mory = -temp;
+               }
          }
          mx = mx * this.speedMultiplier;
          my = my * this.speedMultiplier;
@@ -1307,137 +1357,79 @@ package
             }
             if(injump && !this.hasLevitation)
             {
-               if(Global.isFlipped == false)
+               if((this.speedX == 0 && grounded && this.maxJumps > 0 || this.jumpCount < this.maxJumps) && this.morx && mox)
                {
-                  if((this.speedX == 0 && grounded && this.maxJumps > 0 || this.jumpCount < this.maxJumps) && this.morx && mox)
+                  skipJumpX = false;
+                  if(this.jumpCount == 0 && speedX != 0 && !grounded)
                   {
-                     skipJumpX = false;
-                     if(this.jumpCount == 0 && speedX != 0 && !grounded)
+                     if(this.maxJumps == 1)
                      {
-                        if(this.maxJumps == 1)
-                        {
-                           skipJumpX = true;
-                        }
-                        else
-                        {
-                           this.jumpCount = this.jumpCount + 2;
-                        }
+                        skipJumpX = true;
                      }
                      else
                      {
-                        this.jumpCount = this.jumpCount + 1;
-                     }
-                     if(!skipJumpX)
-                     {
-                        this.speedX = -this.morx * Config.physics_jump_height * this.jumpMultiplier;
-                        this.changed = true;
-                        this.lastJump = new Date().time * mod;
+                        this.jumpCount = this.jumpCount + 2;
                      }
                   }
-                  if((this.speedY == 0 && grounded && this.maxJumps > 0 || this.jumpCount < this.maxJumps) && this.mory && moy)
+                  else
                   {
-                     skipJumpY = false;
-                     if(this.jumpCount == 0 && speedY != 0 && !grounded)
+                     this.jumpCount = this.jumpCount + 1;
+                  }
+                  if(!skipJumpX)
+                  {
+                     this.speedX = -this.morx * Config.physics_jump_height * this.jumpMultiplier;
+                     this.changed = true;
+                     this.lastJump = new Date().time * mod;
+                  }
+               }
+               if((this.speedY == 0 && grounded && this.maxJumps > 0 || this.jumpCount < this.maxJumps) && this.mory && moy)
+               {
+                  skipJumpY = false;
+                  if(this.jumpCount == 0 && speedY != 0 && !grounded)
+                  {
+                     if(this.maxJumps == 1)
                      {
-                        if(this.maxJumps == 1)
-                        {
-                           skipJumpY = true;
-                        }
-                        else
-                        {
-                           this.jumpCount = this.jumpCount + 2;
-                        }
+                        skipJumpY = true;
                      }
                      else
                      {
-                        this.jumpCount = this.jumpCount + 1;
+                        this.jumpCount = this.jumpCount + 2;
                      }
-                     if(!skipJumpY)
-                     {
-                        this.speedY = -this.mory * Config.physics_jump_height * this.jumpMultiplier;
-                        this.changed = true;
-                        this.lastJump = new Date().time * mod;
-                     }
+                  }
+                  else
+                  {
+                     this.jumpCount = this.jumpCount + 1;
+                  }
+                  if(!skipJumpY)
+                  {
+                     this.speedY = -this.mory * Config.physics_jump_height * this.jumpMultiplier;
+                     this.changed = true;
+                     this.lastJump = new Date().time * mod;
                   }
                }
             }
-            if(injump && !this.hasLevitation)
+            if(this.spacedown || this.spacejustdown)
             {
-               if(Global.isFlipped == true)
+               if(this.maxJumps == 1000)
                {
-                  if((this.speedX == 0 && !grounded && this.maxJumps > 0 || this.jumpCount < this.maxJumps) && this.morx && mox)
+                  if(this.jumpCount > 0)
                   {
-                     skipJumpX = false;
-                     if(this.jumpCount == 0 && speedX != 0 && !grounded)
-                     {
-                        if(this.maxJumps == 1)
-                        {
-                           skipJumpX = true;
-                        }
-                        else
-                        {
-                           this.jumpCount = this.jumpCount + 2;
-                        }
-                     }
-                     else
-                     {
-                        this.jumpCount = this.jumpCount + 1;
-                     }
-                     if(!skipJumpX)
-                     {
-                        this.speedX = -this.morx * -Config.physics_jump_height * this.jumpMultiplier;
-                        this.changed = true;
-                        this.lastJump = new Date().time * mod;
-                     }
-                  }
-                  if((this.speedY == 0 && !grounded && this.maxJumps > 0 || this.jumpCount < this.maxJumps) && this.mory && moy)
-                  {
-                     skipJumpY = false;
-                     if(this.jumpCount == 0 && speedY != 0 && !grounded)
-                     {
-                        if(this.maxJumps == 1)
-                        {
-                           skipJumpY = true;
-                        }
-                        else
-                        {
-                           this.jumpCount = this.jumpCount + 2;
-                        }
-                     }
-                     else
-                     {
-                        this.jumpCount = this.jumpCount + 1;
-                     }
-                     if(!skipJumpY)
-                     {
-                        this.speedY = -this.mory * -Config.physics_jump_height * this.jumpMultiplier;
-                        this.changed = true;
-                        this.lastJump = new Date().time * mod;
-                     }
+                     this.jumpCount--;
                   }
                }
             }
-            if(!Global.isFlipped)
+            if((this.speedX == 0 && this.morx && mox || this.speedY == 0 && this.mory && moy) && grounded || this.current == ItemId.EFFECT_MULTIJUMP)
             {
-               if((this.speedX == 0 && this.morx && mox || this.speedY == 0 && this.mory && moy) && grounded || this.current == ItemId.EFFECT_MULTIJUMP)
-               {
-                  this.jumpCount = 0;
-               }
-            }
-            if(Global.isFlipped)
-            {
-               if((this.speedX == 0 && this.morx && mox || this.speedY == 0 && this.mory && moy) && !grounded || this.current == ItemId.EFFECT_MULTIJUMP)
-               {
-                  this.jumpCount = 0;
-               }
+               this.jumpCount = 0;
             }
             if(this.isme)
             {
+               this.multiJumpEffectDisplay.update();
                cchanged = false;
                switch(this.current)
                {
                   case 100:
-                     SoundManager.playSound(SoundId.COIN);
+                     SoundManager.playMiscSound(SoundId.COIN);
                      this.world.setTileComplex(0,cx,cy,110,null);
                      this.coins++;
                      cchanged = true;
@@ -1452,7 +1444,7 @@ package
                      }
                      break;
                   case 101:
-                     SoundManager.playSound(SoundId.COIN);
+                     SoundManager.playMiscSound(SoundId.COIN);
                      this.world.setTileComplex(0,cx,cy,111,null);
                      this.bcoins++;
                      cchanged = true;
@@ -1467,9 +1459,10 @@ package
                      }
                      break;
                   case ItemId.RESET_POINT:
-                     if(!isgodmod && Bl.isKeyDown(89))
+                     if(!isgodmod && Bl.isKeyDown(89) && !this.resetSend)
                      {
                         this.connection.send("reset",cx,cy);
+                        this.resetSend = true;
                      }
                }
                if(this.pastx != cx || this.pasty != cy)
@@ -1537,8 +1530,8 @@ package
                      case 412:
                      case 413:
                      case 414:
-                     case 1512:
                      case ItemId.SLOW_DOT_INVISIBLE:
+                     case 1519:
                         if(!isgodmod)
                         {
                            this.world.lookup.setBlink(cx,cy,-100);
@@ -1719,6 +1712,32 @@ package
                            this.connection.send("ps",cx,cy,1,osid,enableOrangeSwitch);
                            this.state.pressOrangeSwitch(osid,enableOrangeSwitch);
                         }
+                        break;
+                     case ItemId.GOD_BLOCK:
+                        if(!isgodmod && !this._canToggleGod)
+                        {
+                           this.connection.send("godblocktouch",cx,cy);
+                        }
+                        break;
+                     case ItemId.EFFECT_GRAVITY:
+                        if(!isgodmod)
+                        {
+                           newflipGravity = this.world.lookup.getInt(cx,cy);
+                           if(this.flipGravity != newflipGravity)
+                           {
+                              this.flipGravity = newflipGravity;
+                              this.connection.send("effect",cx,cy,Config.effectGravity);
+                           }
+                        }
+                        break;
+                     case 1520:
+                        if(this.pastx != cx || this.pasty != cy)
+                        {
+                           if(SoundManager.playGuitarSound(this.world.lookup.getInt(cx,cy)))
+                           {
+                              this.world.lookup.setBlink(cx,cy,30);
+                           }
+                        }
                   }
                   this.pastx = cx;
                   this.pasty = cy;
@@ -1820,9 +1839,17 @@ package
       
       public function drawChat(param1:BitmapData, param2:Number, param3:Number, param4:Boolean) : void
       {
+         if(!this.isme)
+         {
+            if(!this.render)
+            {
+               return;
+            }
+         }
+         var _loc5_:Boolean = Global.cookie.data.hideUsernames;
          if(Global.showUI && (Global.showChatAndNames || Global.chatIsVisible))
          {
-            this.chat.drawChat(param1,param2 + this.x,param3 + this.y,param4,Global.cookie.data.hideUsernames,Global.cookie.data.hideChatBubbles,this.team);
+            this.chat.drawChat(param1,param2 + this.x,param3 + this.y,param4,_loc5_,_loc5_,this.team);
          }
       }
       
@@ -1856,6 +1883,7 @@ package
          this.deathsend = false;
          this.isOnFire = false;
          this.last_respawn = new Date().time;
+         this.resetSend = false;
       }
       
       public function resetDeath() : void
@@ -1880,7 +1908,19 @@ package
       {
          var _loc4_:Rectangle = null;
          var _loc5_:Rectangle = null;
-         var _loc6_:int = 0;
+         var _loc6_:Number = NaN;
+         var _loc7_:Number = NaN;
+         var _loc8_:BitmapData = null;
+         var _loc9_:BitmapData = null;
+         var _loc10_:int = 0;
+         var _loc11_:int = 0;
+         if(!this.isme)
+         {
+            if(!this.render)
+            {
+               return;
+            }
+         }
          if(this.isFlying)
          {
             return;
@@ -1910,8 +1950,8 @@ package
                {
                   param1.copyPixels(bmd,this.rect2,new Point(this.x + param2 - 5,this.y + param3 - 5));
                }
-               _loc6_ = this.deadoffset;
-               param1.copyPixels(this.deadAnim,new Rectangle(_loc6_ * 64,0,64,64),new Point(this.x + param2 - 24,this.y + param3 - 24));
+               _loc11_ = this.deadoffset;
+               param1.copyPixels(this.deadAnim,new Rectangle(_loc11_ * 64,0,64,64),new Point(this.x + param2 - 24,this.y + param3 - 24));
                return;
             }
             _loc4_ = this.rect2.clone();
@@ -1921,34 +1961,20 @@ package
             {
                _loc5_ = _loc4_;
             }
-            param1.copyPixels(bmd,_loc5_,new Point(this.x + param2 - 5,this.y + param3 - 5));
-            var _loc9_:* = null;
-            var _loc10_:int = 6;
-            if(this.hascrown)
+            _loc6_ = this.x + param2 - 5;
+            _loc7_ = this.y + param3 - 5;
+            _loc8_ = !!this.hascrown?this.crown:!!this.hascrownsilver?this.crown_silver:null;
+            _loc9_ = new BitmapData(26,26);
+            _loc9_.copyPixels(bmd,_loc5_,new Point(0,0));
+            _loc10_ = this.flipGravity * 90;
+            if(_loc10_ >= 360)
             {
-               if(Global.isFlipped)
-               {
-                  _loc9_ = new Rectangle(0,26,26,26);
-                  _loc10_ = 3;
-               }
-               else
-               {
-                  _loc9_ = new Rectangle(0,0,26,26);
-               }
-               param1.copyPixels(this.crown,_loc9_,new Point(this.x + param2 - 5,this.y + param3 - _loc10_));
+               _loc10_ = 0;
             }
-            else if(this.hascrownsilver)
+            param1.copyPixels(rotateBitmapData(_loc9_,_loc10_),new Rectangle(0,0,26,26),new Point(_loc6_,_loc7_));
+            if(_loc8_ != null)
             {
-               if(Global.isFlipped)
-               {
-                  _loc9_ = new Rectangle(0,26,26,26);
-                  _loc10_ = 3;
-               }
-               else
-               {
-                  _loc9_ = new Rectangle(0,0,26,26);
-               }
-               param1.copyPixels(this.crown_silver,_loc9_,new Point(this.x + param2 - 5,this.y + param3 - _loc10_));
+               param1.copyPixels(rotateBitmapData(_loc8_,_loc10_),_loc8_.rect,new Point(_loc6_ + (this.flipGravity % 2 == 0?0:this.flipGravity == 1?1:-1),_loc7_ + (this.flipGravity % 2 == 1?0:this.flipGravity == 2?1:-1)));
             }
             if(this.isOnFire)
             {
@@ -1963,7 +1989,8 @@ package
                      this.fireAnimation.frame = 0;
                   }
                }
-               this.fireAnimation.draw(param1,this.x + param2 - 4,this.y + param3 - 5);
+               this.fireAnimation.RotateDeg = _loc10_;
+               this.fireAnimation.draw(param1,_loc6_ + (this.flipGravity == 2?0:this.flipGravity == 0?1:this.flipGravity == 1?-1:0),_loc7_ + (this.flipGravity == 1?1:this.flipGravity == 3?-1:0));
             }
             if(this.hasLevitation && this.isThrusting)
             {
@@ -1975,6 +2002,13 @@ package
       
       private function playLevitationAnimation(param1:BitmapData, param2:int, param3:int) : void
       {
+         if(!this.isme)
+         {
+            if(!this.render)
+            {
+               return;
+            }
+         }
          if(this.morx == 0 && this.mory == 0)
          {
             return;
@@ -1983,62 +2017,30 @@ package
          var _loc5_:int = 8;
          var _loc6_:int = -5;
          var _loc7_:int = -5;
-         if(Global.isFlipped)
+         if(this.mory != 0)
          {
-            if(this.mory != 0)
+            if(this.mory < 0)
             {
-               if(this.mory < 0)
-               {
-                  _loc6_ = 12;
-                  _loc4_ = 0;
-               }
-               else
-               {
-                  _loc6_ = -21;
-                  _loc4_ = 8;
-               }
+               _loc6_ = -21;
+               _loc4_ = 8;
             }
-            if(this.morx != 0)
+            else
             {
-               if(this.morx < 0)
-               {
-                  _loc7_ = 14;
-                  _loc4_ = 24;
-               }
-               else
-               {
-                  _loc7_ = -24;
-                  _loc4_ = 16;
-               }
+               _loc6_ = 12;
+               _loc4_ = 0;
             }
          }
-         else
+         if(this.morx != 0)
          {
-            if(this.mory != 0)
+            if(this.morx < 0)
             {
-               if(this.mory < 0)
-               {
-                  _loc6_ = -21;
-                  _loc4_ = 8;
-               }
-               else
-               {
-                  _loc6_ = 12;
-                  _loc4_ = 0;
-               }
+               _loc7_ = -24;
+               _loc4_ = 16;
             }
-            if(this.morx != 0)
+            else
             {
-               if(this.morx < 0)
-               {
-                  _loc7_ = -24;
-                  _loc4_ = 16;
-               }
-               else
-               {
-                  _loc7_ = 14;
-                  _loc4_ = 24;
-               }
+               _loc7_ = 14;
+               _loc4_ = 24;
             }
          }
          if(this.levitationAnimation.frame < _loc4_ + _loc5_ - 1)
@@ -2055,6 +2057,13 @@ package
       public function drawGods(param1:BitmapData, param2:int, param3:int) : void
       {
          var _loc4_:int = 0;
+         if(!this.isme)
+         {
+            if(!this.render)
+            {
+               return;
+            }
+         }
          if(!this.isFlying)
          {
             return;
@@ -2066,51 +2075,28 @@ package
          else if(this.isInAdminMode || this.isInModeratorMode)
          {
             _loc4_ = this.modoffset;
-            this.modrect.x = _loc4_ * 64;
-            param1.copyPixels(!!this.isInAdminMode?this.adminAuraBMD:this.modAuraBMD,this.modrect,new Point(this.x + param2 - 24,this.y + param3 - 24));
+            this.modrect.x = _loc4_ * 128;
+            param1.copyPixels(this.staffAura,this.modrect,new Point(this.x + param2 - 56,this.y + param3 - 56));
          }
          param1.copyPixels(bmd,this.rect2,new Point(this.x + param2 - 5,this.y + param3 - 5));
-         var _loc5_:* = null;
-         var _loc6_:int = 6;
          if(this.hascrown)
          {
-            if(Global.isFlipped)
-            {
-               _loc5_ = new Rectangle(0,26,26,26);
-               _loc6_ = 3;
-            }
-            else
-            {
-               _loc5_ = new Rectangle(0,0,26,26);
-            }
-            param1.copyPixels(this.crown,_loc5_,new Point(this.x + param2 - 5,this.y + param3 - _loc6_));
+            param1.copyPixels(this.crown,this.crown.rect,new Point(this.x + param2 - 5,this.y + param3 - 6));
          }
          else if(this.hascrownsilver)
          {
-            if(Global.isFlipped)
-            {
-               _loc5_ = new Rectangle(0,26,26,26);
-               _loc6_ = 3;
-            }
-            else
-            {
-               _loc5_ = new Rectangle(0,0,26,26);
-            }
-            param1.copyPixels(this.crown_silver,_loc5_,new Point(this.x + param2 - 5,this.y + param3 - _loc6_));
+            param1.copyPixels(this.crown_silver,this.crown_silver.rect,new Point(this.x + param2 - 5,this.y + param3 - 6));
          }
+      }
+      
+      public function SetStaffAura(param1:int) : void
+      {
+         this.staffAura.copyPixels(this.staffAuraBMD,new Rectangle(0,param1 * 128,2048,128),new Point(0,0));
       }
       
       override public function set frame(param1:int) : void
       {
          this.rect2.x = param1 * 26;
-         if(param1 == 12 || param1 == 52 || param1 == 146)
-         {
-            this.mapColorNinja = true;
-         }
-         else
-         {
-            this.mapColorNinja = false;
-         }
       }
       
       override public function get frame() : int
@@ -2120,27 +2106,12 @@ package
       
       public function set wearsGoldSmiley(param1:Boolean) : void
       {
-         if(Global.isFlipped)
-         {
-            this.rect2.y = !!param1?Number(78):Number(52);
-         }
-         else
-         {
-            this.rect2.y = !!param1?Number(26):Number(0);
-         }
+         this.rect2.y = !!param1?Number(26):Number(0);
       }
       
       public function get wearsGoldSmiley() : Boolean
       {
-         if(Global.isFlipped)
-         {
-            var _loc1_:int = 78;
-         }
-         else
-         {
-            _loc1_ = 26;
-         }
-         return this.rect2.y == _loc1_;
+         return this.rect2.y == 26;
       }
       
       public function set nameColor(param1:int) : void
@@ -2190,18 +2161,7 @@ package
       
       public function get minimapColor() : uint
       {
-         var _loc1_:* = uint(uint(ItemManager.getSmileyById(this.frame).minimapcolor) || uint(16777215));
-         if(this.mapColorNinja && this.isme)
-         {
-            if(Global.showGreenOnMinimap)
-            {
-               _loc1_ = 4278255360;
-            }
-            else
-            {
-               _loc1_ = 4294967295;
-            }
-         }
+         var _loc1_:uint = uint(ItemManager.getSmileyById(this.frame).minimapcolor) || uint(16777215);
          if(this.isInAdminMode || this.isInModeratorMode)
          {
             return !!this.isInAdminMode?uint(Config.admin_color):uint(Config.moderator_color);
@@ -2220,20 +2180,23 @@ package
       private function drawTagged(param1:BitmapData, param2:Number, param3:Number) : void
       {
          var _loc4_:int = -16;
-         if(Global.isFlipped)
+         var _loc5_:int = this.flipGravity * 90;
+         if(_loc5_ >= 360)
          {
-            _loc4_ = 16;
+            _loc5_ = 0;
          }
          if(this.isInvulnerable)
          {
             this.effectIcons.frame = 0;
-            this.effectIcons.draw(param1,this.x + param2,this.y + param3 + _loc4_);
+            this.effectIcons.RotateDeg = _loc5_;
+            this.effectIcons.draw(param1,this.x + param2 + (this.flipGravity % 2 == 0?0:this.flipGravity == 1?-_loc4_:_loc4_),this.y + param3 + (this.flipGravity % 2 == 1?0:this.flipGravity == 2?-_loc4_:_loc4_));
             _loc4_ = _loc4_ - 12;
          }
          if(this.cursed)
          {
             this.effectIcons.frame = 1;
-            this.effectIcons.draw(param1,this.x + param2,this.y + param3 + _loc4_);
+            this.effectIcons.RotateDeg = _loc5_;
+            this.effectIcons.draw(param1,this.x + param2 + (this.flipGravity % 2 == 0?0:this.flipGravity == 1?-_loc4_:_loc4_),this.y + param3 + (this.flipGravity % 2 == 1?0:this.flipGravity == 2?-_loc4_:_loc4_));
             _loc4_ = _loc4_ - 12;
          }
       }
@@ -2246,6 +2209,16 @@ package
       public function set speedBoost(param1:Boolean) : void
       {
          this._speedBoost.value = param1;
+      }
+      
+      public function set flipGravity(param1:int) : void
+      {
+         this._flipGravity.value = param1;
+      }
+      
+      public function get flipGravity() : int
+      {
+         return this._flipGravity.value;
       }
       
       public function get jumpBoost() : Boolean
@@ -2367,25 +2340,11 @@ package
       {
          if(this.mory != 0)
          {
-            if(Global.isFlipped == true)
-            {
-               this.speedY = this.speedY - this._currentThrust * (Config.physics_jump_height / 2) * (this.mory * -0.5);
-            }
-            if(Global.isFlipped == false)
-            {
-               this.speedY = this.speedY - this._currentThrust * (Config.physics_jump_height / 2) * (this.mory * 0.5);
-            }
+            this.speedY = this.speedY - this._currentThrust * (Config.physics_jump_height / 2) * (this.mory * 0.5);
          }
          if(this.morx != 0)
          {
-            if(Global.isFlipped == true)
-            {
-               this.speedX = this.speedX - this._currentThrust * (Config.physics_jump_height / 2) * (this.morx * -0.5);
-            }
-            if(Global.isFlipped == false)
-            {
-               this.speedX = this.speedX - this._currentThrust * (Config.physics_jump_height / 2) * (this.morx * 0.5);
-            }
+            this.speedX = this.speedX - this._currentThrust * (Config.physics_jump_height / 2) * (this.morx * 0.5);
          }
          if(!this.isThrusting)
          {

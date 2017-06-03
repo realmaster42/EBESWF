@@ -364,14 +364,15 @@ package
          var _loc20_:int = 0;
          var _loc21_:String = null;
          var _loc22_:String = null;
-         var _loc23_:String = null;
+         var _loc23_:int = 0;
          var _loc24_:String = null;
-         var _loc25_:int = 0;
-         var _loc26_:Boolean = false;
-         var _loc27_:int = 0;
+         var _loc25_:String = null;
+         var _loc26_:int = 0;
+         var _loc27_:Boolean = false;
          var _loc28_:int = 0;
          var _loc29_:int = 0;
-         var _loc30_:BlText = null;
+         var _loc30_:int = 0;
+         var _loc31_:BlText = null;
          var _loc6_:int = 0;
          while(_loc6_ < param3.length)
          {
@@ -456,6 +457,7 @@ package
                case ItemId.GATE_ORANGE:
                   _loc17_ = param3.getInt(_loc4_++);
                   break;
+               case ItemId.EFFECT_GRAVITY:
                case ItemId.SPIKE:
                   _loc18_ = param3.getInt(_loc4_++);
                   break;
@@ -466,31 +468,33 @@ package
                   _loc20_ = param3.getInt(_loc4_++);
                   break;
                case ItemId.WORLD_PORTAL:
-                  _loc23_ = param3.getString(_loc4_++);
+                  _loc24_ = param3.getString(_loc4_++);
                   break;
                case ItemId.TEXT_SIGN:
-                  _loc24_ = param3.getString(_loc4_++);
-                  _loc25_ = param3.getInt(_loc4_++);
+                  _loc25_ = param3.getString(_loc4_++);
+                  _loc26_ = param3.getInt(_loc4_++);
                   break;
                case 1000:
                   _loc21_ = param3.getString(_loc4_++);
                   _loc22_ = param3.getString(_loc4_++);
+                  _loc23_ = param3.getInt(_loc4_++);
                   break;
                case 83:
                case 77:
+               case 1520:
                   _loc19_ = param3.getInt(_loc4_++);
             }
             _loc15_.position = 0;
             _loc16_.position = 0;
-            _loc27_ = 0;
-            while(_loc27_ < _loc15_.length / 2)
+            _loc28_ = 0;
+            while(_loc28_ < _loc15_.length / 2)
             {
-               _loc28_ = _loc15_.readUnsignedShort();
-               _loc29_ = _loc16_.readUnsignedShort();
-               _loc7_[_loc14_][_loc29_][_loc28_] = _loc13_;
+               _loc29_ = _loc15_.readUnsignedShort();
+               _loc30_ = _loc16_.readUnsignedShort();
+               _loc7_[_loc14_][_loc30_][_loc29_] = _loc13_;
                if(ItemId.isBlockRotateable(_loc13_) || ItemId.isNonRotatableHalfBlock(_loc13_))
                {
-                  this.lookup.setInt(_loc28_,_loc29_,_loc18_);
+                  this.lookup.setInt(_loc29_,_loc30_,_loc18_);
                }
                switch(_loc13_)
                {
@@ -517,34 +521,37 @@ package
                   case ItemId.SWITCH_ORANGE:
                   case ItemId.DOOR_ORANGE:
                   case ItemId.GATE_ORANGE:
-                     this.lookup.setInt(_loc28_,_loc29_,_loc17_);
+                     this.lookup.setInt(_loc29_,_loc30_,_loc17_);
                      break;
                   case 83:
                   case 77:
-                     this.lookup.setInt(_loc28_,_loc29_,_loc19_);
+                  case 1520:
+                     this.lookup.setInt(_loc29_,_loc30_,_loc19_);
                      break;
+                  case ItemId.EFFECT_GRAVITY:
                   case ItemId.SPIKE:
-                     this.lookup.setInt(_loc28_,_loc29_,_loc18_);
+                     this.lookup.setInt(_loc29_,_loc30_,_loc18_);
                      break;
                   case ItemId.PORTAL_INVISIBLE:
                   case ItemId.PORTAL:
-                     this.lookup.setPortal(_loc28_,_loc29_,new Portal(_loc19_,_loc20_,_loc18_,_loc13_));
+                     this.lookup.setPortal(_loc29_,_loc30_,new Portal(_loc19_,_loc20_,_loc18_,_loc13_));
                      break;
                   case ItemId.WORLD_PORTAL:
-                     this.lookup.setText(_loc28_,_loc29_,_loc23_);
+                     this.lookup.setText(_loc29_,_loc30_,_loc24_);
                      break;
                   case 1000:
-                     _loc30_ = new BlText(Global.default_label_size,200,uint("0x" + _loc22_.substr(1,_loc22_.length)),"left","system",true);
-                     _loc30_.text = _loc21_;
-                     _loc30_.x = _loc28_ * size;
-                     _loc30_.y = _loc29_ * size;
-                     this.labelcontainer.add(_loc30_);
+                     this.lookup.setLabel(_loc29_,_loc30_,_loc21_,_loc22_,_loc23_);
+                     _loc31_ = new BlText(Global.default_label_size,_loc23_,uint("0x" + _loc22_.substr(1,_loc22_.length)),"left","system",true);
+                     _loc31_.text = _loc21_;
+                     _loc31_.x = _loc29_ * size;
+                     _loc31_.y = _loc30_ * size;
+                     this.labelcontainer.add(_loc31_);
                   case ItemId.TEXT_SIGN:
-                     this.lookup.setTextSign(_loc28_,_loc29_,new TextSign(_loc24_,_loc25_));
+                     this.lookup.setTextSign(_loc29_,_loc30_,new TextSign(_loc25_,_loc26_));
                      break;
                   case ItemId.BRICK_COMPLETE:
                }
-               _loc27_++;
+               _loc28_++;
             }
          }
          setMapArray(_loc7_);
@@ -617,6 +624,7 @@ package
             case ItemId.GATE_ORANGE:
                this.lookup.setInt(param2,param3,param5.goal);
                break;
+            case ItemId.EFFECT_GRAVITY:
             case ItemId.SPIKE:
                if(param5.rotation != null)
                {
@@ -644,6 +652,7 @@ package
                break;
             case 83:
             case 77:
+            case 1520:
                this.lookup.setInt(param2,param3,param5.sound);
                this.lookup.setBlink(param2,param3,30);
                break;
@@ -651,12 +660,13 @@ package
             case 412:
             case 413:
             case 414:
-            case 1512:
             case ItemId.SLOW_DOT_INVISIBLE:
+            case 1519:
                this.lookup.setBlink(param2,param3,0);
                break;
             case 1000:
-               _loc6_ = new BlText(Global.default_label_size,200,uint("0x" + param5.text_color.substr(1,param5.text_color.length)),"left","system",true);
+               this.lookup.setLabel(param2,param3,param5.text,param5.text_color,Bl.data.wrapLength);
+               _loc6_ = new BlText(Global.default_label_size,this.lookup.getLabel(param2,param3).WrapLength,uint("0x" + param5.text_color.substr(1,param5.text_color.length)),"left","system",true);
                _loc6_.text = param5.text;
                _loc6_.x = param2 * size;
                _loc6_.y = param3 * size;
@@ -1436,6 +1446,26 @@ package
                                  continue;
                               }
                               break;
+                           case 1519:
+                              if(!this.player.isFlying && !param4)
+                              {
+                                 if(this.lookup.isBlink(_loc13_,_loc12_))
+                                 {
+                                    if(this.lookup.getBlink(_loc13_,_loc12_) >= 0)
+                                    {
+                                       ItemManager.sprInvGravityDownBlink.drawPoint(param1,point,this.lookup.getBlink(_loc13_,_loc12_));
+                                       if(this.lookup.updateBlink(_loc13_,_loc12_,1 / 10) >= 5)
+                                       {
+                                          this.lookup.deleteBlink(_loc13_,_loc12_);
+                                       }
+                                       continue;
+                                    }
+                                    this.lookup.updateBlink(_loc13_,_loc12_,1);
+                                    break;
+                                 }
+                                 continue;
+                              }
+                              break;
                            case ItemId.SLOW_DOT_INVISIBLE:
                               if(!this.player.isFlying && !param4)
                               {
@@ -1597,14 +1627,7 @@ package
                               continue;
                            case ItemId.EFFECT_TEAM:
                               _loc25_ = this.lookup.getInt(_loc13_,_loc12_);
-                              if(_loc25_ == 0)
-                              {
-                                 ItemManager.getBrickById(ItemId.EFFECT_TEAM).drawTo(param1,(_loc13_ << 4) + param2,(_loc12_ << 4) + param3);
-                              }
-                              else
-                              {
-                                 ItemManager.sprTeamEffect.drawPoint(param1,point,_loc25_ - 1);
-                              }
+                              ItemManager.sprTeamEffect.drawPoint(param1,point,_loc25_);
                               continue;
                            case ItemId.TEAM_DOOR:
                               _loc26_ = this.lookup.getInt(_loc13_,_loc12_);
@@ -1646,7 +1669,17 @@ package
                               ItemManager.sprEffect.drawPoint(param1,point,!!this.lookup.getBoolean(_loc13_,_loc12_)?13:14);
                               continue;
                            case ItemId.EFFECT_MULTIJUMP:
-                              ItemManager.sprEffect.drawPoint(param1,point,15 + this.lookup.getInt(_loc13_,_loc12_));
+                              if(this.lookup.getInt(_loc13_,_loc12_) == 1)
+                              {
+                                 ItemManager.sprEffect.drawPoint(param1,point,16);
+                              }
+                              else
+                              {
+                                 ItemManager.sprMultiJumps.drawPoint(param1,point,this.lookup.getInt(_loc13_,_loc12_));
+                              }
+                              continue;
+                           case ItemId.EFFECT_GRAVITY:
+                              ItemManager.sprGravityEffect.drawPoint(param1,point,this.lookup.getInt(_loc13_,_loc12_));
                               continue;
                            case 50:
                               if(this.showAllSecrets || param4 || this.lookup.getSecret(_loc13_,_loc12_))
@@ -1729,29 +1762,17 @@ package
                                  this.lookup.setBlink(_loc13_,_loc12_,11);
                               }
                               continue;
-                           case 1512:
-                              if(!this.player.isFlying && !param4)
+                           case 1520:
+                              if(this.lookup.isBlink(_loc13_,_loc12_))
                               {
-                                 if(this.lookup.isBlink(_loc13_,_loc12_))
+                                 ItemManager.sprGuitarBlink.drawPoint(param1,point,this.lookup.getBlink(_loc13_,_loc12_) / 6 << 0);
+                                 if(this.lookup.updateBlink(_loc13_,_loc12_,-1) <= 0)
                                  {
-                                    if(this.lookup.getBlink(_loc13_,_loc12_) >= 0)
-                                    {
-                                       ItemManager.sprInvDownArrow.drawPoint(param1,point,this.lookup.getBlink(_loc13_,_loc12_));
-                                       if(this.lookup.updateBlink(_loc13_,_loc12_,1 / 10) >= 5)
-                                       {
-                                          this.lookup.deleteBlink(_loc13_,_loc12_);
-                                       }
-                                       continue;
-                                    }
-                                    this.lookup.updateBlink(_loc13_,_loc12_,1);
-                                    break;
+                                    this.lookup.deleteBlink(_loc13_,_loc12_);
                                  }
                                  continue;
                               }
                               break;
-                           case 1519:
-                              ItemManager.sprCacile.drawPoint(param1,point,((this.offset / 2 >> 0) + _loc13_ + _loc12_) % 8);
-                              continue;
                            default:
                               param1.copyPixels(ItemManager.bmdBricks[type],rect18x18,point);
                         }
@@ -1851,16 +1872,8 @@ package
                      ItemManager.sprWater.drawPoint(param1,point,(this.lookup.getNumber(_loc12_,_loc11_) / 5 >> 0) % 99);
                      break;
                   case ItemId.TEXT_SIGN:
-                     if(Global.isFlipped)
-                     {
-                        _loc14_ = !ItemId.isSolid(getTile(0,_loc12_,_loc11_ - 1));
-                        ItemManager.sprSign.drawPoint(param1,point,this.lookup.getTextSign(_loc12_,_loc11_).type + (!!_loc14_?4:151));
-                     }
-                     else
-                     {
-                        _loc14_ = !ItemId.isSolid(getTile(0,_loc12_,_loc11_ + 1));
-                        ItemManager.sprSign.drawPoint(param1,point,this.lookup.getTextSign(_loc12_,_loc11_).type + (!!_loc14_?4:0));
-                     }
+                     _loc14_ = !ItemId.isSolid(getTile(0,_loc12_,_loc11_ + 1));
+                     ItemManager.sprSign.drawPoint(param1,point,this.lookup.getTextSign(_loc12_,_loc11_).type + (!!_loc14_?4:0));
                      break;
                   case ItemId.LAVA:
                      ItemManager.sprLava.drawPoint(param1,point,(this.offset / 5 >> 0) % 8);

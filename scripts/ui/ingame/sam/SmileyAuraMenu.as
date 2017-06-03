@@ -193,7 +193,7 @@ package ui.ingame.sam
          this.smileyContainer.graphics.beginFill(3289650,1);
          this.smileyContainer.graphics.drawRect(0,0,this.smileyContainerWidth,this.smileyContainerHeight);
          this.smileyContainer.graphics.endFill();
-         var _loc3_:Boolean = Bl.data.canToggleGodMode && !Global.player_is_guest;
+         var _loc3_:Boolean = Bl.data.canToggleGodMode && !Global.player_is_guest && !Bl.data.isOpenWorld;
          var _loc4_:PlayState = Global.base.state as PlayState;
          if(_loc4_ != null && _loc4_.player.isInGodMode)
          {

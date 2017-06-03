@@ -5,11 +5,11 @@ package
    public class Config
    {
       
-      public static const playerio_game_id:String = "eers-2-open-alpha-dq1cyz1b3ku5j7q16ej6vw";
+      public static const playerio_game_id:String = "dpb-uybo9pkmw0ixgbs0kbzg";
       
-      public static const client_type_version:String = "219.1";
+      public static const client_type_version:String = "221";
       
-      public static const server_type_version:int = 220;
+      public static const server_type_version:int = 221;
       
       public static const server_type_normalroom:String = "Everybuildexists" + server_type_version;
       
@@ -25,15 +25,15 @@ package
       
       public static const url_blog:String = "http://everybuildexists.weebly.com/ebes-blog";
       
-      public static const url_goldmember_about_page:String = "http://everybuildexists.weebly.com";
+      public static const url_goldmember_about_page:String = "http://everybuildexists.boards.net/thread/7/read-before-asking-faq";
       
-      public static const url_terms_page:String = "http://everybuildexists.weebly.com";
+      public static const url_terms_page:String = "http://everybuildexists.boards.net/thread/7/read-before-asking-faq";
       
-      public static const url_help_page:String = "http://everybuildexists.weebly.com";
+      public static const url_help_page:String = "http://everybuildexists.boards.net/thread/7/read-before-asking-faq";
       
       public static const url_faq:String = "http://everybuildexists.boards.net/thread/7/read-before-asking-faq";
       
-      public static const url_forums:String = "http://everybuildexists.boards.net/";
+      public static const url_forums:String = "http://everybuildexists.boards.net";
       
       public static const use_debug_server:Boolean = false;
       
@@ -156,6 +156,8 @@ package
       public static const effectFire:int = 8;
       
       public static const effectMultijump:int = 9;
+      
+      public static const effectGravity:int = 10;
       
       public static const max_Particles:int = 45;
       

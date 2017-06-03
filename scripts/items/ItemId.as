@@ -145,6 +145,8 @@ package items
       
       public static const EFFECT_MULTIJUMP:int = 461;
       
+      public static const EFFECT_GRAVITY:int = 1517;
+      
       public static const TEAM_DOOR:int = 1027;
       
       public static const TEAM_GATE:int = 1028;
@@ -192,6 +194,26 @@ package items
       public static const HALFBLOCK_DOMESTIC_BROWN:int = 1042;
       
       public static const HALFBLOCK_DOMESTIC_WHITE:int = 1043;
+      
+      public static const HALFBLOCK_WHITE:int = 1116;
+      
+      public static const HALFBLOCK_GRAY:int = 1117;
+      
+      public static const HALFBLOCK_BLACK:int = 1118;
+      
+      public static const HALFBLOCK_RED:int = 1119;
+      
+      public static const HALFBLOCK_ORANGE:int = 1120;
+      
+      public static const HALFBLOCK_YELLOW:int = 1121;
+      
+      public static const HALFBLOCK_GREEN:int = 1122;
+      
+      public static const HALFBLOCK_CYAN:int = 1123;
+      
+      public static const HALFBLOCK_BLUE:int = 1124;
+      
+      public static const HALFBLOCK_PURPLE:int = 1125;
       
       public static const HALLOWEEN_2015_ONEWAY:int = 1050;
       
@@ -274,6 +296,8 @@ package items
       public static const CHRISTMAS_2016_LIGHTS_DOWN:int = 1507;
       
       public static const CHRISTMAS_2016_CANDLE:int = 1510;
+      
+      public static const GOD_BLOCK:int = 1516;
        
       
       public function ItemId()
@@ -378,6 +402,16 @@ package items
             case HALLOWEEN_2016_PUMPKIN:
             case CHRISTMAS_2016_LIGHTS_DOWN:
             case CHRISTMAS_2016_LIGHTS_UP:
+            case HALFBLOCK_WHITE:
+            case HALFBLOCK_GRAY:
+            case HALFBLOCK_BLACK:
+            case HALFBLOCK_RED:
+            case HALFBLOCK_ORANGE:
+            case HALFBLOCK_YELLOW:
+            case HALFBLOCK_GREEN:
+            case HALFBLOCK_CYAN:
+            case HALFBLOCK_BLUE:
+            case HALFBLOCK_PURPLE:
                return true;
             default:
                return false;
@@ -438,9 +472,6 @@ package items
             case ONEWAY_WHITE:
             case HALLOWEEN_2015_ONEWAY:
             case ONEWAY_SCIFI_YELLOW:
-            case 1117:
-            case 1118:
-            case 1119:
                return true;
             default:
                return false;
@@ -477,6 +508,16 @@ package items
             case HALFBLOCK_CHRISTMAS_2016_PRESENT_WHITE:
             case HALFBLOCK_CHRISTMAS_2016_PRESENT_BLUE:
             case HALFBLOCK_CHRISTMAS_2016_PRESENT_YELLOW:
+            case HALFBLOCK_WHITE:
+            case HALFBLOCK_GRAY:
+            case HALFBLOCK_BLACK:
+            case HALFBLOCK_RED:
+            case HALFBLOCK_ORANGE:
+            case HALFBLOCK_YELLOW:
+            case HALFBLOCK_GREEN:
+            case HALFBLOCK_CYAN:
+            case HALFBLOCK_BLUE:
+            case HALFBLOCK_PURPLE:
                return true;
             default:
                return false;

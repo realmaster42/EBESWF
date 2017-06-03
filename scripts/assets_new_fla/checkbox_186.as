@@ -1,12 +1,12 @@
-package assets_new_xfl_fla
+package assets_new_fla
 {
    import flash.display.MovieClip;
    
-   public dynamic class input_bg_35 extends MovieClip
+   public dynamic class checkbox_186 extends MovieClip
    {
        
       
-      public function input_bg_35()
+      public function checkbox_186()
       {
          super();
          addFrameScript(0,this.frame1);

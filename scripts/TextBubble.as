@@ -85,51 +85,12 @@ package
       {
          var _loc6_:String = null;
          var _loc5_:Player = (Global.base.state as PlayState).player;
-         param1 = param1.replace(/%username%/g,_loc5_.name);
-         param1 = param1.replace(/%USERNAME%/g,_loc5_.name.toUpperCase());
-         var _loc7_:* = _loc5_.name.replace(_loc5_.name.charAt(0),"");
-         param1 = param1.replace(/%Username%/g,_loc5_.name.charAt(0).toUpperCase() + _loc7_);
          param1 = param1.replace(/%coins%/g,_loc5_.coins);
          param1 = param1.replace(/%bcoins%/g,_loc5_.bcoins);
-         param1 = param1.replace(/%totalcoins%/g,Global.totalCoins);
-         param1 = param1.replace(/%totalbcoins%/g,Global.totalBCoins);
-         param1 = param1.replace(/%mathcoins%/g,Global.totalCoins - _loc5_.coins);
-         param1 = param1.replace(/%mathbcoins%/g,Global.totalBCoins - _loc5_.bcoins);
-         var _loc8_:* = Math.round(_loc5_.coins / Global.totalCoins * 100);
-         var _loc9_:* = Math.round(_loc5_.bcoins / Global.totalBCoins * 100);
-         if(_loc5_.coins != 0 && Global.totalCoins != 0)
-         {
-            param1 = param1.replace(/%progresscoins%/g,_loc8_ + "%");
-         }
-         if(_loc5_.coins == 0 && Global.totalCoins != 0)
-         {
-            param1 = param1.replace(/%progresscoins%/g,"0%");
-         }
-         if(Global.totalCoins == 0)
-         {
-            param1 = param1.replace(/%progresscoins%/g,"100%");
-         }
-         if(_loc5_.bcoins != 0 && Global.totalBCoins != 0)
-         {
-            param1 = param1.replace(/%progressbcoins%/g,_loc9_ + "%");
-         }
-         if(_loc5_.bcoins == 0 && Global.totalBCoins != 0)
-         {
-            param1 = param1.replace(/%progressbcoins%/g,"0%");
-         }
-         if(Global.totalBCoins == 0)
-         {
-            param1 = param1.replace(/%progressbcoins%/g,"100%");
-         }
          param1 = param1.replace(/%deaths%/g,_loc5_.deaths);
          param1 = param1.replace(/%levelname%/g,Global.currentLevelname);
-         param1 = param1.replace(/%maxenergy%/g,Shop.totalEnergy);
-         param1 = param1.replace(/%energy%/g,Shop.energy);
-         param1 = param1.replace(/%gems%/g,Shop.gems);
-         param1 = param1.replace(/%plays%/g,Global.plays);
-         param1 = param1.replace(/%likes%/g,Global.likes);
-         param1 = param1.replace(/%favorites%/g,Global.favorites);
-         param1 = param1.replace(/%description%/g,Global.description);
+         param1 = param1.replace(/%username%/g,_loc5_.name);
+         param1 = param1.replace(/%USERNAME%/g,_loc5_.name.toUpperCase());
          param1 = param1.replace(/\\n/g,"\n");
          if(this.latest != param1 || this.latest2 != param2)
          {

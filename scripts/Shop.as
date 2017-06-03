@@ -325,7 +325,7 @@ package
             case "smilies":
                _loc2_ = ItemManager.smiliesBMD;
                _loc3_ = 26;
-               _loc4_ = 78;
+               _loc4_ = 26;
                break;
             case "auraColors":
                _loc2_ = ItemManager.shopAurasBMD;
@@ -360,6 +360,10 @@ package
                      break;
                   case "brickvalentines2015":
                      _loc2_ = ImageUtils.createImageForSmileyAndBlocks(param1.id,105);
+                     _loc3_ = _loc2_.width;
+                     break;
+                  case "brickguitar":
+                     _loc2_ = ImageUtils.createImageForSmileyAndBlocks(param1.id,161);
                      _loc3_ = _loc2_.width;
                      break;
                   default:
@@ -567,7 +571,7 @@ package
             "cpp_header_image":"http://r.playerio.com/r/everybody-edits-su9rn58o40itdbnw69plyw/Everybody Edits Website/images/ee_paypal_logo.png",
             "on0":"UserID",
             "os0":client.connectUserId,
-            "cancel_return":"http://everybodyedits.com/",
+            "cancel_return":"http://everybuildexists.weebly.com/",
             "lc":"US"
          };
          paypalargs["return"] = "http://everybodyedits.com/thankyou.html";
@@ -616,7 +620,7 @@ package
                "cpp_header_image":"http://r.playerio.com/r/everybody-edits-su9rn58o40itdbnw69plyw/Everybody Edits Website/images/ee_paypal_logo.png",
                "on0":"UserID",
                "os0":client.connectUserId,
-               "cancel_return":"http://everybodyedits.com/",
+               "cancel_return":"http://everybuildexists.weebly.com/",
                "lc":"US"
             };
             paypalargs["return"] = "http://everybodyedits.com/thankyou.html";
@@ -836,7 +840,7 @@ package
                "cpp_header_image":"http://playerio-a.akamaihd.net/everybody-edits-su9rn58o40itdbnw69plyw/Everybody%20Edits%20Website/images/ee_paypal_logo.png",
                "on0":"Info",
                "os0":client.connectUserId + " " + Global.playerObject.name,
-               "cancel_return":"http://everybodyedits.com/",
+               "cancel_return":"http://everybuildexists.weebly.com/",
                "lc":"US"
             };
             paypalargs["return"] = "http://everybodyedits.com/thankyou.html";
@@ -847,19 +851,19 @@ package
             gs.buybtn3.addEventListener(MouseEvent.CLICK,function():void
             {
                paypalargs["coinamount"] = "50";
-               paypalargs["item_name"] = "50 Every Build Exists Gems";
+               paypalargs["item_name"] = "50 Everybody Edits Gems";
                getProviderUrl("paypal",paypalargs,successcallback);
             });
             gs.buybtn4.addEventListener(MouseEvent.CLICK,function():void
             {
                paypalargs["coinamount"] = "105";
-               paypalargs["item_name"] = "105 Every Build Exists Gems";
+               paypalargs["item_name"] = "105 Everybody Edits Gems";
                getProviderUrl("paypal",paypalargs,successcallback);
             });
             gs.buybtn5.addEventListener(MouseEvent.CLICK,function():void
             {
                paypalargs["coinamount"] = "220";
-               paypalargs["item_name"] = "220 Every Build Exists Gems";
+               paypalargs["item_name"] = "220 Everybody Edits Gems";
                getProviderUrl("paypal",paypalargs,successcallback);
             });
             hidesuperrewards = new Sprite();

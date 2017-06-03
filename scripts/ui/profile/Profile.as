@@ -212,8 +212,6 @@ package ui.profile
             this.profileObject.goldmember = param1.getBoolean(_loc2_++);
             this.profileObject.goldremain = param1.getNumber(_loc2_++);
             this.profileObject.goldtime = param1.getNumber(_loc2_++);
-            this.profileObject.gold_join = param1.getNumber(_loc2_++);
-            this.profileObject.gold_expire = param1.getNumber(_loc2_++);
             this.profileObject.room0 = param1.getString(_loc2_) != ""?param1.getString(_loc2_):null;
             _loc2_++;
             this.profileObject.betaonlyroom = param1.getString(_loc2_) != ""?param1.getString(_loc2_):null;

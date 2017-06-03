@@ -22,6 +22,7 @@ package ui
       
       public function LevelOptions(param1:Connection, param2:String, param3:String, param4:Boolean, param5:Boolean, param6:Boolean, param7:String, param8:int, param9:int, param10:Boolean, param11:Boolean, param12:Boolean, param13:Boolean, param14:UI2)
       {
+         var worldVisibility:WorldVisibilitySmall = null;
          var worldStatus:WorldStatusSmall = null;
          var con:Connection = param1;
          var levelname:String = param2;
@@ -85,15 +86,9 @@ package ui
          Info.input_description.text = description;
          Info.btn_randkey.addEventListener(MouseEvent.CLICK,function():void
          {
-            if(Info.input_editkey.text != editkey)
-            {
-               con.send("key",Info.input_editkey.text);
-               editkey = Info.input_editkey.text;
-               ui2.editKey = editkey;
-            }
+            Info.input_editkey.text = genEditKey(16);
          });
          this.descChar();
-         this.setupCheckbox(Permissions.visible_checkbox,levelVisible);
          this.setupCheckbox(Permissions.showlobby_checkbox,!levelHideLobby);
          this.setupCheckbox(Permissions.spectating_checkbox,allowSpectating);
          this.setupCheckbox(Settings.checkbox_minimap_ingame,minimapEnabled);
@@ -131,39 +126,41 @@ package ui
          this.backgroundColorSelector = new BackgroundColorSelector(con);
          this.backgroundColorSelector.y = 120;
          Settings.addChild(this.backgroundColorSelector);
+         worldVisibility = new WorldVisibilitySmall(con);
+         worldVisibility.y = 80;
          worldStatus = new WorldStatusSmall(con);
-         worldStatus.y = 110;
+         worldStatus.y = worldVisibility.height + 12;
          if(Global.currentLevelCrew != "")
          {
             Permissions.addChild(worldStatus);
          }
-         Info.input_description.text = Global.description;
+         Permissions.addChild(worldVisibility);
          this.save_all.addEventListener(MouseEvent.MOUSE_DOWN,function(param1:MouseEvent):void
          {
+            var _loc6_:int = 0;
             var _loc7_:int = 0;
-            var _loc8_:int = 0;
             if(Info.input_name.text != levelname)
             {
                con.send("name",Info.input_name.text);
                levelname = Info.input_name.text;
             }
-            var _loc2_:* = Permissions.visible_checkbox.currentFrame == 2;
-            if(levelVisible != _loc2_)
+            if(Info.input_editkey.text != editkey)
             {
-               con.send("setRoomVisible",_loc2_);
-               levelVisible = _loc2_;
+               con.send("key",Info.input_editkey.text);
+               editkey = Info.input_editkey.text;
+               ui2.editKey = editkey;
             }
-            var _loc3_:* = Permissions.showlobby_checkbox.currentFrame == 2;
-            if(levelHideLobby != !_loc3_)
+            var _loc2_:* = Permissions.showlobby_checkbox.currentFrame == 2;
+            if(levelHideLobby != !_loc2_)
             {
-               con.send("setHideLobby",!_loc3_);
-               levelHideLobby = !_loc3_;
+               con.send("setHideLobby",!_loc2_);
+               levelHideLobby = !_loc2_;
             }
-            var _loc4_:* = Permissions.spectating_checkbox.currentFrame == 2;
-            if(allowSpectating != _loc4_)
+            var _loc3_:* = Permissions.spectating_checkbox.currentFrame == 2;
+            if(allowSpectating != _loc3_)
             {
-               con.send("setAllowSpectating",_loc4_);
-               allowSpectating = _loc4_;
+               con.send("setAllowSpectating",_loc3_);
+               allowSpectating = _loc3_;
             }
             if(description != Info.input_description.text)
             {
@@ -172,37 +169,38 @@ package ui
             }
             if(hasCurse)
             {
-               _loc7_ = parseInt(Settings.curseLimitTf.text);
-               if(!isNaN(_loc7_) && _loc7_ >= 0 && _loc7_ <= 75)
+               _loc6_ = parseInt(Settings.curseLimitTf.text);
+               if(!isNaN(_loc6_) && _loc6_ >= 0 && _loc6_ <= 75)
                {
-                  con.send("setCurseLimit",_loc7_);
+                  con.send("setCurseLimit",_loc6_);
                }
             }
             if(hasZombie)
             {
-               _loc8_ = parseInt(Settings.zombieLimitTf.text);
-               if(!isNaN(_loc8_) && _loc8_ >= 0 && _loc8_ <= 75)
+               _loc7_ = parseInt(Settings.zombieLimitTf.text);
+               if(!isNaN(_loc7_) && _loc7_ >= 0 && _loc7_ <= 75)
                {
-                  con.send("setZombieLimit",_loc8_);
+                  con.send("setZombieLimit",_loc7_);
                }
             }
-            var _loc5_:* = Settings.checkbox_minimap_ingame.currentFrame == 2;
-            if(minimapEnabled != _loc5_)
+            var _loc4_:* = Settings.checkbox_minimap_ingame.currentFrame == 2;
+            if(minimapEnabled != _loc4_)
             {
-               con.send("setMinimapEnabled",_loc5_);
-               minimapEnabled = _loc5_;
+               con.send("setMinimapEnabled",_loc4_);
+               minimapEnabled = _loc4_;
             }
-            var _loc6_:* = Settings.checkbox_minimap_lobby.currentFrame == 2;
-            if(lobbyPreviewEnabled != _loc6_)
+            var _loc5_:* = Settings.checkbox_minimap_lobby.currentFrame == 2;
+            if(lobbyPreviewEnabled != _loc5_)
             {
-               con.send("setLobbyPreviewEnabled",_loc6_);
-               lobbyPreviewEnabled = _loc6_;
+               con.send("setLobbyPreviewEnabled",_loc5_);
+               lobbyPreviewEnabled = _loc5_;
             }
             backgroundColorSelector.handleSave();
             if(Global.currentLevelCrew != "")
             {
                worldStatus.handleSave();
             }
+            worldVisibility.handleSave();
             showInfo("Saved all settings!");
          });
          closebtn.addEventListener(MouseEvent.MOUSE_DOWN,this.close);

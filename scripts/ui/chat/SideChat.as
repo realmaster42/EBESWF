@@ -97,9 +97,6 @@ package ui.chat
          {
             setMetaData(param2,param3,param4,param5,param6);
             Global.currentLevelname = param3;
-            Global.plays = param4;
-            Global.favorites = param5;
-            Global.likes = param6;
          });
          c.addMessageHandler("say",function(param1:Message, param2:int, param3:String):void
          {

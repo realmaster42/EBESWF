@@ -129,8 +129,10 @@ package ui
          this.hoverlabel.visible = false;
          gotoAndStop(Global.playing_on_kongregate || Global.playing_on_armorgames?!!inGame?4:2:!!inGame?3:1);
          this.ss = Global.base.ui2instance;
+         tf_hbox.visible = false;
          tf_box.visible = false;
          minimapTransparency.restrict = "0-9 %";
+         historyLimitAmount.restrict = "0-9";
          if(inGame)
          {
             this.blackBG = new BlackBG();
@@ -246,6 +248,7 @@ package ui
          blockPickerCheck.gotoAndStop(int(this.blockPicker) + 1);
          this.minimapTransparentValue = Global.cookie.data.transparencyValue != null?Number(Global.cookie.data.transparencyValue):Number(1);
          minimapTransparency.text = this.minimapTransparentValue + "%";
+         historyLimitAmount.text = Global.historyLimit.toString();
          this.wordFilter = Global.cookie.data.filterbadwords != null?Boolean(Global.cookie.data.filterbadwords):true;
          wordFilterCheck.gotoAndStop(int(this.wordFilter) + 1);
          this.hideChatBubbles = Global.cookie.data.hideChatBubbles != null?Boolean(Global.cookie.data.hideChatBubbles):false;
@@ -315,6 +318,9 @@ package ui
          minimapTransparency.addEventListener(KeyboardEvent.KEY_DOWN,this.handleKeyPresses);
          minimapTransparency.addEventListener(FocusEvent.FOCUS_IN,this.handleTransparencyBox);
          minimapTransparency.addEventListener(FocusEvent.FOCUS_OUT,this.handleTransparencyBox);
+         historyLimitAmount.addEventListener(KeyboardEvent.KEY_DOWN,this.handleKeyPresses);
+         historyLimitAmount.addEventListener(FocusEvent.FOCUS_IN,this.handleHistoryBox);
+         historyLimitAmount.addEventListener(FocusEvent.FOCUS_OUT,this.handleHistoryBox);
          wordFilterCheck.addEventListener(MouseEvent.CLICK,this.handleCheckBoxes);
          hideChatBubblesCheck.addEventListener(MouseEvent.CLICK,this.handleCheckBoxes);
          hideProfileCheck.addEventListener(MouseEvent.CLICK,this.handleCheckBoxes);
@@ -708,6 +714,45 @@ package ui
                {
                   this.setTransparency();
                }
+               break;
+            case historyLimitAmount:
+               if(param1.keyCode == 13)
+               {
+                  this.setHistoryLimit();
+               }
+         }
+      }
+      
+      private function handleHistoryBox(param1:FocusEvent) : void
+      {
+         if(param1.type == FocusEvent.FOCUS_IN)
+         {
+            if(!tf_hbox.visible)
+            {
+               tf_hbox.visible = true;
+               historyLimitAmount.textColor = 0;
+            }
+         }
+         else if(param1.type == FocusEvent.FOCUS_OUT)
+         {
+            this.setHistoryLimit();
+         }
+      }
+      
+      private function setHistoryLimit() : void
+      {
+         var _loc1_:int = 0;
+         if(tf_hbox.visible)
+         {
+            stage.stageFocusRect = false;
+            stage.focus = this;
+            historyLimitAmount.textColor = 16777215;
+            tf_hbox.visible = false;
+            if(historyLimitAmount.text.length > 0)
+            {
+               _loc1_ = int(historyLimitAmount.text);
+               Global.historyLimit = _loc1_;
+            }
          }
       }
       

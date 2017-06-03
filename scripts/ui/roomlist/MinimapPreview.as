@@ -100,10 +100,6 @@ package ui.roomlist
             lastChar = this.worldLabel.text.substring(0,lastChar + 1).search(/\S\s*$/);
             this.worldLabel.text = this.worldLabel.text.substring(0,lastChar + 1);
          }
-         this.ownerLabel = new Label("",12,"center",16777215,false,"Arial");
-         this.ownerLabel.multiline = true;
-         this.ownerLabel.wordWrap = true;
-         this.ownerLabel.autoSize = TextFieldAutoSize.CENTER;
          this.minimapBox.addChild(this.world);
          this.loadLevel(Global.base.client);
          this.button.addEventListener(MouseEvent.MOUSE_DOWN,this.handleCloseMinimapPreview,false,0,true);
@@ -158,17 +154,6 @@ package ui.roomlist
          this.wHeight = o.height;
          this.content.removeChild(this.loadingLabel);
          this.content.addChild(this.worldLabel);
-         if(o.crew == "")
-         {
-            this.ownerLabel.text = "\nBy: " + o.ownerusername;
-            this.ownerLabel.setTextFormat(new TextFormat("system",11,16777215,null,null,null,null,null,"center"),0,o.ownerusername.length + "\nBy: ".length);
-         }
-         else
-         {
-            this.ownerLabel.text = "\nBy the crew: " + o.crew;
-            this.ownerLabel.setTextFormat(new TextFormat("system",11,16777215,null,null,null,null,null,"center"),0,o.crew.length + "\nBy the crew: ".length);
-         }
-         this.content.addChild(this.ownerLabel);
          this.worldLabel.width = this.wWidth;
          this.base.width = this.worldLabel.width;
          this.content.add(new Box().margin(this.worldLabel.textHeight + 5,0,0,0).add(new Box().fill(0,1,10).add(this.minimapBox)));

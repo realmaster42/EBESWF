@@ -120,7 +120,7 @@ package ui.campaigns
          switch(param1)
          {
             case "world0":
-               return "30x30 World";
+               return "25x25 World";
             case "world1":
                return "50x50 World";
             case "world2":
@@ -136,15 +136,9 @@ package ui.campaigns
             case "world7":
                return "636x50 World";
             case "world8":
-               return "50x50 World";
-            case "world9":
-               return "25x25 World";
-            case "world10":
-               return "400x200 World";
+               return "110x110 World";
             case "world11":
                return "300x300 World";
-            case "world12":
-               return "200x400 World";
             default:
                return "";
          }

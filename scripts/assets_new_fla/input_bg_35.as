@@ -1,12 +1,12 @@
-package ui2_fla_fla
+package assets_new_fla
 {
    import flash.display.MovieClip;
    
-   public dynamic class togglebricks_53 extends MovieClip
+   public dynamic class input_bg_35 extends MovieClip
    {
        
       
-      public function togglebricks_53()
+      public function input_bg_35()
       {
          super();
          addFrameScript(0,this.frame1);

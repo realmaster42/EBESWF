@@ -1,6 +1,8 @@
 package sounds
 {
    import flash.media.Sound;
+   import flash.media.SoundMixer;
+   import flash.media.SoundTransform;
    
    public class SoundManager
    {
@@ -244,6 +246,108 @@ package sounds
       private static var drums20:Class = SoundManager_drums20;
       
       public static var drumSounds:Vector.<Sound> = new Vector.<Sound>();
+      
+      private static var guitar1:Class = SoundManager_guitar1;
+      
+      private static var guitar2:Class = SoundManager_guitar2;
+      
+      private static var guitar3:Class = SoundManager_guitar3;
+      
+      private static var guitar4:Class = SoundManager_guitar4;
+      
+      private static var guitar5:Class = SoundManager_guitar5;
+      
+      private static var guitar6:Class = SoundManager_guitar6;
+      
+      private static var guitar7:Class = SoundManager_guitar7;
+      
+      private static var guitar8:Class = SoundManager_guitar8;
+      
+      private static var guitar9:Class = SoundManager_guitar9;
+      
+      private static var guitar10:Class = SoundManager_guitar10;
+      
+      private static var guitar11:Class = SoundManager_guitar11;
+      
+      private static var guitar12:Class = SoundManager_guitar12;
+      
+      private static var guitar13:Class = SoundManager_guitar13;
+      
+      private static var guitar14:Class = SoundManager_guitar14;
+      
+      private static var guitar15:Class = SoundManager_guitar15;
+      
+      private static var guitar16:Class = SoundManager_guitar16;
+      
+      private static var guitar17:Class = SoundManager_guitar17;
+      
+      private static var guitar18:Class = SoundManager_guitar18;
+      
+      private static var guitar19:Class = SoundManager_guitar19;
+      
+      private static var guitar20:Class = SoundManager_guitar20;
+      
+      private static var guitar21:Class = SoundManager_guitar21;
+      
+      private static var guitar22:Class = SoundManager_guitar22;
+      
+      private static var guitar23:Class = SoundManager_guitar23;
+      
+      private static var guitar24:Class = SoundManager_guitar24;
+      
+      private static var guitar25:Class = SoundManager_guitar25;
+      
+      private static var guitar26:Class = SoundManager_guitar26;
+      
+      private static var guitar27:Class = SoundManager_guitar27;
+      
+      private static var guitar28:Class = SoundManager_guitar28;
+      
+      private static var guitar29:Class = SoundManager_guitar29;
+      
+      private static var guitar30:Class = SoundManager_guitar30;
+      
+      private static var guitar31:Class = SoundManager_guitar31;
+      
+      private static var guitar32:Class = SoundManager_guitar32;
+      
+      private static var guitar33:Class = SoundManager_guitar33;
+      
+      private static var guitar34:Class = SoundManager_guitar34;
+      
+      private static var guitar35:Class = SoundManager_guitar35;
+      
+      private static var guitar36:Class = SoundManager_guitar36;
+      
+      private static var guitar37:Class = SoundManager_guitar37;
+      
+      private static var guitar38:Class = SoundManager_guitar38;
+      
+      private static var guitar39:Class = SoundManager_guitar39;
+      
+      private static var guitar40:Class = SoundManager_guitar40;
+      
+      private static var guitar41:Class = SoundManager_guitar41;
+      
+      private static var guitar42:Class = SoundManager_guitar42;
+      
+      private static var guitar43:Class = SoundManager_guitar43;
+      
+      private static var guitar44:Class = SoundManager_guitar44;
+      
+      private static var guitar45:Class = SoundManager_guitar45;
+      
+      private static var guitar46:Class = SoundManager_guitar46;
+      
+      private static var guitar47:Class = SoundManager_guitar47;
+      
+      private static var guitar48:Class = SoundManager_guitar48;
+      
+      private static var guitar49:Class = SoundManager_guitar49;
+      
+      public static var guitarSounds:Vector.<Sound> = new Vector.<Sound>();
+      
+      public static var guitarMap:Array = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,1,2,3,4,5,6,7,8,9,10,11,12,13,14,26,27,28,29,30,21,22,23,24,25,1,2,3,4,5,6,7,8,9,10,31,32,33,34,35,36,27,28,29,30,21,22,23,24,25,1,2,3,4,5,37,38,39,40,41,42,32,33,34,35,36,27,28,29,30,21,22,23,24,25,43,44,45,46,47,48,38,39,40,41,42,32,33,34,35,36,27,28,29,30];
        
       
       public function SoundManager()
@@ -264,35 +368,37 @@ package sounds
          miscSounds[SoundId.MAGIC] = new Magic();
          pianoSounds.push(new piano1() as Sound,new piano2() as Sound,new piano3() as Sound,new piano4() as Sound,new piano5() as Sound,new piano6() as Sound,new piano7() as Sound,new piano8() as Sound,new piano9() as Sound,new piano10() as Sound,new piano11() as Sound,new piano12() as Sound,new piano13() as Sound,new piano14() as Sound,new piano15() as Sound,new piano16() as Sound,new piano17() as Sound,new piano18() as Sound,new piano19() as Sound,new piano20() as Sound,new piano21() as Sound,new piano22() as Sound,new piano23() as Sound,new piano24() as Sound,new piano25() as Sound,new piano26() as Sound,new piano27() as Sound,new piano28() as Sound,new piano29() as Sound,new piano30() as Sound,new piano31() as Sound,new piano32() as Sound,new piano33() as Sound,new piano34() as Sound,new piano35() as Sound,new piano36() as Sound,new piano37() as Sound,new piano38() as Sound,new piano39() as Sound,new piano40() as Sound,new piano41() as Sound,new piano42() as Sound,new piano43() as Sound,new piano44() as Sound,new piano45() as Sound,new piano46() as Sound,new piano47() as Sound,new piano48() as Sound,new piano49() as Sound,new piano50() as Sound,new piano51() as Sound,new piano52() as Sound,new piano53() as Sound,new piano54() as Sound,new piano55() as Sound,new piano56() as Sound,new piano57() as Sound,new piano58() as Sound,new piano59() as Sound,new piano60() as Sound,new piano61() as Sound,new piano62() as Sound,new piano63() as Sound,new piano64() as Sound,new piano65() as Sound,new piano66() as Sound,new piano67() as Sound,new piano68() as Sound,new piano69() as Sound,new piano70() as Sound,new piano71() as Sound,new piano72() as Sound,new piano73() as Sound,new piano74() as Sound,new piano75() as Sound,new piano76() as Sound,new piano77() as Sound,new piano78() as Sound,new piano79() as Sound,new piano80() as Sound,new piano81() as Sound,new piano82() as Sound,new piano83() as Sound,new piano84() as Sound,new piano85() as Sound,new piano86() as Sound,new piano87() as Sound,new piano88() as Sound);
          drumSounds.push(new drums01() as Sound,new drums02() as Sound,new drums03() as Sound,new drums04() as Sound,new drums05() as Sound,new drums06() as Sound,new drums07() as Sound,new drums08() as Sound,new drums09() as Sound,new drums10() as Sound,new drums11() as Sound,new drums12() as Sound,new drums13() as Sound,new drums14() as Sound,new drums15() as Sound,new drums16() as Sound,new drums17() as Sound,new drums18() as Sound,new drums19() as Sound,new drums20() as Sound);
+         guitarSounds.push(new guitar1() as Sound,new guitar2() as Sound,new guitar3() as Sound,new guitar4() as Sound,new guitar5() as Sound,new guitar6() as Sound,new guitar7() as Sound,new guitar8() as Sound,new guitar9() as Sound,new guitar10() as Sound,new guitar11() as Sound,new guitar12() as Sound,new guitar13() as Sound,new guitar14() as Sound,new guitar15() as Sound,new guitar16() as Sound,new guitar17() as Sound,new guitar18() as Sound,new guitar19() as Sound,new guitar20() as Sound,new guitar21() as Sound,new guitar22() as Sound,new guitar23() as Sound,new guitar24() as Sound,new guitar25() as Sound,new guitar26() as Sound,new guitar27() as Sound,new guitar28() as Sound,new guitar29() as Sound,new guitar30() as Sound,new guitar31() as Sound,new guitar32() as Sound,new guitar33() as Sound,new guitar34() as Sound,new guitar35() as Sound,new guitar36() as Sound,new guitar37() as Sound,new guitar38() as Sound,new guitar39() as Sound,new guitar40() as Sound,new guitar41() as Sound,new guitar42() as Sound,new guitar43() as Sound,new guitar44() as Sound,new guitar45() as Sound,new guitar46() as Sound,new guitar47() as Sound,new guitar48() as Sound,new guitar49() as Sound);
       }
       
-      public static function playSound(param1:String) : Boolean
+      public static function playMiscSound(param1:String) : Boolean
       {
-         if(!Global.play_sounds)
-         {
-            return false;
-         }
-         (miscSounds[param1] as Sound).play();
-         return true;
+         return playSound(miscSounds[param1]);
       }
       
       public static function playPianoSound(param1:int) : Boolean
       {
-         if(!Global.play_sounds)
-         {
-            return false;
-         }
-         pianoSounds[param1 + 27].play();
-         return true;
+         return playSound(pianoSounds[param1 + 27]);
       }
       
       public static function playDrumSound(param1:int) : Boolean
       {
-         if(!Global.play_sounds)
+         return playSound(drumSounds[param1]);
+      }
+      
+      public static function playGuitarSound(param1:int) : Boolean
+      {
+         return playSound(guitarSounds[param1]);
+      }
+      
+      public static function playSound(param1:Sound) : Boolean
+      {
+         if(Global.soundVolume <= 0)
          {
             return false;
          }
-         drumSounds[param1].play();
+         SoundMixer.soundTransform = new SoundTransform(Global.soundVolume / 100);
+         param1.play();
          return true;
       }
    }
