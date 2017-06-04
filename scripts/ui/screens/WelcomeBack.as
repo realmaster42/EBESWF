@@ -36,7 +36,7 @@ package ui.screens
             _loc5_ = _loc5_ + 2;
          }
          param1++;
-         tf_days.text = "Congratulations! You\'ve played Every Build Exists for " + param1 + (param1 == 1?" day":" days") + "!";
+         tf_days.text = "Congratulations you\'ve logged in for " + param1 + (param1 == 1?" day":" days") + " in a row!";
          var _loc7_:int = 0;
          while(_loc7_ < this.rewards.length)
          {

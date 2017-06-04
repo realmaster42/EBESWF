@@ -120,7 +120,7 @@ package ui
             }
          }
          roomSizes = {};
-         addWorlds(param1,"0",param2.payVault.count("world0"),"Small","30x30");
+         addWorlds(param1,"0",param2.payVault.count("world0"),"Small","25x25");
          addWorlds(param1,"1",param2.payVault.count("world1"),"Medium","50x50");
          addWorlds(param1,"2",param2.payVault.count("world2"),"Large","100x100");
          addWorlds(param1,"3",param2.payVault.count("world3"),"Massive","200x200");
@@ -128,12 +128,10 @@ package ui
          addWorlds(param1,"5",param2.payVault.count("world5"),"Great","400x200");
          addWorlds(param1,"6",param2.payVault.count("world6"),"Tall","100x400");
          addWorlds(param1,"7",param2.payVault.count("world7"),"Ultra Wide","636x50");
-         addWorlds(param1,"8",param2.payVault.count("world8"),"Sky Medium","50x50");
-         addWorlds(param1,"9",param2.payVault.count("world9"),"Tiny","25x25");
-         addWorlds(param1,"10",param2.payVault.count("world10"),"Sky Great","400x200");
+         addWorlds(param1,"8",param2.payVault.count("world8"),"Low Gravity","110x110");
          addWorlds(param1,"11",param2.payVault.count("world11"),"Huge","300x300");
          addWorlds(param1,"12",param2.payVault.count("world12"),"Vertical Great","200x400");
-         addWorlds(param1,"13",param2.payVault.count("world13"),"Sky Wide","400x50");
+         addWorlds(param1,"13",param2.payVault.count("world13"),"Big","150x150");
       }
       
       private static function findWorld(param1:Array, param2:String) : RoomInfo

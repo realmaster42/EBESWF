@@ -337,7 +337,7 @@ package ui.crews
             this.membersArray.push(_loc12_);
             _loc2_ = _loc2_ + 5;
          }
-         if(this.crewId != "ebestaff")
+         if(this.crewId != "everybodyeditsstaff")
          {
             Global.base.requestRemoteMethod("isSubscribedToCrew",this.handleSubscribeCheck,this.crewId);
          }
@@ -723,15 +723,19 @@ package ui.crews
       private function renderWorld(param1:DatabaseObject) : void
       {
          var o:DatabaseObject = param1;
-         if(o == null || o.blocks == null)
+         if(o == null || o.worlddata == null)
          {
             return;
          }
-         if(o.hasOwnProperty("hidden") && o["hidden"])
+         if(o.hasOwnProperty("visible") && !o["visible"])
          {
             return;
          }
-         if(o.hasOwnProperty("lobbypreview") && !o["lobbypreview"] && !o.hasOwnProperty("propertythatneverexists"))
+         if(o.hasOwnProperty("hidelobby") && o["hidelobby"] && !o.hasOwnProperty("HideLobby"))
+         {
+            return;
+         }
+         if(o.hasOwnProperty("HideLobby") && o["HideLobby"])
          {
             return;
          }

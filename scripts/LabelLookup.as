@@ -4,7 +4,7 @@ package
    {
        
       
-      public var Text:String = "";
+      public var Text:String = "Hai c:";
       
       public var Color:String = "#FFFFFF";
       

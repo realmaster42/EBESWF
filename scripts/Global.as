@@ -17,8 +17,6 @@ package
       
       public static var player_is_beta_member:Boolean = false;
       
-      public static var soundVolume:Number = 100;
-      
       public static var playing_on_armorgames:Boolean = false;
       
       public static var playing_on_faceboook:Boolean = false;
@@ -37,7 +35,7 @@ package
       
       public static var default_label_size:int = 12;
       
-      public static var default_label_text:String = "";
+      public static var default_label_text:String = "Hai c:";
       
       public static var default_label_hex:String = "#FFFFFF";
       
@@ -184,6 +182,17 @@ package
          _loc2_ = _loc2_ + ["January","February","March","April","May","June","July","August","September","October","November","December"][param1.month];
          _loc2_ = _loc2_ + (" " + param1.fullYear);
          return _loc2_;
+      }
+      
+      public static function set soundVolume(param1:int) : void
+      {
+         Global.cookie.data.soundVolume = param1;
+         Global.cookie.flush();
+      }
+      
+      public static function get soundVolume() : int
+      {
+         return Global.cookie.data.soundVolume != null?int(Global.cookie.data.soundVolume):100;
       }
       
       public static function get showGreenOnMinimap() : Boolean

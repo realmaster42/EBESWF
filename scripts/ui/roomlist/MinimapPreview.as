@@ -51,8 +51,6 @@ package ui.roomlist
       
       private var description:String;
       
-      private var ownerLabel:Label;
-      
       public function MinimapPreview(param1:String, param2:String, param3:String)
       {
          var lastChar:int = 0;
@@ -89,7 +87,7 @@ package ui.roomlist
          this.loadingLabel.y = this.loadingLabel.y + 30;
          this.content.addChild(this.loadingLabel);
          this.worldLabel = new Label("",12,"center",16777215,false,"Arial");
-         this.worldLabel.text = wname + "\n\n " + this.description;
+         this.worldLabel.text = wname + "\n " + this.description;
          this.worldLabel.setTextFormat(new TextFormat("system",13,16777215,null,null,null,null,null,"center"),0,wname.length);
          this.worldLabel.multiline = true;
          this.worldLabel.wordWrap = true;
@@ -129,7 +127,7 @@ package ui.roomlist
       private function renderWorld(param1:DatabaseObject) : void
       {
          var o:DatabaseObject = param1;
-         if(o == null || o.blocks == null)
+         if(o == null || o.worlddata == null)
          {
             return;
          }

@@ -249,7 +249,7 @@ package ui.chat
       
       public function setMetaData(param1:String, param2:String, param3:int, param4:int, param5:int) : void
       {
-         Global.setPath(Badwords.Filter(param2) + " | Every Build Exists");
+         Global.setPath(Badwords.Filter(param2) + " | Everybody Edits");
          Bl.data.roomname = Badwords.Filter(param2);
          this.labelName.text = Badwords.Filter(param2);
          this.ownername = param1;

@@ -239,7 +239,7 @@ package
          var _loc19_:int = 0;
          var _loc20_:int = 0;
          var _loc21_:int = 0;
-         this.setBackgroundColor(uint(param1.bg) || uint(0));
+         this.setBackgroundColor(uint(param1.backgroundColor) || uint(0));
          var _loc2_:int = int(param1.width) || 0;
          var _loc3_:int = int(param1.height) || 0;
          if(_loc2_ == 0 || _loc3_ == 0)
@@ -313,7 +313,7 @@ package
             _loc8_++;
          }
          setMapArray(_loc4_);
-         var _loc9_:Array = param1.blocks || [];
+         var _loc9_:Array = param1.worlddata || [];
          _loc7_ = 0;
          while(_loc7_ < _loc9_.length)
          {
@@ -790,18 +790,18 @@ package
                                  _loc7_ = true;
                                  continue;
                               }
-                              if((_loc2_.speedX > 0 || _loc14_ <= _loc2_.overlapb || _loc2_.speedY == 0 && _loc2_.speedX == 0 && _loc2_.ox + 15 > _loc14_ * 16) && _loc16_ == 2)
+                              if((_loc2_.speedX > 0 || _loc14_ <= _loc2_.overlapb && _loc2_.speedX <= 0 && _loc2_.ox < _loc14_ * 16 + 16) && _loc16_ == 2)
                               {
-                                 if(_loc14_ == _loc3_ || _loc2_.overlapb == -1)
+                                 if(_loc14_ != _loc3_ || _loc2_.overlapb == -1)
                                  {
                                     _loc2_.overlapb = _loc14_;
                                  }
                                  _loc8_ = true;
                                  continue;
                               }
-                              if((_loc2_.speedY > 0 || _loc13_ <= _loc2_.overlapc || _loc2_.speedY == 0 && _loc2_.speedX == 0 && _loc2_.oy - 15 < _loc13_ * 16) && _loc16_ == 3)
+                              if((_loc2_.speedY > 0 || _loc13_ <= _loc2_.overlapc && _loc2_.speedY <= 0 && _loc2_.oy < _loc13_ * 16 + 16) && _loc16_ == 3)
                               {
-                                 if(_loc13_ == _loc4_ || _loc2_.overlapc == -1)
+                                 if(_loc13_ != _loc4_ || _loc2_.overlapc == -1)
                                  {
                                     _loc2_.overlapc = _loc13_;
                                  }

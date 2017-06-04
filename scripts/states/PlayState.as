@@ -166,7 +166,9 @@ package states
                "name":Global.currentLevelname,
                "time":new Date()
             };
-            history.splice(0,0,info);
+            history.reverse();
+            history.push(info);
+            history.reverse();
             if(history.length > Global.historyLimit)
             {
                history = history.slice(0,Global.historyLimit);
@@ -312,74 +314,75 @@ package states
                }
             }
          });
-         this.connection.addMessageHandler("add",function(param1:Message, param2:int, param3:String, param4:String, param5:int, param6:Number, param7:Number, param8:Boolean, param9:Boolean, param10:Boolean, param11:int, param12:int, param13:int, param14:Boolean, param15:Boolean, param16:Boolean, param17:Boolean, param18:int, param19:int, param20:int, param21:uint, param22:String, param23:Boolean, param24:ByteArray, param25:int, param26:Boolean = false):void
+         this.connection.addMessageHandler("add",function(param1:Message, param2:int, param3:String, param4:String, param5:int, param6:Number, param7:Number, param8:Boolean, param9:Boolean, param10:Boolean, param11:int, param12:int, param13:int, param14:Boolean, param15:Boolean, param16:Boolean, param17:Boolean, param18:int, param19:int, param20:int, param21:uint, param22:String, param23:Boolean, param24:ByteArray, param25:int, param26:Boolean = false, param27:Boolean = false):void
          {
-            var _loc28_:* = false;
-            var _loc29_:Number = NaN;
-            var _loc30_:Array = null;
-            var _loc31_:int = 0;
-            var _loc27_:Player = players[param2] as Player;
-            if(!_loc27_)
+            var _loc29_:* = false;
+            var _loc30_:Number = NaN;
+            var _loc31_:Array = null;
+            var _loc32_:int = 0;
+            var _loc28_:Player = players[param2] as Player;
+            if(!_loc28_)
             {
-               _loc27_ = new Player(world,param3,false,null,s);
-               _loc27_.id = param2;
-               players[param2] = _loc27_;
-               _loc27_.isInGodMode = param8;
-               _loc27_.isInAdminMode = param9;
-               _loc27_.isInModeratorMode = param17;
-               _loc27_.SetStaffAura(param25);
-               _loc27_.worldGravityMultiplier = gravityMultiplier;
-               _loc27_.x = Math.min(param6,(rw - 2) * 16);
-               _loc27_.y = Math.min(param7,(rh - 2) * 16);
-               _loc27_.frame = param5;
-               _loc27_.aura = param19;
-               _loc27_.auraColor = param20;
-               _loc27_.coins = param11;
-               _loc27_.bcoins = param12;
-               _loc27_.deaths = param13;
-               _loc27_.isgoldmember = param15;
-               _loc27_.wearsGoldSmiley = param16;
-               _loc27_.team = param18;
-               _loc27_.render = Bl.data.showPlayer;
-               _loc28_ = param3.indexOf("-") != -1;
-               _loc29_ = 13421772;
+               _loc28_ = new Player(world,param3,false,null,s);
+               _loc28_.id = param2;
+               players[param2] = _loc28_;
+               _loc28_.isInGodMode = param8;
+               _loc28_.isInAdminMode = param9;
+               _loc28_.isInModeratorMode = param17;
+               _loc28_.SetStaffAura(param25);
+               _loc28_.worldGravityMultiplier = gravityMultiplier;
+               _loc28_.x = Math.min(param6,(rw - 2) * 16);
+               _loc28_.y = Math.min(param7,(rh - 2) * 16);
+               _loc28_.frame = param5;
+               _loc28_.aura = param19;
+               _loc28_.auraColor = param20;
+               _loc28_.coins = param11;
+               _loc28_.bcoins = param12;
+               _loc28_.deaths = param13;
+               _loc28_.isgoldmember = param15;
+               _loc28_.wearsGoldSmiley = param16;
+               _loc28_.team = param18;
+               _loc28_.canToggleGodMode = param27;
+               _loc28_.render = Bl.data.showPlayer;
+               _loc29_ = param3.indexOf("-") != -1;
+               _loc30_ = 13421772;
                if(!param10)
                {
-                  _loc29_ = 11184810;
+                  _loc30_ = 11184810;
                }
-               if(_loc28_)
+               if(_loc29_)
                {
-                  _loc29_ = 6710886;
+                  _loc30_ = 6710886;
                }
                if(param14)
                {
-                  _loc29_ = Config.friend_color;
+                  _loc30_ = Config.friend_color;
                }
-               if(Player.isAdmin(_loc27_.name))
+               if(Player.isAdmin(_loc28_.name))
                {
-                  _loc29_ = Config.admin_color;
+                  _loc30_ = Config.admin_color;
                }
-               if(Player.isModerator(_loc27_.name))
+               if(Player.isModerator(_loc28_.name))
                {
-                  _loc29_ = Config.moderator_color;
+                  _loc30_ = Config.moderator_color;
                }
                if(param21 != 0)
                {
-                  _loc29_ = param21;
+                  _loc30_ = param21;
                }
-               _loc27_.nameColor = _loc29_;
-               _loc27_.canEdit = param26;
-               _loc27_.badge = param22;
-               _loc27_.isCrewMember = param23;
-               _loc27_.switches = {};
-               _loc30_ = getIntArrayFromVarint(param24);
-               _loc31_ = 0;
-               while(_loc31_ < _loc30_.length)
+               _loc28_.nameColor = _loc30_;
+               _loc28_.canEdit = param26;
+               _loc28_.badge = param22;
+               _loc28_.isCrewMember = param23;
+               _loc28_.switches = {};
+               _loc31_ = getIntArrayFromVarint(param24);
+               _loc32_ = 0;
+               while(_loc32_ < _loc31_.length)
                {
-                  _loc27_.switches[_loc30_[_loc31_]] = true;
-                  _loc31_++;
+                  _loc28_.switches[_loc31_[_loc32_]] = true;
+                  _loc32_++;
                }
-               addBefore(_loc27_,player);
+               addBefore(_loc28_,player);
             }
          });
          this.connection.addMessageHandler("k",function(param1:Message, param2:int):void
@@ -471,14 +474,13 @@ package states
             setTile(param6,param2,param3,param4,{"rotation":param5});
             setBlockPlayerData(param2,param3,param6,param7);
          });
-         this.connection.addMessageHandler("lb",function(param1:Message, param2:int, param3:int, param4:int, param5:String, param6:String, param7:int, param8:int = -1):void
+         this.connection.addMessageHandler("lb",function(param1:Message, param2:int, param3:int, param4:int, param5:String, param6:String, param7:int = -1):void
          {
-            world.lookup.setLabel(param2,param3,param5,param6,param7);
             setTile(0,param2,param3,param4,{
                "text":param5,
                "text_color":param6
             });
-            setBlockPlayerData(param2,param3,0,param8);
+            setBlockPlayerData(param2,param3,0,param7);
          });
          this.connection.addMessageHandler("ts",function(param1:Message, param2:int, param3:int, param4:int, param5:String, param6:int, param7:int = -1):void
          {
@@ -1567,25 +1569,28 @@ package states
          var yo:int = (Bl.mouseY - this.y) / 16 >> 0;
          if(Bl.isMiddleMouseJustPressed)
          {
-            favBricks = Global.base.ui2instance.favoriteBricks;
-            id = this.world.getTile(0,xo,yo);
-            if(id == 0)
+            if(Global.playerInstance.name.toLowerCase() == Global.worldOwner.toLowerCase() || Global.playerInstance.canEdit)
             {
-               id = this.world.getTile(1,xo,yo);
+               favBricks = Global.base.ui2instance.favoriteBricks;
+               id = this.world.getTile(0,xo,yo);
                if(id == 0)
                {
-                  favBricks.select(0);
-                  return;
+                  id = this.world.getTile(1,xo,yo);
+                  if(id == 0)
+                  {
+                     favBricks.select(0);
+                     return;
+                  }
                }
-            }
-            if(favBricks.getPosFromID(id) != -1)
-            {
-               this.readBlock(this.getLayerFromId(id),xo,yo,favBricks.getPosFromID(id));
-            }
-            else
-            {
-               pos = favBricks.selectedBlock;
-               this.readBlock(this.getLayerFromId(id),xo,yo,pos);
+               if(favBricks.getPosFromID(id) != -1)
+               {
+                  this.readBlock(this.getLayerFromId(id),xo,yo,favBricks.getPosFromID(id));
+               }
+               else
+               {
+                  pos = favBricks.selectedBlock;
+                  this.readBlock(this.getLayerFromId(id),xo,yo,pos);
+               }
             }
          }
          if(Bl.isMouseJustPressed || Bl.data.isLockedRoom && Bl.isMouseDown)
@@ -1845,7 +1850,7 @@ package states
                Bl.data.direction = this.world.lookup.getInt(param2,param3);
                break;
             case 1520:
-               Global.guitarOffset = this.world.lookup.getInt(param2,param3);
+               Global.guitarOffset = SoundManager.guitarMap.indexOf(this.world.lookup.getInt(param2,param3));
                break;
             case 1000:
                _loc6_ = this.world.lookup.getLabel(param2,param3);
@@ -2227,6 +2232,7 @@ package states
             _loc11_.isInGodMode = param6;
             _loc11_.isInAdminMode = param7;
             _loc11_.isInModeratorMode = param8;
+            _loc11_.SetStaffAura(0);
             _loc11_.worldGravityMultiplier = this.gravityMultiplier;
             _loc11_.x = Math.min(param4,(this.rw - 2) * 16);
             _loc11_.y = Math.min(param5,(this.rh - 2) * 16);

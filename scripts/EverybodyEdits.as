@@ -1865,7 +1865,7 @@ package
          var self:EverybodyEdits = null;
          var lstate:LoadState = param1;
          var tab:String = param2;
-         Global.setPath("Every Build Exists","/");
+         Global.setPath("Everybody Edits","/");
          Global.getPlacer = false;
          this.cleanUIAndConnections();
          state = lstate = lstate || new LoadState();
@@ -2127,7 +2127,7 @@ package
                Global.bgColor = param23;
                Global.backgroundEnabled = (param23 >> 24 & 255) == 255;
             }
-            if(param31 == "ebestaff")
+            if(param31 == "everybodyeditsstaff")
             {
                Global.hasSubscribedToCrew = true;
             }
@@ -2151,7 +2151,7 @@ package
          {
             if(showDisconnectedMessage)
             {
-               showInfo("Disconnected","Lost connection with Every Build Exists :(");
+               showInfo("Disconnected","Lost connection with Everybody Edits :(");
             }
             showLobby();
             if(ui2instance && ui2instance.parent)
@@ -2278,12 +2278,12 @@ package
          var vars:URLVariables = new URLVariables();
          vars.username = Bl.data.swappitusername;
          vars.swapits = 10;
-         vars.reason = "You earned 10 swapits for finding a swapit coin in Every Build Exists!";
+         vars.reason = "You earned 10 swapits for finding a swapit coin in Everybody Edits!";
          req.data = vars;
          var loader:URLLoader = new URLLoader();
          loader.addEventListener(Event.COMPLETE,function():void
          {
-            showInfo("Congratulations","You just found an Every Build Exists swapit coin and earned 10 swapits!");
+            showInfo("Congratulations","You just found an Everybody Edits swapit coin and earned 10 swapits!");
          });
          loader.load(req);
       }
@@ -2550,7 +2550,7 @@ package
                   var e:MouseEvent = param1;
                   var paypalargs:Object = {
                      "currency":"USD",
-                     "item_name":"Every Build Exists Beta Access",
+                     "item_name":"Everybody Edits Beta Access",
                      "cpp_header_image":"http://playerio-a.akamaihd.net/everybody-edits-su9rn58o40itdbnw69plyw/Everybody%20Edits%20Website/images/ee_paypal_logo.png",
                      "on0":"UserID",
                      "os0":client.connectUserId,

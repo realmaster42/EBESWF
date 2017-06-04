@@ -57,7 +57,7 @@ package
          };
          this.ee_menu.hideBuiltInItems();
          this.ee_menu.builtInItems.zoom = true;
-         var version:ContextMenuItem = new ContextMenuItem("Every Build Exists v" + Config.client_type_version);
+         var version:ContextMenuItem = new ContextMenuItem("Everybody Edits v" + Config.client_type_version);
          var help_cm:ContextMenuItem = new ContextMenuItem("Help");
          var blog_cm:ContextMenuItem = new ContextMenuItem("Blog");
          var tac_cm:ContextMenuItem = new ContextMenuItem("Terms and Conditions");

@@ -78,7 +78,7 @@ package ui.ingame.sam
             {
                _loc2_ = 47;
             }
-            redraw(_loc2_);
+            redraw(_loc2_,true);
          });
          this.buttonMode = true;
          this.useHandCursor = true;
@@ -90,35 +90,38 @@ package ui.ingame.sam
          graphics.beginGradientFill(GradientType.LINEAR,[3223857,2105376],[1,1],[0,255],this.matrix,SpreadMethod.PAD);
          graphics.drawRect(0,-1,this.WIDTH,this.HEIGHT);
          graphics.endFill();
-         this.redraw(147);
+         this.redraw(Global.soundVolume + 47);
       }
       
-      private function getStateFromVolume() : Bitmap
+      private function getStateFromVolume(param1:Boolean) : Bitmap
       {
-         var _loc1_:int = this.gripImage.x - 47;
-         if(_loc1_ > 100)
+         var _loc2_:int = this.gripImage.x - 47;
+         if(_loc2_ > 100)
          {
-            _loc1_ = 100;
+            _loc2_ = 100;
          }
-         else if(_loc1_ < 0)
+         else if(_loc2_ < 0)
          {
-            _loc1_ = 0;
+            _loc2_ = 0;
          }
-         var _loc2_:int = _loc1_ == 0?0:_loc1_ > 0 && _loc1_ < 50?1:2;
-         Global.soundVolume = _loc1_;
-         var _loc3_:BitmapData = new BitmapData(soundStateBMD.width / 3,soundStateBMD.height,true,0);
-         _loc3_.copyPixels(soundStateBMD,new Rectangle(soundStateBMD.width / 3 * _loc2_,0,_loc3_.width,_loc3_.height),new Point());
-         return new Bitmap(_loc3_);
+         var _loc3_:int = _loc2_ == 0?0:_loc2_ > 0 && _loc2_ < 50?1:2;
+         if(param1)
+         {
+            Global.soundVolume = _loc2_;
+         }
+         var _loc4_:BitmapData = new BitmapData(soundStateBMD.width / 3,soundStateBMD.height,true,0);
+         _loc4_.copyPixels(soundStateBMD,new Rectangle(soundStateBMD.width / 3 * _loc3_,0,_loc4_.width,_loc4_.height),new Point());
+         return new Bitmap(_loc4_);
       }
       
-      private function redraw(param1:int) : void
+      private function redraw(param1:int, param2:Boolean = false) : void
       {
          this.gripImage.x = param1;
          if(this.stateImage != null)
          {
             removeChild(this.stateImage);
          }
-         this.stateImage = this.getStateFromVolume();
+         this.stateImage = this.getStateFromVolume(param2);
          this.stateImage.y = Math.round((this.HEIGHT - this.stateImage.height) / 2) - 1;
          this.stateImage.x = 16;
          addChild(this.stateImage);

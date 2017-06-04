@@ -632,7 +632,7 @@ package
             var shr:Share = null;
             if(_keyDown[16] || _keyDown[17])
             {
-               copyText = (!!_keyDown[16]?"":"http://everybuildexists.weebly.com/games/") + roomid.split(" ").join("-");
+               copyText = (!!_keyDown[16]?"":"http://everybodyedits.com/games/") + roomid.split(" ").join("-");
                base.showInfo2("Share Level","Copied \'" + copyText + "\' to your clipboard!");
                System.setClipboard(copyText);
             }
@@ -640,7 +640,7 @@ package
             {
                FB.ui({
                   "method":"stream.publish",
-                  "message":"I found a great Every Build Exists level!",
+                  "message":"I found a great Everybody Edits level!",
                   "attachment":{
                      "name":"Play " + (!!Bl.data.roomname?Bl.data.roomname + " in ":"") + "Everybody Edits",
                      "href":"http://apps.facebook.com/everedits/games/" + roomid,
@@ -2017,11 +2017,11 @@ package
             {
                _loc3_++;
             }
-            this.connection.send(!!Bl.data.isAdmin?"admin":"mod",_loc3_);
             if(_loc2_.isInGodMode)
             {
                this.connection.send("god",false);
             }
+            this.connection.send(!!Bl.data.isAdmin?"admin":"mod",_loc3_);
          }
       }
       

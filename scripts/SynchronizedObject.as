@@ -73,6 +73,10 @@ package
       
       public function get speedX() : Number
       {
+         if(isNaN(this._speedX))
+         {
+            return 0;
+         }
          return this._speedX * this.mult;
       }
       
@@ -83,6 +87,10 @@ package
       
       public function get speedY() : Number
       {
+         if(isNaN(this._speedY))
+         {
+            return 0;
+         }
          return this._speedY * this.mult;
       }
       
@@ -93,6 +101,10 @@ package
       
       public function get modifierX() : Number
       {
+         if(isNaN(this._modifierX))
+         {
+            return 0;
+         }
          return this._modifierX * this.mult;
       }
       
@@ -103,6 +115,10 @@ package
       
       public function get modifierY() : Number
       {
+         if(isNaN(this._modifierY))
+         {
+            return 0;
+         }
          return this._modifierY * this.mult;
       }
       

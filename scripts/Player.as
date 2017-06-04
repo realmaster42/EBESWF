@@ -378,7 +378,6 @@ package
          }
          else if(param2 == 180)
          {
-            _loc3_ = new BitmapData(param1.width,param1.height,true,0);
             _loc4_.translate(param1.width,param1.height);
          }
          _loc3_.draw(param1,_loc4_);
@@ -387,7 +386,7 @@ package
       
       override public function get x() : Number
       {
-         return this._posX.value;
+         return !!isNaN(this._posX.value)?Number(0):Number(this._posX.value);
       }
       
       override public function set x(param1:Number) : void
@@ -397,7 +396,7 @@ package
       
       override public function get y() : Number
       {
-         return this._posY.value;
+         return !!isNaN(this._posY.value)?Number(0):Number(this._posY.value);
       }
       
       override public function set y(param1:Number) : void
@@ -563,8 +562,6 @@ package
          var rot:int = 0;
          var mod:int = 0;
          var injump:Boolean = false;
-         var skipJumpX:Boolean = false;
-         var skipJumpY:Boolean = false;
          var cchanged:Boolean = false;
          var k:int = 0;
          var l:int = 0;
@@ -671,11 +668,11 @@ package
                if(hitmap.overlaps(that))
                {
                   y = oy;
-                  if(_speedY >= 0 && mory > 0)
+                  if(_speedY > 0 && mory > 0)
                   {
                      grounded = true;
                   }
-                  if(_speedY <= 0 && mory < 0)
+                  if(_speedY < 0 && mory < 0)
                   {
                      grounded = true;
                   }
@@ -997,25 +994,8 @@ package
                      }
                      break;
                   default:
-                     switch(this.flipGravity)
-                     {
-                        case 0:
-                           this.mory = _gravity;
-                           break;
-                        case 1:
-                           this.morx = -_gravity;
-                           break;
-                        case 2:
-                           this.mory = -_gravity;
-                           break;
-                        case 3:
-                           this.morx = _gravity;
-                           break;
-                        case 4:
-                           this.morx = 0;
-                           this.mory = 0;
-                     }
-                     rotateGravitymor = false;
+                     this.morx = 0;
+                     this.mory = _gravity;
                }
             }
             if(ItemId.isClimbable(delayed))
@@ -1073,29 +1053,66 @@ package
                      this.moy = _lava_buoyancy;
                      break;
                   default:
-                     switch(this.flipGravity)
-                     {
-                        case 0:
-                           this.moy = _gravity;
-                           break;
-                        case 1:
-                           this.mox = -_gravity;
-                           break;
-                        case 2:
-                           this.moy = -_gravity;
-                           break;
-                        case 3:
-                           this.mox = _gravity;
-                           break;
-                        case 4:
-                           this.mox = 0;
-                           this.moy = 0;
-                     }
-                     rotateGravitymo = false;
+                     this.mox = 0;
+                     this.moy = _gravity;
                }
             }
          }
-         if(this.moy == _water_buoyancy || this.moy == _mud_buoyancy || this.moy == _lava_buoyancy)
+         switch(this.flipGravity)
+         {
+            case 1:
+               if(rotateGravitymo)
+               {
+                  temp = mox;
+                  mox = -moy;
+                  moy = temp;
+               }
+               if(rotateGravitymor)
+               {
+                  temp = this.morx;
+                  this.morx = -this.mory;
+                  this.mory = temp;
+               }
+               break;
+            case 2:
+               if(rotateGravitymo)
+               {
+                  mox = -mox;
+                  moy = -moy;
+               }
+               if(rotateGravitymor)
+               {
+                  this.morx = -this.morx;
+                  this.mory = -this.mory;
+               }
+               break;
+            case 3:
+               if(rotateGravitymo)
+               {
+                  temp = mox;
+                  mox = moy;
+                  moy = -temp;
+               }
+               if(rotateGravitymor)
+               {
+                  temp = this.morx;
+                  this.morx = this.mory;
+                  this.mory = -temp;
+               }
+               break;
+            case 4:
+               if(rotateGravitymo)
+               {
+                  mox = 0;
+                  moy = 0;
+               }
+               if(rotateGravitymor)
+               {
+                  this.morx = 0;
+                  this.mory = 0;
+               }
+         }
+         if(delayed == ItemId.WATER || delayed == ItemId.MUD || delayed == ItemId.LAVA)
          {
             mx = this.horizontal;
             my = this.vertical;
@@ -1114,46 +1131,6 @@ package
          {
             mx = this.horizontal;
             my = this.vertical;
-         }
-         switch(this.flipGravity)
-         {
-            case 1:
-               if(rotateGravitymo)
-               {
-                  temp = mox;
-                  mox = moy;
-                  moy = temp;
-               }
-               if(rotateGravitymor)
-               {
-                  temp = this.morx;
-                  this.morx = this.mory;
-                  this.mory = temp;
-               }
-               break;
-            case 2:
-               if(rotateGravitymo)
-               {
-                  moy = -moy;
-               }
-               if(rotateGravitymor)
-               {
-                  this.mory = -this.mory;
-               }
-               break;
-            case 3:
-               if(rotateGravitymo)
-               {
-                  temp = mox;
-                  mox = -moy;
-                  moy = -temp;
-               }
-               if(rotateGravitymor)
-               {
-                  temp = this.morx;
-                  this.morx = -this.mory;
-                  this.mory = -temp;
-               }
          }
          mx = mx * this.speedMultiplier;
          my = my * this.speedMultiplier;
@@ -1355,72 +1332,36 @@ package
             {
                this.isThrusting = false;
             }
-            if(injump && !this.hasLevitation)
-            {
-               if((this.speedX == 0 && grounded && this.maxJumps > 0 || this.jumpCount < this.maxJumps) && this.morx && mox)
-               {
-                  skipJumpX = false;
-                  if(this.jumpCount == 0 && speedX != 0 && !grounded)
-                  {
-                     if(this.maxJumps == 1)
-                     {
-                        skipJumpX = true;
-                     }
-                     else
-                     {
-                        this.jumpCount = this.jumpCount + 2;
-                     }
-                  }
-                  else
-                  {
-                     this.jumpCount = this.jumpCount + 1;
-                  }
-                  if(!skipJumpX)
-                  {
-                     this.speedX = -this.morx * Config.physics_jump_height * this.jumpMultiplier;
-                     this.changed = true;
-                     this.lastJump = new Date().time * mod;
-                  }
-               }
-               if((this.speedY == 0 && grounded && this.maxJumps > 0 || this.jumpCount < this.maxJumps) && this.mory && moy)
-               {
-                  skipJumpY = false;
-                  if(this.jumpCount == 0 && speedY != 0 && !grounded)
-                  {
-                     if(this.maxJumps == 1)
-                     {
-                        skipJumpY = true;
-                     }
-                     else
-                     {
-                        this.jumpCount = this.jumpCount + 2;
-                     }
-                  }
-                  else
-                  {
-                     this.jumpCount = this.jumpCount + 1;
-                  }
-                  if(!skipJumpY)
-                  {
-                     this.speedY = -this.mory * Config.physics_jump_height * this.jumpMultiplier;
-                     this.changed = true;
-                     this.lastJump = new Date().time * mod;
-                  }
-               }
-            }
-            if(this.spacedown || this.spacejustdown)
-            {
-               if(this.maxJumps == 1000)
-               {
-                  if(this.jumpCount > 0)
-                  {
-                     this.jumpCount--;
-                  }
-               }
-            }
             if((this.speedX == 0 && this.morx && mox || this.speedY == 0 && this.mory && moy) && grounded || this.current == ItemId.EFFECT_MULTIJUMP)
             {
                this.jumpCount = 0;
+            }
+            if(this.jumpCount == 0 && !grounded)
+            {
+               this.jumpCount = 1;
+            }
+            if(injump && !this.hasLevitation)
+            {
+               if(this.jumpCount < this.maxJumps && this.morx && mox)
+               {
+                  if(this.maxJumps < 1000)
+                  {
+                     this.jumpCount = this.jumpCount + 1;
+                  }
+                  this.speedX = -this.morx * Config.physics_jump_height * this.jumpMultiplier;
+                  this.changed = true;
+                  this.lastJump = new Date().time * mod;
+               }
+               if(this.jumpCount < this.maxJumps && this.mory && moy)
+               {
+                  if(this.maxJumps < 1000)
+                  {
+                     this.jumpCount = this.jumpCount + 1;
+                  }
+                  this.speedY = -this.mory * Config.physics_jump_height * this.jumpMultiplier;
+                  this.changed = true;
+                  this.lastJump = new Date().time * mod;
+               }
             }
             if(this.isme)
             {
@@ -1846,10 +1787,9 @@ package
                return;
             }
          }
-         var _loc5_:Boolean = Global.cookie.data.hideUsernames;
          if(Global.showUI && (Global.showChatAndNames || Global.chatIsVisible))
          {
-            this.chat.drawChat(param1,param2 + this.x,param3 + this.y,param4,_loc5_,_loc5_,this.team);
+            this.chat.drawChat(param1,param2 + this.x,param3 + this.y,param4,Global.cookie.data.hideUsernames,Global.cookie.data.hideChatBubbles,this.team);
          }
       }
       
@@ -1968,6 +1908,10 @@ package
             _loc9_.copyPixels(bmd,_loc5_,new Point(0,0));
             _loc10_ = this.flipGravity * 90;
             if(_loc10_ >= 360)
+            {
+               _loc10_ = 0;
+            }
+            if(_loc10_ < 0)
             {
                _loc10_ = 0;
             }

@@ -571,7 +571,7 @@ package
             "cpp_header_image":"http://r.playerio.com/r/everybody-edits-su9rn58o40itdbnw69plyw/Everybody Edits Website/images/ee_paypal_logo.png",
             "on0":"UserID",
             "os0":client.connectUserId,
-            "cancel_return":"http://everybuildexists.weebly.com/",
+            "cancel_return":"http://everybodyedits.com/",
             "lc":"US"
          };
          paypalargs["return"] = "http://everybodyedits.com/thankyou.html";
@@ -616,11 +616,11 @@ package
          {
             var paypalargs:Object = {
                "currency":"USD",
-               "item_name":"Enable chat in Every Build Exists",
+               "item_name":"Enable chat in Everybody Edits",
                "cpp_header_image":"http://r.playerio.com/r/everybody-edits-su9rn58o40itdbnw69plyw/Everybody Edits Website/images/ee_paypal_logo.png",
                "on0":"UserID",
                "os0":client.connectUserId,
-               "cancel_return":"http://everybuildexists.weebly.com/",
+               "cancel_return":"http://everybodyedits.com/",
                "lc":"US"
             };
             paypalargs["return"] = "http://everybodyedits.com/thankyou.html";
@@ -840,7 +840,7 @@ package
                "cpp_header_image":"http://playerio-a.akamaihd.net/everybody-edits-su9rn58o40itdbnw69plyw/Everybody%20Edits%20Website/images/ee_paypal_logo.png",
                "on0":"Info",
                "os0":client.connectUserId + " " + Global.playerObject.name,
-               "cancel_return":"http://everybuildexists.weebly.com/",
+               "cancel_return":"http://everybodyedits.com/",
                "lc":"US"
             };
             paypalargs["return"] = "http://everybodyedits.com/thankyou.html";

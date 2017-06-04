@@ -691,14 +691,14 @@ package items
          _loc12_.addBrick(createBrick(0,ItemLayer.BACKGROUND,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,0,4278190080,["Clear","Empty","Delete","Nothing","Erase"]));
          _loc12_.addBrick(createBrick(1,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,1,0,["Left","Arrow"]));
          _loc12_.addBrick(createBrick(2,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,2,0,["Up","Arrow"]));
-         _loc12_.addBrick(createBrick(1518,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,285,0,["Dot"]));
          _loc12_.addBrick(createBrick(3,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,3,0,["Right","Arrow"]));
+         _loc12_.addBrick(createBrick(1518,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,285,0,["Down","Arrow"]));
          _loc12_.addBrick(createBrick(4,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,4,0,["Dot"]));
          _loc12_.addBrick(createBrick(ItemId.SLOW_DOT,ItemLayer.DECORATION,forgroundBricksBMD,"","",ItemTab.ACTION,false,false,233,0,["Slow","Dot","Climbable","Physics"]));
          _loc12_.addBrick(createBrick(411,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,312,0,["Invisible","Left","Arrow"]));
          _loc12_.addBrick(createBrick(412,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,317,0,["Invisible","Up","Arrow"]));
-         _loc12_.addBrick(createBrick(1519,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,651,0,["Invisible","Down","Arrow"]));
          _loc12_.addBrick(createBrick(413,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,322,0,["Invisible","Right","Arrow"]));
+         _loc12_.addBrick(createBrick(1519,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,651,0,["Invisible","Down","Arrow"]));
          _loc12_.addBrick(createBrick(414,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,327,0,["Invisible","Dot"]));
          _loc12_.addBrick(createBrick(ItemId.SLOW_DOT_INVISIBLE,ItemLayer.DECORATION,specialBricksBMD,"","",ItemTab.ACTION,false,false,466,0,["Slow","Dot","Climbable","Physics","Invisible"]));
          brickPackages.push(_loc12_);

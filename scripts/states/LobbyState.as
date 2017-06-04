@@ -189,7 +189,7 @@ package states
          this.firstDailyLogin = firstDailyLogin;
          this.show_guest_layout = false;
          var t:BlText = new BlText(30,400,14179354);
-         t.text = "Every Build Exists";
+         t.text = "Everybody Edits";
          var bmt:Bitmap = new Bitmap(t.clone());
          bmt.x = 10;
          bmt.y = 5 + (!this.show_guest_layout?30:0);

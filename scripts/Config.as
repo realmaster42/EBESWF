@@ -5,35 +5,35 @@ package
    public class Config
    {
       
-      public static const playerio_game_id:String = "dpb-uybo9pkmw0ixgbs0kbzg";
+      public static const playerio_game_id:String = "everybody-edits-su9rn58o40itdbnw69plyw";
       
-      public static const client_type_version:String = "221";
+      public static const client_type_version:String = "221.4";
       
       public static const server_type_version:int = 221;
       
-      public static const server_type_normalroom:String = "Everybuildexists" + server_type_version;
+      public static const server_type_normalroom:String = "Everybodyedits" + server_type_version;
       
       public static const server_type_betaroom:String = "Beta" + server_type_version;
       
-      public static const server_type_guestserviceroom:String = "Lobby" + server_type_version;
+      public static const server_type_guestserviceroom:String = "LobbyGuest" + server_type_version;
       
       public static const server_type_serviceroom:String = "Lobby" + server_type_version;
       
       public static const server_type_crewshop:String = "CrewLobby" + server_type_version;
       
-      public static const site:String = "http://everybuildexists.weebly.com";
+      public static const site:String = "http://everybodyedits.com";
       
-      public static const url_blog:String = "http://everybuildexists.weebly.com/ebes-blog";
+      public static const url_blog:String = "http://blog.everybodyedits.com";
       
-      public static const url_goldmember_about_page:String = "http://everybuildexists.boards.net/thread/7/read-before-asking-faq";
+      public static const url_goldmember_about_page:String = "http://everybodyedits.com/gold";
       
-      public static const url_terms_page:String = "http://everybuildexists.boards.net/thread/7/read-before-asking-faq";
+      public static const url_terms_page:String = "http://everybodyedits.com/terms";
       
-      public static const url_help_page:String = "http://everybuildexists.boards.net/thread/7/read-before-asking-faq";
+      public static const url_help_page:String = "http://everybodyedits.com/help";
       
-      public static const url_faq:String = "http://everybuildexists.boards.net/thread/7/read-before-asking-faq";
+      public static const url_faq:String = "http://everybodyedits.com/faq";
       
-      public static const url_forums:String = "http://everybuildexists.boards.net";
+      public static const url_forums:String = "http://forums.everybodyedits.com/";
       
       public static const use_debug_server:Boolean = false;
       

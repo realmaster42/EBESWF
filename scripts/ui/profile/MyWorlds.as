@@ -100,7 +100,7 @@ package ui.profile
       
       private function renderWorld(param1:DatabaseObject) : void
       {
-         if(param1 == null || param1.blocks == null)
+         if(param1 == null || param1.worlddata == null)
          {
             return;
          }

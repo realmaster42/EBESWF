@@ -59,7 +59,7 @@ package ui.profile.Alerts
          tf_worldid.visible = false;
          if(param5 == NOTIFICATION)
          {
-            if(param2 == "news" || param2 == "crewebestaff")
+            if(param2 == "news" || param2 == "creweverybodyeditsstaff")
             {
                background.gotoAndStop(2);
             }
